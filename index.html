@@ -25,7 +25,12 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <h1 class="hero-title">zetazero</h1>
+      <svg class="hero-title-svg" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+        <text x="50%" y="50%" dy=".35em" text-anchor="middle"
+              font-family="'Caveat', cursive" font-size="110" font-weight="400"
+              stroke="#f9c412" stroke-width="1.5" fill="transparent"
+              class="hero-stroke">zetazero</text>
+      </svg>
       <p id="tagline"></p>
     </header>
 
@@ -62,6 +67,17 @@
     </footer>
 
     <script>
+      // Hero title stroke animation
+      (function() {
+        const text = document.querySelector('.hero-stroke');
+        if (text) {
+          const len = text.getComputedTextLength();
+          text.style.strokeDasharray = len;
+          text.style.strokeDashoffset = len;
+          setTimeout(() => text.classList.add('animate'), 200);
+        }
+      })();
+
       // Theme toggle
       (function() {
         const toggle = document.getElementById('theme-toggle');
