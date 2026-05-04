@@ -706,17 +706,27 @@ article h2:hover {
 }
 
 /* Hero title handwriting animation */
+#hero-title-container {
+  text-align: center;
+  min-height: 120px;
+  padding: 0 1.5em;
+}
+
 .hero-title-svg {
   width: 100%;
   max-width: 700px;
   height: auto;
   margin: 0 auto;
   display: block;
+  overflow: visible;
 }
 
-#hero-title-container {
-  text-align: center;
-  min-height: 120px;
+.hero-title-svg path {
+  fill: none;
+  stroke: #f9c412;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .hero-title {
