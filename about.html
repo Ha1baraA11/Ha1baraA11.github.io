@@ -6,6 +6,9 @@
     <meta name="theme-color" content="#64B5F6">
     <title>zetazero's blog</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
   </head>
   <body>
@@ -26,16 +29,47 @@
     </header>
 
     <main>
-      <article>
-        <p>I'm a developer who enjoys solving complex problems and building elegant solutions. My work spans AI/ML systems, full-stack development, and everything in between.</p>
+      <article class="about-page">
+        <p class="about-intro">I'm a developer who enjoys solving complex problems and building elegant solutions. My work spans AI/ML systems, full-stack development, and everything in between.</p>
 
         <p>Currently exploring the intersection of large language models and practical applications.</p>
 
-        <h3>Skills</h3>
-        <p>Python, Java, JavaScript, RAG, AI/ML, ChromaDB, Docker, Git.</p>
+        <div class="about-section">
+          <h3>What I Do</h3>
+          <div class="about-grid">
+            <div class="about-card">
+              <h4>AI / ML</h4>
+              <p>RAG systems, LLM applications, intelligent retrieval</p>
+            </div>
+            <div class="about-card">
+              <h4>Full-Stack</h4>
+              <p>Frontend to backend, APIs to databases</p>
+            </div>
+            <div class="about-card">
+              <h4>DevOps</h4>
+              <p>Docker, CI/CD, infrastructure automation</p>
+            </div>
+          </div>
+        </div>
 
-        <h3>Contact</h3>
-        <p>Find me on <a href="https://github.com/Ha1baraA11">GitHub</a>.</p>
+        <div class="about-section">
+          <h3>Skills</h3>
+          <div class="skills-tags">
+            <span>Python</span>
+            <span>Java</span>
+            <span>JavaScript</span>
+            <span>RAG</span>
+            <span>AI/ML</span>
+            <span>ChromaDB</span>
+            <span>Docker</span>
+            <span>Git</span>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <h3>Contact</h3>
+          <p>Find me on <a href="https://github.com/Ha1baraA11">GitHub</a>.</p>
+        </div>
       </article>
     </main>
 
@@ -68,8 +102,8 @@
         window.addEventListener('scroll', () => {
           const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
           const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const percent = (scrollTop / scrollHeight) * 100;
-          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+          const percent = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
+          progress.style.transform = 'translate(' + (-100 + percent) + 'vw, 0)';
         }, { passive: true });
       }
     </script>
