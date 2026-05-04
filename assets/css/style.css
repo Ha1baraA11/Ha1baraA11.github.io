@@ -705,11 +705,36 @@ article h2:hover {
   color: var(--primary);
 }
 
-/* Hero title artistic font (homepage only) */
-header > h1.hero-title {
-  font-family: 'Caveat', cursive;
-  letter-spacing: 0.02em;
-  font-weight: 400;
+/* Hero title stroke animation */
+.hero-title-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.hero-stroke {
+  stroke-dasharray: 0;
+  stroke-dashoffset: 0;
+  fill-opacity: 0;
+}
+
+.hero-stroke.animate {
+  animation: strokeDraw 2s ease forwards, strokeFill 0.8s ease 1.8s forwards;
+}
+
+@keyframes strokeDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes strokeFill {
+  to {
+    fill: #f9c412;
+    fill-opacity: 1;
+  }
 }
 
 /* Responsive */
