@@ -141,10 +141,10 @@
           if (i < text.length) {
             el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
             i++;
-            setTimeout(type, 50 + Math.random() * 40);
+            setTimeout(type, 55);
           }
         }
-        setTimeout(type, 600);
+        setTimeout(type, 200);
       })();
 
       // 2. Fade-in on scroll (IntersectionObserver)
