@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f9c412">
+    <title>macOS 终极折腾：将 Chrome 暴力改造为 Arc 浏览器 - zetazero</title>
+    <link rel="stylesheet" href="/assets/css/style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <a href="/about">About</a>
+          <a href="https://github.com/Ha1baraA11">GitHub</a>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1>macOS 终极折腾：将 Chrome 暴力改造为 Arc 浏览器</h1>
+      <aside>8 min read.</aside>
+    </header>
+
+    <main>
+      <article>
+<p>如何让Chrome浏览器变成Arc浏览器风格</p>
+<blockquote>
+<p><strong>声明</strong>：本项目仅适用于 macOS 环境，依赖 Hammerspoon 自动化脚本。</p>
+</blockquote>
+<p>Arc 浏览器的更新步伐已经放缓，与其等待施舍，不如自己动手。本文旨在通过“扩展组合 + 自动化脚本”的方式，在 Chrome 上复刻 Arc 的核心交互体验。</p>
+<p><strong>核心目标功能矩阵：</strong></p>
+<ol>
+<li><strong>动态侧边栏</strong>：鼠标滑向屏幕左侧边缘时自动唤出/隐藏标签栏（基于 Vertical Tabs + Hammerspoon 边缘监听）。</li>
+<li><strong>MRU 标签切换</strong>：使用 <code>Control+Tab</code> 在最近使用的两个标签页间快速跳转（基于 QuicKey 实现了 Chrome 原生缺失的 MRU - Most Recently Used 功能）。</li>
+<li><strong>极简新标签页</strong>：摒弃冗余元素，还原纯净的新标签页体验。</li>
+<li><strong>自动化标签组</strong>：基于域名的自动分组管理（利用 Tabee 的正则匹配规则）。</li>
+</ol>
+<hr />
+<h2>0x01 技术栈准备 (Tech Stack)</h2>
+<p>要实现这一套“伪 Arc”体验，我们需要以下组件协同工作：</p>
+<h3>浏览器扩展 (Extensions)</h3>
+<ol>
+<li>
+<p><strong>Vertical Tabs</strong></p>
+<ul>
+<li><em>作用</em>：提供垂直标签栏 UI，是视觉复刻的核心。</li>
+<li><img src="https://i-blog.csdnimg.cn/img_convert/aec8ed3d1a1876248d46df4499a2f9dd.png" alt="Vertical Tabs" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li>
+<p><strong>Tabee: Tab Modifier</strong></p>
+<ul>
+<li><em>作用</em>：强大的标签页管理工具，用于实现自动化的标签分组规则。</li>
+<li><img src="https://i-blog.csdnimg.cn/img_convert/8ca25cd06b6d4caf198cadf979f39fc8.png" alt="Tabee" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li>
+<p><strong>QuicKey - The quick tab</strong></p>
+<ul>
+<li><em>作用</em>：接管标签切换逻辑，实现类似 IDE 的 MRU (最近使用) 切换体验。</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229490.png" alt="QuicKey" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li>
+<p><strong>New Tab</strong> (或其他类似极简插件)</p>
+<ul>
+<li><em>作用</em>：覆盖 Chrome 默认臃肿的 NTP (New Tab Page)。</li>
+<li><img src="https://i-blog.csdnimg.cn/img_convert/e9680df883c1ece0e954320efed58505.png" alt="New Tab" style="zoom:50%;" /></li>
+</ul>
+</li>
+</ol>
+<h3>自动化引擎</h3>
+<ul>
+<li><strong>Hammerspoon</strong>: macOS 上的自动化神器，我们将用它来桥接鼠标事件和键盘映射。<ul>
+<li><em>官方下载</em>: <a href="https://www.hammerspoon.org/">hammerspoon.org</a></li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2>0x02 核心配置 (Configuration)</h2>
+<blockquote>
+<p><strong>前置条件</strong>：为了获得最佳沉浸体验，建议在“全屏幕 (Full Screen)”模式下使用浏览器。<br />
+<img alt="在这里插入图片描述" src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229532.png" /></p>
+</blockquote>
+<h3>Phase 1: 扩展快捷键映射</h3>
+<p>我们需要将扩展的功能暴露给系统级的快捷键，以便 Hammerspoon 调用。</p>
+<h4>1. 配置 Vertical Tabs 侧边栏热键</h4>
+<p>我们需要一个“触发器”来开关侧边栏。这里我们将其绑定为 <code>Cmd+S</code>。</p>
+<ul>
+<li>进入 Chrome 扩展程序管理页面 (<code>chrome://extensions/shortcuts</code>)。</li>
+<li>找到 Vertical Tabs，设置“切换侧边栏”的快捷键。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229545.png" alt="image-20251107213526941" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229475.png" alt="image-20251107213502217" style="zoom:50%;" /></p>
+<ul>
+<li><strong>Vertical Tabs 内部推荐配置</strong>（兼顾美观与功能）：<br />
+<img alt="在这里插入图片描述" src="https://i-blog.csdnimg.cn/direct/d66497f7e92c46cab656a5907e521d4b.png" /></li>
+</ul>
+<h4>2. 配置 MRU 切换热键 (QuicKey)</h4>
+<p>Arc 的精髓之一是 <code>Ctrl+Tab</code> 在两个最近页面间横跳。Chrome 默认是线性切换，我们利用 QuicKey 修正它。</p>
+<ul>
+<li>将 QuicKey 的 "Switch to the previous tab" 快捷键设置为 <code>Control+Q</code>。</li>
+<li><em>(注：稍后我们将用 Hammerspoon 拦截 <code>Control+Tab</code> 并重定向为 <code>Control+Q</code>)</em></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229538.png" alt="image-20251107213627334" style="zoom:50%;" /></p>
+<h3>Phase 2: 注入 Hammerspoon 脚本</h3>
+<p>这是灵魂所在。我们将通过 Lua 脚本实现两个核心逻辑：<br />
+1.  <strong>Key Remap</strong>: 拦截 <code>Ctrl+Tab</code>，发送 <code>Ctrl+Q</code>。<br />
+2.  <strong>Mouse Watcher</strong>: 监听鼠标位置，当光标停留在屏幕左边缘（&lt; 2px）时，自动发送 <code>Cmd+S</code> 唤出侧边栏；离开特定区域（&gt; 380px）时自动关闭。</p>
+<h4>部署步骤：</h4>
+<ol>
+<li>
+<p>点击菜单栏 Hammerspoon 图标 -&gt; <code>Open Config</code>。<br />
+    <img src="https://cdn.jsdelivr.net/gh/Zetazero1/zetazero3@imag/202511081229559.png" alt="image-20251107220414955" style="zoom:50%;" /></p>
+</li>
+<li>
+<p>粘贴以下经过调试的 <code>init.lua</code> 脚本（v29.1 最终版）：</p>
+</li>
+</ol>
+<pre><code class="language-lua">-- ⚙️ Hammerspoon 合并脚本 (v29.1 - &quot;逻辑确认&quot; 最终版)
+-- 1. Google Chrome: Ctrl+Tab → Ctrl+Q
+-- 2. Google Chrome: 左边缘悬停 → Cmd+S
+-- 3. Google Chrome: 离开左边缘 &gt; 380px → 再次 Cmd+S
+-- 4. 增强的自动恢复机制 (eventtap 监控 timer)
+
+-- ----------------------------------------------------------
+-- 🧩 模块加载
+-- ----------------------------------------------------------
+local eventtap = hs.eventtap
+local keycodes = hs.keycodes
+local appWatcher = hs.application.watcher
+local caffeinate = hs.caffeinate
+local timer = hs.timer
+local mouse = hs.mouse
+local app = hs.application
+local screen = hs.screen
+local alert = hs.alert
+local console = hs.console
+
+-- ----------------------------------------------------------
+-- 🧩 全局配置
+-- ----------------------------------------------------------
+local APP_NAME = &quot;Google Chrome&quot;
+local keyTap = nil
+local mousePoller = nil
+local totalEventCount = 0
+_G.inSwitchingGracePeriod = false
+_G.mouseLastHeartbeat = timer.secondsSinceEpoch()
+local DEBUG = true
+
+-- ----------------------------------------------------------
+-- 🧩 v29: 核心函数 - 提前声明
+-- ----------------------------------------------------------
+-- 必须提前声明所有互相调用的函数
+local log, areServicesRunning, startServices, stopServices, restartServices
+local createKeyTap, createMousePoller, resetEdgeState, triggerSave
+local mousePollCallback, setGracePeriod
+
+-- ----------------------------------------------------------
+-- 🧩 v29: 核心函数 - 定义
+-- ----------------------------------------------------------
+
+log = function(message)
+    if DEBUG then
+        print(&quot;[HS Debug] &quot; .. message)
+    end
+end
+
+areServicesRunning = function()
+    local keyTapRunning = keyTap and keyTap:isEnabled()
+    local mousePollerRunning = mousePoller and mousePoller:isRunning()
+    return keyTapRunning, mousePollerRunning
+end
+
+startServices = function()
+    local keyTapRunning, mousePollerRunning = areServicesRunning()
+
+    if not keyTapRunning then
+        createKeyTap()
+        if keyTap then
+            keyTap:start()
+            log(&quot;KeyTap service started&quot;)
+        end
+    end
+
+    if not mousePollerRunning then
+        createMousePoller()
+        if mousePoller then
+            mousePoller:start()
+            log(&quot;MousePoller service started&quot;)
+        end
+    end
+end
+
+stopServices = function()
+    if keyTap and keyTap:isEnabled() then 
+        keyTap:stop() 
+        log(&quot;KeyTap service stopped&quot;)
+    end
+    if mousePoller and mousePoller:isRunning() then 
+        mousePoller:stop() 
+        log(&quot;MousePoller service stopped&quot;)
+    end
+    if resetEdgeState then
+        resetEdgeState()
+    end
+end
+
+restartServices = function()
+    log(&quot;Restarting all services...&quot;)
+    stopServices()
+    timer.doAfter(0.5, function()
+        startServices()
+        log(&quot;Services restarted&quot;)
+        _G.mouseLastHeartbeat = timer.secondsSinceEpoch()
+    end)
+end
+
+-- ----------------------------------------------------------
+-- 🧩 脚本 1: Ctrl+Tab -&gt; Ctrl+Q (和 v29 看门狗)
+-- ----------------------------------------------------------
+createKeyTap = function()
+    if keyTap then
+        keyTap:stop()
+        keyTap = nil
+    end
+
+    keyTap = eventtap.new({eventtap.event.types.keyDown}, function(event)
+        totalEventCount = totalEventCount + 1
+
+        -- v29: &quot;看门狗&quot; 逻辑
+        local frontApp = app.frontmostApplication()
+        if frontApp and frontApp:name() == APP_NAME and not _G.inSwitchingGracePeriod then
+            local now = timer.secondsSinceEpoch()
+            if (now - _G.mouseLastHeartbeat) &gt; 5 then
+                log(&quot;[Watchdog v29] keyTap detected mousePoller is DEAD. Rebuilding...&quot;)
+                restartServices()
+            end
+        end
+
+        if not frontApp or frontApp:name() ~= APP_NAME or _G.inSwitchingGracePeriod then
+            return false
+        end
+
+        local flags = event:getFlags()
+        local keyCode = event:getKeyCode()
+
+        if flags.ctrl and not flags.cmd and not flags.alt and not flags.shift and keyCode == keycodes.map[&quot;tab&quot;] then
+            log(&quot;Ctrl+Tab detected, sending Ctrl+Q&quot;)
+            eventtap.keyStroke({&quot;ctrl&quot;}, &quot;q&quot;, 0)
+            return true
+        end
+        return false
+    end)
+
+    return keyTap
+end
+
+-- ----------------------------------------------------------
+-- 🧩 脚本 2: 左边缘触发保存 (v29 多屏幕修复)
+-- ----------------------------------------------------------
+local edgeTimer = nil
+local isEdgeActive = false
+local EDGE_THRESHOLD = 2    
+local EXIT_THRESHOLD = 380  -- 【v29.1 修复】: 已按你的要求修改为 380
+local WAIT_TIME = 0.15      
+local MOUSE_POLL_INTERVAL = 0.05 
+
+triggerSave = function()
+    totalEventCount = totalEventCount + 1
+
+    local frontApp = app.frontmostApplication()
+    if not frontApp or frontApp:name() ~= APP_NAME or _G.inSwitchingGracePeriod then
+        return
+    end
+
+    log(&quot;Left edge trigger activated, sending Cmd+S&quot;)
+    eventtap.keyStroke({&quot;cmd&quot;}, &quot;s&quot;, 0)
+end
+
+resetEdgeState = function()
+    if edgeTimer then 
+        edgeTimer:stop() 
+        edgeTimer = nil 
+    end
+    isEdgeActive = false
+end
+
+mousePollCallback = function()
+    _G.mouseLastHeartbeat = timer.secondsSinceEpoch()
+
+    local frontApp = app.frontmostApplication()
+    if not frontApp or frontApp:name() ~= APP_NAME or _G.inSwitchingGracePeriod then
+        resetEdgeState()
+        return
+    end
+
+    local pos = mouse.absolutePosition()
+    local currentScreen = mouse.getCurrentScreen()
+    if not currentScreen then return end
+
+    local screenFrame = currentScreen:frame()
+    local relativeX = pos.x - screenFrame.x 
+
+    if relativeX &lt;= EDGE_THRESHOLD and not isEdgeActive then
+        -- 刚进入边缘
+        isEdgeActive = true
+        log(&quot;Mouse entered left edge, waiting for trigger&quot;)
+
+        edgeTimer = timer.doAfter(WAIT_TIME, function()
+            -- 停留时间到，检查是否还在
+            local currentPos = mouse.absolutePosition()
+            local currentScreenNow = mouse.getCurrentScreen()
+            if not currentScreenNow then 
+                isEdgeActive = false
+                return 
+            end
+
+            local currentRelativeX = currentPos.x - currentScreenNow:frame().x
+            local currentApp = app.frontmostApplication()
+
+            if currentRelativeX &lt;= EDGE_THRESHOLD and currentApp and currentApp:name() == APP_NAME then
+                -- 【触发 1】: 悬停触发
+                triggerSave()
+            else
+                isEdgeActive = false
+            end
+        end)
+    elseif isEdgeActive and relativeX &gt;= EXIT_THRESHOLD then
+        -- 【触发 2】: 离开边缘并超过阈值时触发
+        log(&quot;Mouse exited left edge zone ( &gt; 380px)&quot;)
+        resetEdgeState()
+        triggerSave()
+    end
+end
+
+createMousePoller = function()
+    if mousePoller then
+        mousePoller:stop()
+        mousePoller = nil
+    end
+    mousePoller = timer.doEvery(MOUSE_POLL_INTERVAL, mousePollCallback)
+    return mousePoller
+end
+
+-- ----------------------------------------------------------
+-- 🧩 统一的控制逻辑
+-- ----------------------------------------------------------
+-- 宽限期管理
+local graceTimer = nil
+setGracePeriod = function(seconds)
+    _G.inSwitchingGracePeriod = true
+    if graceTimer then graceTimer:stop() end
+    graceTimer = timer.doAfter(seconds, function() 
+        _G.inSwitchingGracePeriod = false
+        log(&quot;Grace period ended&quot;)
+    end)
+    log(&quot;Grace period started: &quot; .. seconds .. &quot;s&quot;)
+end
+
+-- 立即启动服务 (v29: 现在所有函数都已定义)
+startServices()
+
+-- Chrome 应用监听
+appWatcher.new(function(appName, eventType, appObject)
+    if appName ~= APP_NAME then return end
+
+    if eventType == appWatcher.activated then
+        log(&quot;Chrome activated&quot;)
+        setGracePeriod(1.5)
+        timer.doAfter(0.5, function()
+            startServices()
+        end)
+    elseif eventType == appWatcher.deactivated then
+        log(&quot;Chrome deactivated&quot;)
+        setGracePeriod(1)
+        timer.doAfter(0.3, function()
+            stopServices()
+        end)
+    elseif eventType == appWatcher.launched then
+        log(&quot;Chrome launched&quot;)
+        setGracePeriod(2)
+    elseif eventType == appWatcher.terminated then
+        log(&quot;Chrome terminated&quot;)
+        stopServices()
+    end
+end):start()
+
+-- 睡眠唤醒时恢复服务
+caffeinate.watcher.new(function(event)
+    if event == caffeinate.watcher.systemDidWake then
+        log(&quot;System woke up&quot;)
+        setGracePeriod(3)
+        timer.doAfter(2, function()
+            restartServices()
+            if app.frontmostApplication():name() == APP_NAME then
+                log(&quot;Woke into Chrome, services restored&quot;)
+            end
+        end)
+    elseif event == caffeinate.watcher.systemWillSleep then
+        log(&quot;System going to sleep&quot;)
+        stopServices()
+    end
+end):start()
+
+-- ----------------------------------------------------------
+-- 🧩 启动时初始化
+-- ----------------------------------------------------------
+timer.doAfter(2, function()
+    local frontApp = app.frontmostApplication()
+    if frontApp and frontApp:name() == APP_NAME then
+        log(&quot;Initialized in Chrome&quot;)
+        startServices()
+    else
+        log(&quot;Initialized (not in Chrome)&quot;)
+    end
+    setGracePeriod(2)
+end)
+
+-- ----------------------------------------------------------
+-- 🧩 调试命令
+-- ----------------------------------------------------------
+hs.hotkey.bind({&quot;cmd&quot;, &quot;alt&quot;}, &quot;D&quot;, function()
+    local keyTapRunning, mousePollerRunning = areServicesRunning()
+    local frontApp = app.frontmostApplication()
+
+    local status = string.format(
+        &quot;[Hammerspoon] 服务状态 (v29.1):\n&quot; ..
+        &quot;前端应用: %s\n&quot; ..
+        &quot;KeyTap: %s\n&quot; ..
+        &quot;MousePoller: %s\n&quot; ..
+        &quot;事件计数: %d\n&quot; ..
+        &quot;宽限期: %s\n&quot; ..
+        &quot;心跳: %s (%.1fs ago)&quot;,
+        frontApp and frontApp:name() or &quot;None&quot;,
+        keyTapRunning and &quot;运行中&quot; or &quot;已停止&quot;,
+        mousePollerRunning and &quot;运行中&quot; or &quot;已停止&quot;,
+        totalEventCount,
+        _G.inSwitchingGracePeriod and &quot;是&quot; or &quot;否&quot;,
+        os.date(&quot;%H:%M:%S&quot;, _G.mouseLastHeartbeat),
+        timer.secondsSinceEpoch() - _G.mouseLastHeartbeat
+    )
+
+    alert.show(status, 5)
+    log(&quot;状态检查: &quot; .. status:gsub(&quot;\n&quot;, &quot;, &quot;))
+end)
+
+hs.hotkey.bind({&quot;cmd&quot;, &quot;alt&quot;}, &quot;R&quot;, function()
+    alert.show(&quot;强制重启所有服务...&quot;, 2)
+    restartServices()
+end)
+
+log(&quot;Hammerspoon Chrome 快捷键服务已加载 (v29.1)&quot;)
+
+</code></pre>
+<ol>
+<li>重载配置：<code>Reload Config</code>，让脚本生效。<br />
+    <img src="https://i-blog.csdnimg.cn/img_convert/d990f06e7d84f09d00d0b552c093baf8.png" alt="image-20251107220455516" style="zoom:50%;" /></li>
+</ol>
+<hr />
+<h2>0x03 进阶：Tabee 自动化分组</h2>
+<p>Tabee 不仅仅是一个标签管理器，它的强大之处在于“规则”。建议自行探索其 <code>Rules</code> 功能，实现类似 Arc 的自动归档体验。</p>
+<ul>
+<li><em>Geek Tip</em>: 你可以设置正则匹配规则，例如将所有 <code>.*github\.com.*</code> 的页面自动合并到一个名为 "Dev" 的标签组中，保持工作区的井然有序。</li>
+</ul>
+<hr />
+<p>Happy Hacking! Enjoy your "Arc-ified" Chrome.</p>
+
+        <p>Published <time datetime="2026-05-04">04 May 2026</time></p>
+      </article>
+    </main>
+
+    <footer>
+      <a href="/about/">zetazero</a>
+    </footer>
+
+    <script>
+      const progress = document.getElementById('reading-progress');
+      if (progress) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const percent = (scrollTop / scrollHeight) * 100;
+          progress.style.transform = 'translate(' + (-100 + percent) + 'vw, 0)';
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
