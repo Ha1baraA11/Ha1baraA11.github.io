@@ -674,6 +674,12 @@ article h2:hover {
   color: var(--primary);
 }
 
+/* Hero title artistic font */
+header > h1 {
+  font-family: 'Permanent Marker', cursive;
+  letter-spacing: 0.05em;
+}
+
 /* Responsive */
 @media (max-width: 767px) {
   header {
