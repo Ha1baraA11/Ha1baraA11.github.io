@@ -25,12 +25,7 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <svg class="hero-title-svg" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
-        <text x="50%" y="50%" dy=".35em" text-anchor="middle"
-              font-family="'Caveat', cursive" font-size="110" font-weight="400"
-              stroke="#f9c412" stroke-width="1.5" fill="transparent"
-              class="hero-stroke">zetazero</text>
-      </svg>
+      <div id="hero-title-container"></div>
       <p id="tagline"></p>
     </header>
 
@@ -66,15 +61,57 @@
       <a href="/about/">zetazero</a>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vivus@latest/dist/vivus.min.js"></script>
     <script>
-      // Hero title stroke animation
-      (function() {
-        const text = document.querySelector('.hero-stroke');
-        if (text) {
-          const len = text.getComputedTextLength();
-          text.style.strokeDasharray = len;
-          text.style.strokeDashoffset = len;
-          setTimeout(() => text.classList.add('animate'), 200);
+      // Hero title handwriting animation
+      (async function() {
+        const container = document.getElementById('hero-title-container');
+        if (!container) return;
+
+        try {
+          const font = await opentype.load('https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjfJ9SII.ttf');
+          const text = 'zetazero';
+          const fontSize = 110;
+          const glyphs = font.stringToGlyphs(text);
+
+          // Calculate total width
+          let totalWidth = 0;
+          const glyphWidths = [];
+          for (const g of glyphs) {
+            const w = g.advanceWidth * fontSize / font.unitsPerEm;
+            glyphWidths.push(w);
+            totalWidth += w;
+          }
+
+          const padding = 20;
+          const svgWidth = totalWidth + padding * 2;
+          const svgHeight = 140;
+          const baseline = 105;
+
+          // Build SVG with individual path per glyph
+          let svgHTML = `<svg id="hero-svg" class="hero-title-svg" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
+          let x = padding;
+          for (let i = 0; i < glyphs.length; i++) {
+            const path = glyphs[i].getPath(x, baseline, fontSize);
+            const d = path.toPathData({ flipY: true, decimalPlaces: 1 });
+            svgHTML += `<path d="${d}" fill="none" stroke="#f9c412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+            x += glyphWidths[i];
+          }
+          svgHTML += '</svg>';
+
+          container.innerHTML = svgHTML;
+
+          // Apply Vivus animation
+          new Vivus('hero-svg', {
+            type: 'oneByOne',
+            duration: 200,
+            animTimingFunction: Vivus.EASE
+          });
+
+        } catch (e) {
+          // Fallback: show text normally
+          container.innerHTML = '<h1 class="hero-title">zetazero</h1>';
         }
       })();
 
