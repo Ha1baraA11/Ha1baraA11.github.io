@@ -423,6 +423,12 @@ footer nav a img {
   vertical-align: middle;
 }
 
+/* Nav z-index for progress bar layering */
+#nav {
+  z-index: 2;
+  position: relative;
+}
+
 /* Reading progress bar */
 #reading-progress {
   z-index: 1;
