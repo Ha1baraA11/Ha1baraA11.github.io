@@ -696,14 +696,25 @@ button:hover, input[type="submit"]:hover {
 
 /* ===== Homepage Layout ===== */
 
+.home-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.home-wrap article {
+  flex: 1;
+  min-width: 0;
+}
+
 .sidebar-bookmarks {
-  position: absolute;
-  top: 0;
-  right: 0;
   width: 160px;
+  flex-shrink: 0;
   padding-top: 1.5em;
   border-left: 1px solid var(--border);
   padding-left: 1.5em;
+  position: sticky;
+  top: 50px;
+  align-self: flex-start;
 }
 
 .sidebar-bookmarks h2 {
@@ -724,14 +735,18 @@ button:hover, input[type="submit"]:hover {
 }
 
 @media (max-width: 900px) {
+  .home-wrap {
+    flex-direction: column;
+  }
+
   .sidebar-bookmarks {
-    position: static;
     width: 100%;
     border-left: none;
     border-top: 1px solid var(--border);
     padding-left: 0;
     padding-top: 1.5em;
     margin-top: 2em;
+    position: static;
   }
 
   .sidebar-bookmarks ul {
