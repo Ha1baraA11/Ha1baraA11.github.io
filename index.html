@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f9c412">
+    <meta name="theme-color" content="#64B5F6">
     <title>zetazero's blog</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,7 +93,7 @@
           for (var i = 0; i < glyphs.length; i++) {
             var path = glyphs[i].getPath(x, baseline, fontSize);
             var d = path.toPathData({ flipY: true, decimalPlaces: 1 });
-            svgHTML += '<path d="' + d + '" fill="none" stroke="#f9c412" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+            svgHTML += '<path d="' + d + '" fill="none" stroke="#64B5F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
             x += glyphWidths[i];
           }
           svgHTML += '</svg>';
