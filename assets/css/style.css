@@ -582,15 +582,6 @@ button:hover, input[type="submit"]:hover {
 
 /* ===== Animations & Interactions ===== */
 
-/* Nav hide/show on scroll */
-header nav {
-  transition: transform 0.3s ease;
-}
-
-header nav.nav-hidden {
-  transform: translateY(-100%);
-}
-
 /* Reading progress bar glow */
 #reading-progress {
   box-shadow: 0 0 8px var(--primary), 0 0 2px var(--primary);
