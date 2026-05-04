@@ -1,0 +1,12 @@
+theme: jekyll-theme-minimal
+title: ZetaZero
+description: Personal blog and homepage
+url: "https://zetazero.top"
+baseurl: ""
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title/
