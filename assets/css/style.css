@@ -368,17 +368,15 @@ header nav {
   padding: 0.375em 1.5em;
   background: var(--nav-bg);
   font-weight: 200;
-  text-align: right;
   z-index: 10;
   transition: background 0.3s ease;
 }
 
 header nav h1 {
-  float: left;
   font-size: inherit;
   line-height: inherit;
   margin: 0;
-  text-align: left;
+  margin-right: auto;
 }
 
 header nav a {
@@ -387,14 +385,6 @@ header nav a {
   font-family: var(--font-family);
   color: var(--nav-text);
   margin-left: 1.5em;
-}
-
-header nav a:first-of-type {
-  margin-left: auto;
-}
-
-header nav a:last-of-type {
-  margin-right: 1.5em;
 }
 
 header aside {
@@ -477,6 +467,8 @@ footer nav a img {
 #nav {
   z-index: 100;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 /* Reading progress bar */
