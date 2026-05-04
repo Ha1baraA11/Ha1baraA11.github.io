@@ -309,7 +309,7 @@
         window.addEventListener('scroll', () => {
           const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
           const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const percent = (scrollTop / scrollHeight) * 100;
+          const percent = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
           progress.style.transform = `translate(${-100 + percent}vw, 0)`;
         }, { passive: true });
       }
