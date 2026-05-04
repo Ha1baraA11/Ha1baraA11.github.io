@@ -16,6 +16,7 @@
   --code-rendered: #ccc;
   --hr-color: #eee;
   --selection-text: #181818;
+  --progress-color: #64B5F6;
 }
 
 [data-theme="light"] {
@@ -32,6 +33,7 @@
   --code-rendered: #333;
   --hr-color: #ddd;
   --selection-text: #fff;
+  --progress-color: #f9c412;
 }
 
 /* Reset */
@@ -480,7 +482,7 @@ footer nav a img {
 /* Reading progress bar */
 #reading-progress {
   z-index: 1;
-  background-color: var(--primary);
+  background-color: var(--progress-color);
   width: 100vw;
   position: absolute;
   left: 0;
@@ -624,7 +626,7 @@ button:hover, input[type="submit"]:hover {
 
 /* Reading progress bar glow */
 #reading-progress {
-  box-shadow: 0 0 8px var(--primary), 0 0 2px var(--primary);
+  box-shadow: 0 0 8px var(--progress-color), 0 0 2px var(--progress-color);
   height: 3px;
 }
 
