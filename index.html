@@ -5,92 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>zetazero</title>
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>Z</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
 </head>
 <body>
-  <nav class="nav">
-    <a href="/" class="nav-logo">zetazero</a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-      <a href="/blog">Blog</a>
-    </div>
-  </nav>
+  <header class="site-header">
+    <h1><a href="/">zetazero</a></h1>
+    <nav class="site-nav">
+      <a href="/about">About</a>
+      <a href="https://github.com/Ha1baraA11" target="_blank">GitHub</a>
+    </nav>
+  </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-content">
-        <p class="hero-greeting">Hi, I'm</p>
-        <h1 class="hero-name">zetazero</h1>
-        <p class="hero-tagline">Developer &amp; Builder</p>
-        <p class="hero-desc">I build things with code. Interested in AI, RAG systems, and creating tools that matter.</p>
-        <div class="hero-links">
-          <a href="https://github.com/Ha1baraA11" target="_blank" class="btn">GitHub</a>
-          <a href="#contact" class="btn btn-outline">Get in touch</a>
-        </div>
-      </div>
+    <p class="intro">A personal blog about code, AI, and building things. <a href="/about">About me</a>.</p>
+
+    <section class="category-section">
+      <h2>Projects</h2>
+      <ul>
+        <li>
+          <a href="https://github.com/Ha1baraA11">MedVision-RAG</a>
+          <span class="post-date">2026</span>
+        </li>
+      </ul>
     </section>
 
-    <section id="about" class="section">
-      <h2 class="section-title">About</h2>
-      <div class="about-content">
-        <p>I'm a developer who enjoys solving complex problems and building elegant solutions. My work spans AI/ML systems, full-stack development, and everything in between.</p>
-        <p>Currently exploring the intersection of large language models and practical applications.</p>
-      </div>
-      <div class="skills">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">Java</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">RAG</span>
-        <span class="skill-tag">AI/ML</span>
-        <span class="skill-tag">ChromaDB</span>
-        <span class="skill-tag">Docker</span>
-        <span class="skill-tag">Git</span>
-      </div>
+    <section class="category-section">
+      <h2>Writing</h2>
+      <ul>
+        <li>
+          <a href="/blog/2026/05/04/hello-world/">Hello World</a>
+          <span class="post-date">04 May 2026</span>
+        </li>
+      </ul>
     </section>
 
-    <section id="projects" class="section">
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <a href="https://github.com/Ha1baraA11" target="_blank" class="project-link">&rarr;</a>
-          </div>
-          <h3>MedVision-RAG</h3>
-          <p>A medical image retrieval system powered by RAG architecture with dual Java+Python backend and ChromaDB vector store.</p>
-          <div class="project-tags">
-            <span>Python</span>
-            <span>Java</span>
-            <span>RAG</span>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <a href="https://github.com/Ha1baraA11" target="_blank" class="project-link">&rarr;</a>
-          </div>
-          <h3>More coming soon</h3>
-          <p>Always working on something new. Check my GitHub for the latest.</p>
-          <div class="project-tags">
-            <span>WIP</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2 class="section-title">Contact</h2>
-      <div class="contact-content">
-        <p>Want to work together or just say hi?</p>
-        <a href="https://github.com/Ha1baraA11" target="_blank" class="btn">Find me on GitHub</a>
-      </div>
+    <section class="category-section">
+      <h2>Interests</h2>
+      <ul>
+        <li>AI / RAG Systems</li>
+        <li>Full-stack Development</li>
+        <li>Performance Engineering</li>
+      </ul>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>&copy; 2026 zetazero. Built with GitHub Pages.</p>
+  <footer class="site-footer">
+    <span>zetazero</span>
+    <span style="margin: 0 0.5rem;">/</span>
+    <a href="/feed.xml">RSS</a>
   </footer>
 </body>
 </html>
