@@ -696,25 +696,14 @@ button:hover, input[type="submit"]:hover {
 
 /* ===== Homepage Layout ===== */
 
-.home-layout {
-  display: flex;
-  gap: 3em;
-}
-
-.home-layout article {
-  flex: 1;
-  min-width: 0;
-}
-
 .sidebar-bookmarks {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 160px;
-  flex-shrink: 0;
-  padding-top: 0;
+  padding-top: 1.5em;
   border-left: 1px solid var(--border);
   padding-left: 1.5em;
-  position: sticky;
-  top: 50px;
-  align-self: flex-start;
 }
 
 .sidebar-bookmarks h2 {
@@ -734,18 +723,15 @@ button:hover, input[type="submit"]:hover {
   font-size: 0.85rem;
 }
 
-@media (max-width: 768px) {
-  .home-layout {
-    flex-direction: column;
-  }
-
+@media (max-width: 900px) {
   .sidebar-bookmarks {
+    position: static;
     width: 100%;
     border-left: none;
     border-top: 1px solid var(--border);
     padding-left: 0;
     padding-top: 1.5em;
-    position: static;
+    margin-top: 2em;
   }
 
   .sidebar-bookmarks ul {
