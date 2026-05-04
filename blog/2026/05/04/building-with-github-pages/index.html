@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f9c412">
+    <title>Building a Personal Site with GitHub Pages - zetazero</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <a href="/about">About</a>
+          <a href="https://github.com/Ha1baraA11">GitHub</a>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1>Building a Personal Site with GitHub Pages</h1>
+      <aside>8 min read.</aside>
+    </header>
+
+    <main>
+      <article>
+        <p>I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way.</p>
+
+        <h2>Why GitHub Pages?</h2>
+
+        <p>There are dozens of ways to host a personal website. You could use Vercel, Netlify, Cloudflare Pages, or even a traditional VPS. So why did I choose GitHub Pages?</p>
+
+        <p>The answer is simplicity. GitHub Pages is <strong>free</strong>, requires <strong>zero server maintenance</strong>, and integrates directly with your Git workflow. Push to main, and your site is live. No build pipelines to configure, no servers to patch, no bills to pay.</p>
+
+        <blockquote>
+          <p>The best infrastructure is the infrastructure you don't have to think about.</p>
+        </blockquote>
+
+        <p>For a personal blog or portfolio site, GitHub Pages is more than enough. It serves static files over HTTPS with a global CDN, handles custom domains, and even supports Jekyll out of the box if you want it.</p>
+
+        <h2>The Setup Process</h2>
+
+        <h3>Step 1: Create the Repository</h3>
+
+        <p>GitHub Pages for user sites requires a specific repository naming convention. Your repo must be named <code>username.github.io</code>, where <code>username</code> is your GitHub username. This is non-negotiable.</p>
+
+        <pre><code>gh repo create Ha1baraA11.github.io --public --clone</code></pre>
+
+        <p>The <code>--public</code> flag is important. GitHub Pages only works with public repositories on the free tier (unless you have GitHub Pro).</p>
+
+        <h3>Step 2: Choose Your Tech Stack</h3>
+
+        <p>You have several options for building your site:</p>
+
+        <ul>
+          <li><strong>Pure HTML/CSS/JS</strong> &mdash; Maximum control, no build step</li>
+          <li><strong>Jekyll</strong> &mdash; GitHub's built-in static site generator</li>
+          <li><strong>Hugo</strong> &mdash; Fast, Go-based static site generator</li>
+          <li><strong>11ty (Eleventy)</strong> &mdash; Flexible JavaScript-based SSG</li>
+          <li><strong>React/Vue/Svelte</strong> &mdash; SPA frameworks with static export</li>
+        </ul>
+
+        <p>I went with a hybrid approach: <strong>pure HTML/CSS for the layout</strong>, with Jekyll handling the blog post pipeline. This gives me full control over the design while still letting me write blog posts in Markdown.</p>
+
+        <h3>Step 3: Configure a Custom Domain</h3>
+
+        <p>If you own a domain (I bought <code>zetazero.top</code>), you can point it to GitHub Pages. This involves two things:</p>
+
+        <h4>DNS Configuration</h4>
+
+        <p>You need to create A records pointing to GitHub's IP addresses:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Record Type</th>
+              <th>Host</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>@</td>
+              <td>185.199.108.153</td>
+            </tr>
+            <tr>
+              <td>A</td>
+              <td>@</td>
+              <td>185.199.109.153</td>
+            </tr>
+            <tr>
+              <td>A</td>
+              <td>@</td>
+              <td>185.199.110.153</td>
+            </tr>
+            <tr>
+              <td>A</td>
+              <td>@</td>
+              <td>185.199.111.153</td>
+            </tr>
+            <tr>
+              <td>CNAME</td>
+              <td>www</td>
+              <td>username.github.io</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>CNAME File</h4>
+
+        <p>Add a file named <code>CNAME</code> to the root of your repository with your domain:</p>
+
+        <pre><code>zetazero.top</code></pre>
+
+        <p>This tells GitHub Pages to serve your site at that domain instead of <code>username.github.io</code>.</p>
+
+        <h4>SSL Certificate</h4>
+
+        <p>GitHub automatically provisions a free SSL certificate via Let's Encrypt after you verify your domain. The process involves adding a TXT record to your DNS:</p>
+
+        <pre><code>_github-pages-challenge-username.zetazero.top  TXT  "your-verification-code"</code></pre>
+
+        <p>After verification, HTTPS is enabled automatically. This can take anywhere from a few minutes to an hour.</p>
+
+        <h2>Design Decisions</h2>
+
+        <p>I spent a lot of time thinking about the design. My reference was <a href="https://www.industrialempathy.com/">industrialempathy.com</a>, a blog by Malte Ubl (formerly of Google) that uses the <code>eleventy-high-performance-blog</code> template.</p>
+
+        <h3>What Makes It Work</h3>
+
+        <p>The design succeeds because of what it <em>doesn't</em> do. There are no:</p>
+
+        <ul>
+          <li>Hero images or background videos</li>
+          <li>Complex multi-column layouts</li>
+          <li>Animated transitions or parallax effects</li>
+          <li>Social media feeds or comment widgets</li>
+          <li>Cookie banners or newsletter popups</li>
+        </ul>
+
+        <p>Instead, it relies on <strong>strong typography</strong> and <strong>generous whitespace</strong>. The content is the design.</p>
+
+        <h3>The CSS Framework</h3>
+
+        <p>Under the hood, it uses <strong>Bahunya</strong>, a classless CSS framework. "Classless" means you don't need to add CSS classes to your HTML elements. The framework styles semantic HTML directly:</p>
+
+        <pre><code>&lt;!-- No classes needed --&gt;
+&lt;article&gt;
+  &lt;h1&gt;Title&lt;/h1&gt;
+  &lt;p&gt;Content here...&lt;/p&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;A quote&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/article&gt;</code></pre>
+
+        <p>This approach has several advantages:</p>
+
+        <ol>
+          <li><strong>Cleaner HTML</strong> &mdash; No <code>class="text-lg font-bold text-gray-700"</code> everywhere</li>
+          <li><strong>Smaller CSS</strong> &mdash; The entire framework is under 3KB</li>
+          <li><strong>Better accessibility</strong> &mdash; Forces you to use proper semantic elements</li>
+          <li><strong>Easier maintenance</strong> &mdash; Change the design by editing one CSS file</li>
+        </ol>
+
+        <h3>Color Palette</h3>
+
+        <p>The color scheme is minimal:</p>
+
+        <ul>
+          <li><strong>Background:</strong> <code>#181818</code> (near-black)</li>
+          <li><strong>Text:</strong> <code>#eee</code> (off-white)</li>
+          <li><strong>Accent:</strong> <code>#f9c412</code> (gold)</li>
+          <li><strong>Code background:</strong> <code>#2d2d2d</code> (dark gray)</li>
+          <li><strong>Inline code:</strong> <code>#e2777a</code> (soft red)</li>
+        </ul>
+
+        <p>The gold accent color serves multiple purposes: links, buttons, blockquote borders, progress bars, and table headers. It creates visual consistency without needing a complex design system.</p>
+
+        <h2>Typography</h2>
+
+        <p>Typography is the backbone of any reading-focused site. The template uses <strong>Inter UI</strong>, a variable font designed for screens. Variable fonts are great because they include all weights in a single file, reducing HTTP requests.</p>
+
+        <h3>Responsive Scaling</h3>
+
+        <p>The font sizes scale across three breakpoints:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Viewport</th>
+              <th>Body Text</th>
+              <th>H1</th>
+              <th>H2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&lt; 600px</td>
+              <td>1rem</td>
+              <td>2.074rem</td>
+              <td>1.728rem</td>
+            </tr>
+            <tr>
+              <td>600px &ndash; 1199px</td>
+              <td>1.1rem</td>
+              <td>4.398rem</td>
+              <td>3.11rem</td>
+            </tr>
+            <tr>
+              <td>&ge; 1200px</td>
+              <td>1.2rem</td>
+              <td>6.076rem</td>
+              <td>4.05rem</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony.</p>
+
+        <h2>Performance</h2>
+
+        <p>Performance was a key design goal. The original template achieves a perfect 100 on all Lighthouse audits. Here's how:</p>
+
+        <h3>Critical CSS Inlining</h3>
+
+        <p>The CSS is inlined directly into the HTML <code>&lt;head&gt;</code> instead of loading an external stylesheet. This eliminates a render-blocking request:</p>
+
+        <pre><code>&lt;head&gt;
+  &lt;style&gt;
+    /* All CSS here */
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+
+        <p>For a small site like this, the CSS is under 5KB, so inlining it is a net win. For larger sites, you'd want to split critical CSS from non-critical CSS.</p>
+
+        <h3>Image Optimization</h3>
+
+        <p>The template generates multiple image sizes with <code>srcset</code>, creates blurry placeholders, and transcodes to AVIF and WebP formats. It also uses native lazy loading and async decoding.</p>
+
+        <pre><code>&lt;picture&gt;
+  &lt;source srcset="image.avif" type="image/avif"&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;img src="image.jpg" loading="lazy" decoding="async"
+       width="800" height="600" alt="Description"&gt;
+&lt;/picture&gt;</code></pre>
+
+        <h3>Font Loading</h3>
+
+        <p>Fonts are served from the same origin (not from Google Fonts) with <code>display: optional</code>. This means the text renders immediately with a system font, and the custom font only loads if it's available by the time the browser paints. No layout shift, no invisible text.</p>
+
+        <h2>What I'd Do Differently</h2>
+
+        <p>Looking back, there are a few things I'd change:</p>
+
+        <dl>
+          <dt>Start with a template</dt>
+          <dd>Don't build from scratch. Find a template that's close to what you want and customize it. You'll save hours.</dd>
+
+          <dt>Use a build tool from day one</dt>
+          <dd>Even for a simple site, having a build step for CSS minification and image optimization pays off quickly.</dd>
+
+          <dt>Write content first</dt>
+          <dd>I spent too much time on the design before having any content. The design should serve the content, not the other way around.</dd>
+
+          <dt>Don't over-optimize</dt>
+          <dd>A personal blog doesn't need edge functions, ISR, or a CDN with 200 PoPs. GitHub Pages is enough.</dd>
+        </dl>
+
+        <h2>Conclusion</h2>
+
+        <p>Building a personal site with GitHub Pages is a great way to learn web fundamentals. You'll encounter DNS, SSL, CSS, HTML, and JavaScript in a low-stakes environment. And when you're done, you have a permanent home on the internet that you fully control.</p>
+
+        <p>The code for this site is available on <a href="https://github.com/Ha1baraA11/Ha1baraA11.github.io">GitHub</a>. Feel free to use it as a starting point for your own site.</p>
+
+        <p>Published <time datetime="2026-05-04">04 May 2026</time></p>
+      </article>
+    </main>
+
+    <footer>
+      <a href="/about/">zetazero</a>
+    </footer>
+
+    <script>
+      const progress = document.getElementById('reading-progress');
+      if (progress) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const percent = (scrollTop / scrollHeight) * 100;
+          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
