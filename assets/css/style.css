@@ -318,7 +318,7 @@ header nav {
   left: 0;
   width: 100vw;
   padding: 0.375em 1.5em;
-  background: hsla(0, 0%, 100%, 0.9);
+  background: #fff;
   font-weight: 200;
   text-align: right;
   z-index: 10;
@@ -425,7 +425,7 @@ footer nav a img {
 
 /* Nav z-index for progress bar layering */
 #nav {
-  z-index: 2;
+  z-index: 100;
   position: relative;
 }
 
