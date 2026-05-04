@@ -69,7 +69,8 @@
         const container = document.getElementById('hero-title-container');
         if (!container) return;
 
-        opentype.load('https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjfJ9SII.ttf').then(function(font) {
+        opentype.load('https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjfJ9SII.ttf', function(err, font) {
+          if (err) { console.error('Font load error:', err); container.innerHTML = '<h1 class="hero-title">zetazero</h1>'; return; }
           var text = 'zetazero';
           var fontSize = 110;
           var glyphs = font.stringToGlyphs(text);
@@ -104,9 +105,6 @@
             duration: 200,
             animTimingFunction: Vivus.EASE
           });
-        }).catch(function(err) {
-          console.error('Hero animation error:', err);
-          container.innerHTML = '<h1 class="hero-title">zetazero</h1>';
         });
       })();
 
