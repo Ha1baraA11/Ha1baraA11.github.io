@@ -665,8 +665,8 @@ article h2:hover {
   color: var(--primary);
 }
 
-/* Hero title artistic font */
-header > h1 {
+/* Hero title artistic font (homepage only) */
+header > h1.hero-title {
   font-family: 'Caveat', cursive;
   letter-spacing: 0.02em;
   font-weight: 400;
