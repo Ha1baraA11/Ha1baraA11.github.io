@@ -90,23 +90,7 @@
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
       })();
 
-      // 3. Nav hide/show on scroll
-      (function() {
-        const nav = document.querySelector('header nav');
-        let lastScroll = 0;
-
-        window.addEventListener('scroll', () => {
-          const currentScroll = window.pageYOffset;
-          if (currentScroll > lastScroll && currentScroll > 80) {
-            nav.classList.add('nav-hidden');
-          } else {
-            nav.classList.remove('nav-hidden');
-          }
-          lastScroll = currentScroll;
-        }, { passive: true });
-      })();
-
-      // 4. Reading progress bar
+      // 3. Reading progress bar
       (function() {
         const progress = document.getElementById('reading-progress');
         if (progress) {
