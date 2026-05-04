@@ -694,6 +694,67 @@ button:hover, input[type="submit"]:hover {
   }
 }
 
+/* ===== Homepage Layout ===== */
+
+.home-layout {
+  display: flex;
+  gap: 3em;
+}
+
+.home-layout article {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-bookmarks {
+  width: 160px;
+  flex-shrink: 0;
+  padding-top: 0;
+  border-left: 1px solid var(--border);
+  padding-left: 1.5em;
+  position: sticky;
+  top: 50px;
+  align-self: flex-start;
+}
+
+.sidebar-bookmarks h2 {
+  font-size: 0.85rem;
+  margin-bottom: 0.8em;
+  font-style: italic;
+}
+
+.sidebar-bookmarks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-bookmarks li {
+  margin-bottom: 0.5em;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .home-layout {
+    flex-direction: column;
+  }
+
+  .sidebar-bookmarks {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 1.5em;
+    position: static;
+  }
+
+  .sidebar-bookmarks ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em 1.5em;
+  }
+}
+
 /* ===== Homepage Modules ===== */
 
 .motto {
