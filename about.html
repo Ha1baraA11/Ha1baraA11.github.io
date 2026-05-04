@@ -38,5 +38,17 @@
     <footer>
       <a href="/about/">zetazero</a>
     </footer>
+
+    <script>
+      const progress = document.getElementById('reading-progress');
+      if (progress) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const percent = (scrollTop / scrollHeight) * 100;
+          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+        }, { passive: true });
+      }
+    </script>
   </body>
 </html>
