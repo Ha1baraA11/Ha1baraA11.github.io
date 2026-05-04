@@ -20,7 +20,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-family);
-  background: #181818;
+  background: #272B34;
   color: #eee;
   font-size: 1rem;
   line-height: 1.6;
@@ -188,7 +188,7 @@ code, kbd {
   padding: 0 0.3em;
   font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
   font-size: 90%;
-  background: #2d2d2d;
+  background: #272B34;
 }
 
 kbd {
@@ -197,7 +197,7 @@ kbd {
 
 pre {
   font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-  background: #2d2d2d;
+  background: #272B34;
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
@@ -405,7 +405,7 @@ section {
 
 /* Footer */
 footer {
-  background: rgba(0, 0, 0, 0.8);
+  background: #272B34;
   color: #fff;
   padding: 3em;
   text-align: center;
@@ -465,7 +465,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: #2d2d2d;
+  background: #272B34;
 }
 
 :not(pre) > code[class*="language-"] {
