@@ -1,58 +1,53 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>zetazero</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
-</head>
-<body>
-  <header class="site-header">
-    <h1><a href="/">zetazero</a></h1>
-    <nav class="site-nav">
-      <a href="/about">About</a>
-      <a href="https://github.com/Ha1baraA11" target="_blank">GitHub</a>
-    </nav>
-  </header>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f9c412">
+    <title>zetazero</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <a href="/about">About</a>
+          <a href="https://github.com/Ha1baraA11">GitHub</a>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1>zetazero</h1>
+      <p>A personal blog about code, AI, and building things.</p>
+    </header>
 
-  <main>
-    <p class="intro">A personal blog about code, AI, and building things. <a href="/about">About me</a>.</p>
+    <main>
+      <article>
+        <h2>Posts</h2>
+        <ul id="posts">
+          <li>
+            <a href="/blog/2026/05/04/hello-world/">Hello World</a>
+            <time datetime="2026-05-04">04 May 2026</time>
+          </li>
+        </ul>
 
-    <section class="category-section">
-      <h2>Projects</h2>
-      <ul>
-        <li>
-          <a href="https://github.com/Ha1baraA11">MedVision-RAG</a>
-          <span class="post-date">2026</span>
-        </li>
-      </ul>
-    </section>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="https://github.com/Ha1baraA11">MedVision-RAG</a> &mdash; Medical image retrieval powered by RAG</li>
+        </ul>
 
-    <section class="category-section">
-      <h2>Writing</h2>
-      <ul>
-        <li>
-          <a href="/blog/2026/05/04/hello-world/">Hello World</a>
-          <span class="post-date">04 May 2026</span>
-        </li>
-      </ul>
-    </section>
+        <h2>Interests</h2>
+        <ul>
+          <li>AI / RAG Systems</li>
+          <li>Full-stack Development</li>
+          <li>Performance Engineering</li>
+        </ul>
+      </article>
+    </main>
 
-    <section class="category-section">
-      <h2>Interests</h2>
-      <ul>
-        <li>AI / RAG Systems</li>
-        <li>Full-stack Development</li>
-        <li>Performance Engineering</li>
-      </ul>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <span>zetazero</span>
-    <span style="margin: 0 0.5rem;">/</span>
-    <a href="/feed.xml">RSS</a>
-  </footer>
-</body>
+    <footer>
+      <a href="/about/">zetazero</a>
+    </footer>
+  </body>
 </html>
