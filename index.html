@@ -19,13 +19,13 @@
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
       <h1>zetazero</h1>
-      <p>A personal blog about code, AI, and building things.</p>
+      <p id="tagline"></p>
     </header>
 
     <main>
       <article>
-        <h2>Posts</h2>
-        <ul id="posts">
+        <h2 class="fade-in">Posts</h2>
+        <ul id="posts" class="fade-in">
           <li>
             <a href="/blog/2026/05/04/building-with-github-pages/">Building a Personal Site with GitHub Pages</a>
             <time datetime="2026-05-04">04 May 2026</time>
@@ -36,13 +36,13 @@
           </li>
         </ul>
 
-        <h2>Projects</h2>
-        <ul>
+        <h2 class="fade-in">Projects</h2>
+        <ul class="fade-in">
           <li><a href="https://github.com/Ha1baraA11">MedVision-RAG</a> &mdash; Medical image retrieval powered by RAG</li>
         </ul>
 
-        <h2>Interests</h2>
-        <ul>
+        <h2 class="fade-in">Interests</h2>
+        <ul class="fade-in">
           <li>AI / RAG Systems</li>
           <li>Full-stack Development</li>
           <li>Performance Engineering</li>
@@ -55,15 +55,66 @@
     </footer>
 
     <script>
-      const progress = document.getElementById('reading-progress');
-      if (progress) {
+      // 1. Typing effect on tagline
+      (function() {
+        const text = "A personal blog about code, AI, and building things.";
+        const el = document.getElementById('tagline');
+        let i = 0;
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        el.appendChild(cursor);
+
+        function type() {
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+            i++;
+            setTimeout(type, 50 + Math.random() * 40);
+          }
+        }
+        setTimeout(type, 600);
+      })();
+
+      // 2. Fade-in on scroll (IntersectionObserver)
+      (function() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+      })();
+
+      // 3. Nav hide/show on scroll
+      (function() {
+        const nav = document.querySelector('header nav');
+        let lastScroll = 0;
+
         window.addEventListener('scroll', () => {
-          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const percent = (scrollTop / scrollHeight) * 100;
-          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+          const currentScroll = window.pageYOffset;
+          if (currentScroll > lastScroll && currentScroll > 80) {
+            nav.classList.add('nav-hidden');
+          } else {
+            nav.classList.remove('nav-hidden');
+          }
+          lastScroll = currentScroll;
         }, { passive: true });
-      }
+      })();
+
+      // 4. Reading progress bar
+      (function() {
+        const progress = document.getElementById('reading-progress');
+        if (progress) {
+          window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const percent = (scrollTop / scrollHeight) * 100;
+            progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+          }, { passive: true });
+        }
+      })();
     </script>
   </body>
 </html>
