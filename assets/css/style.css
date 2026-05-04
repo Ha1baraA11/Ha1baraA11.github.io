@@ -148,10 +148,26 @@ h6 {
 a {
   color: var(--primary);
   text-decoration: none;
+  position: relative;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Paragraphs & Lists */
@@ -562,6 +578,100 @@ button:hover, input[type="submit"]:hover {
 /* Scrollbar */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* ===== Animations & Interactions ===== */
+
+/* Nav hide/show on scroll */
+header nav {
+  transition: transform 0.3s ease;
+}
+
+header nav.nav-hidden {
+  transform: translateY(-100%);
+}
+
+/* Reading progress bar glow */
+#reading-progress {
+  box-shadow: 0 0 8px var(--primary), 0 0 2px var(--primary);
+  height: 3px;
+}
+
+/* Fade-in on scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered list items */
+.fade-in li {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-in.visible li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in.visible li:nth-child(1) { transition-delay: 0.1s; }
+.fade-in.visible li:nth-child(2) { transition-delay: 0.2s; }
+.fade-in.visible li:nth-child(3) { transition-delay: 0.3s; }
+.fade-in.visible li:nth-child(4) { transition-delay: 0.4s; }
+.fade-in.visible li:nth-child(5) { transition-delay: 0.5s; }
+.fade-in.visible li:nth-child(6) { transition-delay: 0.6s; }
+.fade-in.visible li:nth-child(7) { transition-delay: 0.7s; }
+.fade-in.visible li:nth-child(8) { transition-delay: 0.8s; }
+
+/* Post list hover */
+#posts li {
+  transition: transform 0.2s ease, padding-left 0.2s ease;
+  padding-left: 0;
+}
+
+#posts li:hover {
+  transform: translateX(8px);
+  padding-left: 0;
+}
+
+#posts time {
+  transition: color 0.2s ease;
+}
+
+#posts li:hover time {
+  color: var(--primary);
+}
+
+/* Typing cursor */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--primary);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Section headings hover */
+article h2 {
+  transition: color 0.3s ease;
+}
+
+article h2:hover {
+  color: var(--primary);
 }
 
 /* Responsive */
