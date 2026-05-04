@@ -345,7 +345,7 @@ dd + dt {
 /* Header / Navigation */
 header {
   padding: 4.5em 1.5em 3em;
-  width: 37.5em;
+  width: 50em;
   margin: 0 auto;
   text-align: center;
   max-width: 100%;
@@ -409,7 +409,7 @@ main {
 article {
   max-width: 100%;
   padding: 1.5em;
-  width: 37.5em;
+  width: 50em;
   margin: 0 auto;
 }
 
