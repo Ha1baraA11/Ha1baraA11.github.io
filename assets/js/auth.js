@@ -56,6 +56,8 @@
   async function verify(password) {
     const rawKey = await deriveRawKey(password);
     const hash = await sha256Hex(rawKey);
+    // Debug: expose computed hash for troubleshooting
+    window.__lettersDebug = { computed: hash, stored: VERIFIER, match: hash === VERIFIER };
     return hash === VERIFIER;
   }
 
