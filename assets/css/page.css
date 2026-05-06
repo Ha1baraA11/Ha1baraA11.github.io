@@ -1,25 +1,25 @@
 /* ===== Romantic Theme — Letters Page ===== */
 
 :root {
-  --letters-primary: #E91E63;
-  --letters-primary-light: #F06292;
+  --letters-primary: #2C2A20;
+  --letters-primary-light: #4A4636;
   --letters-bg: #1a1216;
   --letters-bg-card: #231a1e;
   --letters-text: #F5E6E0;
   --letters-text-muted: #c4a89e;
   --letters-border: #3d2a30;
-  --letters-shadow: rgba(233, 30, 99, 0.08);
+  --letters-shadow: rgba(44, 42, 32, 0.15);
 }
 
 [data-theme="light"] {
-  --letters-primary: #C2185B;
-  --letters-primary-light: #E91E63;
+  --letters-primary: #2C2A20;
+  --letters-primary-light: #4A4636;
   --letters-bg: #FFF8F0;
   --letters-bg-card: #fff;
   --letters-text: #3E2723;
   --letters-text-muted: #8D6E63;
   --letters-border: #E0C8BC;
-  --letters-shadow: rgba(194, 24, 91, 0.06);
+  --letters-shadow: rgba(44, 42, 32, 0.08);
 }
 
 /* ===== Base ===== */
@@ -143,11 +143,68 @@ body {
   margin-bottom: 2em;
   box-shadow: 0 4px 20px var(--letters-shadow);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .letter-card:hover {
   border-color: var(--letters-primary-light);
   box-shadow: 0 6px 28px var(--letters-shadow);
+  transform: translateY(-2px);
+}
+
+.letter-preview {
+  color: var(--letters-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ===== Letter Reader ===== */
+
+#letter-reader {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.letter-back {
+  display: inline-block;
+  background: none;
+  border: 1px solid var(--letters-border);
+  border-radius: 8px;
+  color: var(--letters-text-muted);
+  font-size: 0.9rem;
+  padding: 0.4em 1em;
+  margin-bottom: 2em;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.letter-back:hover {
+  color: var(--letters-primary);
+  border-color: var(--letters-primary);
+}
+
+#letter-reader-content time {
+  display: block;
+  font-size: 1.15rem;
+  color: var(--letters-text-muted);
+  font-family: 'Caveat', cursive;
+  margin-bottom: 0.8em;
+}
+
+#letter-reader-content h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 2rem;
+  color: var(--letters-primary);
+  margin: 0 0 1em;
+}
+
+#letter-reader-content p {
+  font-size: 1.15rem;
+  line-height: 2;
+  margin-bottom: 1.5em;
 }
 
 .letter-card time {
