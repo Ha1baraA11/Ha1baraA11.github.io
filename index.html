@@ -280,11 +280,6 @@
 
           try {
             var ok = await LettersAuth.verify(pw);
-            console.log('[LettersAuth] verify result:', ok);
-            if (window.__lettersDebug) {
-              console.log('[LettersAuth] computed:', window.__lettersDebug.computed);
-              console.log('[LettersAuth] stored:  ', window.__lettersDebug.stored);
-            }
             if (ok) {
               var hexKey = await LettersAuth.deriveKeyHex(pw);
               sessionStorage.setItem('letters_key', hexKey);
@@ -292,7 +287,7 @@
               location.href = '/letters/k7x9m2/';
               return;
             }
-            showError('Wrong password (debug: ' + (window.__lettersDebug ? window.__lettersDebug.computed.slice(0, 8) + '...' : 'n/a') + ')');
+            showError('Wrong password');
             setTimeout(function () {
               input.disabled = false;
               submitBtn.disabled = false;
@@ -300,8 +295,7 @@
               input.focus();
             }, FAIL_DELAY);
           } catch (err) {
-            console.error('[LettersAuth] error:', err);
-            showError('Error: ' + err.message);
+            showError('Something went wrong');
             setTimeout(function () {
               input.disabled = false;
               submitBtn.disabled = false;
