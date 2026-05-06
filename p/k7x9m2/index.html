@@ -81,6 +81,13 @@
           .then(function (html) {
             loading.style.display = 'none';
             container.innerHTML = html;
+            // Execute script tags from decrypted content
+            var scripts = container.querySelectorAll('script');
+            scripts.forEach(function(oldScript) {
+              var newScript = document.createElement('script');
+              newScript.textContent = oldScript.textContent;
+              oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
           })
           .catch(function () {
             loading.innerHTML = '<p style="color:#2C2A20">Decryption failed.</p>';
