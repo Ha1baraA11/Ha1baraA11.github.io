@@ -940,6 +940,29 @@ article h2:hover {
   border-color: var(--primary);
 }
 
+#auth-submit {
+  display: block;
+  width: 100%;
+  margin-top: 0.8em;
+  padding: 0.5em;
+  background: var(--primary);
+  color: #181818;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#auth-submit:hover {
+  background: var(--primary-dark);
+}
+
+#auth-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .auth-error {
   color: #ef5350;
   font-size: 0.85rem;
