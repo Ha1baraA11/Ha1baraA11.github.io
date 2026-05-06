@@ -152,7 +152,7 @@ body {
 
 .letter-card time {
   display: block;
-  font-size: 0.85rem;
+  font-size: 1.15rem;
   color: var(--letters-text-muted);
   font-family: 'Caveat', cursive;
   margin-bottom: 0.8em;
