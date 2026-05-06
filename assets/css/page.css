@@ -2,23 +2,23 @@
 
 :root {
   --letters-primary: #2C2A20;
-  --letters-primary-light: #4A4636;
+  --letters-primary-light: #5C5A4E;
   --letters-bg: #1a1216;
   --letters-bg-card: #231a1e;
   --letters-text: #F5E6E0;
-  --letters-text-muted: #c4a89e;
-  --letters-border: #3d2a30;
+  --letters-text-muted: #d4c4ba;
+  --letters-border: #4d3a40;
   --letters-shadow: rgba(44, 42, 32, 0.15);
 }
 
 [data-theme="light"] {
   --letters-primary: #2C2A20;
-  --letters-primary-light: #4A4636;
+  --letters-primary-light: #5C5A4E;
   --letters-bg: #FFF8F0;
   --letters-bg-card: #fff;
-  --letters-text: #3E2723;
-  --letters-text-muted: #8D6E63;
-  --letters-border: #E0C8BC;
+  --letters-text: #1a1a1a;
+  --letters-text-muted: #6B5E53;
+  --letters-border: #D0C0B4;
   --letters-shadow: rgba(44, 42, 32, 0.08);
 }
 
@@ -121,7 +121,7 @@ body {
   font-family: 'Caveat', cursive;
   font-size: 2.8rem;
   font-weight: 700;
-  color: var(--letters-primary);
+  color: var(--letters-text);
   margin: 0 0 0.3em;
   line-height: 1.2;
 }
@@ -197,7 +197,7 @@ body {
 #letter-reader-content h2 {
   font-family: 'Caveat', cursive;
   font-size: 2rem;
-  color: var(--letters-primary);
+  color: var(--letters-text);
   margin: 0 0 1em;
 }
 
@@ -219,7 +219,7 @@ body {
 .letter-card h2 {
   font-family: 'Caveat', cursive;
   font-size: 1.6rem;
-  color: var(--letters-primary);
+  color: var(--letters-text);
   margin: 0 0 0.8em;
   font-weight: 700;
 }
