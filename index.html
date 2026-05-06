@@ -83,8 +83,18 @@
       <a href="/about/">zetazero</a>
     </footer>
 
+    <div id="auth-modal" class="auth-modal" hidden>
+      <div class="auth-modal-backdrop"></div>
+      <div class="auth-modal-content">
+        <p class="auth-hint">Password</p>
+        <input type="password" id="auth-password" autocomplete="off" spellcheck="false">
+        <p id="auth-error" class="auth-error" hidden></p>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/opentype.js@0.12.0/dist/opentype.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vivus@0.4.6/dist/vivus.min.js"></script>
+    <script src="/assets/js/auth.js"></script>
     <script>
       // Hero title handwriting animation
       (function() {
@@ -193,6 +203,99 @@
             progress.style.transform = `translate(${-100 + percent}vw, 0)`;
           }, { passive: true });
         }
+      })();
+
+      // 4. Long-press on hero title → auth modal
+      (function() {
+        var container = document.getElementById('hero-title-container');
+        if (!container) return;
+
+        var timer = null;
+        var HOLD_MS = 800;
+
+        function startHold(e) {
+          e.preventDefault();
+          container.classList.add('hero-pressing');
+          timer = setTimeout(function () {
+            timer = null;
+            container.classList.remove('hero-pressing');
+            showAuthModal();
+          }, HOLD_MS);
+        }
+
+        function cancelHold() {
+          if (timer) { clearTimeout(timer); timer = null; }
+          container.classList.remove('hero-pressing');
+        }
+
+        container.addEventListener('mousedown', startHold);
+        container.addEventListener('touchstart', startHold, { passive: false });
+        container.addEventListener('mouseup', cancelHold);
+        container.addEventListener('mouseleave', cancelHold);
+        container.addEventListener('touchend', cancelHold);
+        container.addEventListener('touchmove', cancelHold);
+        container.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      })();
+
+      // 5. Auth modal logic
+      var showAuthModal = (function () {
+        var modal = document.getElementById('auth-modal');
+        var input = document.getElementById('auth-password');
+        var error = document.getElementById('auth-error');
+        var backdrop = modal.querySelector('.auth-modal-backdrop');
+        var FAIL_DELAY = 2000;
+
+        function showModal() {
+          modal.hidden = false;
+          error.hidden = true;
+          input.value = '';
+          setTimeout(function () { input.focus(); }, 50);
+        }
+
+        function hideModal() {
+          modal.hidden = true;
+          input.value = '';
+          error.hidden = true;
+        }
+
+        function showError(msg) {
+          error.textContent = msg;
+          error.hidden = false;
+          input.classList.add('shake');
+          setTimeout(function () { input.classList.remove('shake'); }, 400);
+        }
+
+        async function submit() {
+          var pw = input.value;
+          if (!pw) return;
+
+          input.disabled = true;
+
+          try {
+            var ok = await LettersAuth.verify(pw);
+            if (ok) {
+              var hexKey = await LettersAuth.deriveKeyHex(pw);
+              sessionStorage.setItem('letters_key', hexKey);
+              sessionStorage.setItem('letters_ts', Date.now().toString());
+              location.href = '/letters/k7x9m2/';
+              return;
+            }
+            showError('Wrong password');
+            setTimeout(function () { input.disabled = false; input.focus(); }, FAIL_DELAY);
+          } catch (err) {
+            showError('Error');
+            setTimeout(function () { input.disabled = false; input.focus(); }, FAIL_DELAY);
+          }
+        }
+
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); submit(); }
+          if (e.key === 'Escape') { hideModal(); }
+        });
+
+        backdrop.addEventListener('click', hideModal);
+
+        return showModal;
       })();
     </script>
   </body>
