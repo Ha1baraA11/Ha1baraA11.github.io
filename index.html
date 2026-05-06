@@ -87,7 +87,8 @@
       <div class="auth-modal-backdrop"></div>
       <div class="auth-modal-content">
         <p class="auth-hint">Password</p>
-        <input type="password" id="auth-password" autocomplete="off" spellcheck="false">
+        <input type="password" id="auth-password" autocomplete="off" spellcheck="false" inputmode="numeric">
+        <button id="auth-submit" type="button">Enter</button>
         <p id="auth-error" class="auth-error" hidden></p>
       </div>
     </div>
@@ -241,14 +242,17 @@
       var showAuthModal = (function () {
         var modal = document.getElementById('auth-modal');
         var input = document.getElementById('auth-password');
+        var submitBtn = document.getElementById('auth-submit');
         var error = document.getElementById('auth-error');
         var backdrop = modal.querySelector('.auth-modal-backdrop');
         var FAIL_DELAY = 2000;
+        var submitting = false;
 
         function showModal() {
           modal.hidden = false;
           error.hidden = true;
           input.value = '';
+          submitting = false;
           setTimeout(function () { input.focus(); }, 50);
         }
 
@@ -265,11 +269,14 @@
           setTimeout(function () { input.classList.remove('shake'); }, 400);
         }
 
-        async function submit() {
+        async function doSubmit() {
+          if (submitting) return;
           var pw = input.value;
           if (!pw) return;
 
+          submitting = true;
           input.disabled = true;
+          submitBtn.disabled = true;
 
           try {
             var ok = await LettersAuth.verify(pw);
@@ -281,18 +288,36 @@
               return;
             }
             showError('Wrong password');
-            setTimeout(function () { input.disabled = false; input.focus(); }, FAIL_DELAY);
+            setTimeout(function () {
+              input.disabled = false;
+              submitBtn.disabled = false;
+              submitting = false;
+              input.focus();
+            }, FAIL_DELAY);
           } catch (err) {
             showError('Error');
-            setTimeout(function () { input.disabled = false; input.focus(); }, FAIL_DELAY);
+            setTimeout(function () {
+              input.disabled = false;
+              submitBtn.disabled = false;
+              submitting = false;
+              input.focus();
+            }, FAIL_DELAY);
           }
         }
 
+        // Auto-submit when input matches password (avoids needing Enter/button on mobile)
+        input.addEventListener('input', function () {
+          if (input.value === '0914') {
+            doSubmit();
+          }
+        });
+
         input.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') { e.preventDefault(); submit(); }
+          if (e.key === 'Enter') { e.preventDefault(); doSubmit(); }
           if (e.key === 'Escape') { hideModal(); }
         });
 
+        submitBtn.addEventListener('click', doSubmit);
         backdrop.addEventListener('click', hideModal);
 
         return showModal;
