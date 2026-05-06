@@ -287,7 +287,7 @@
               location.href = '/letters/k7x9m2/';
               return;
             }
-            showError('Wrong password');
+            showError('Wrong password (debug: ' + (window.__lettersDebug ? window.__lettersDebug.computed.slice(0, 8) + '...' : 'n/a') + ')');
             setTimeout(function () {
               input.disabled = false;
               submitBtn.disabled = false;
@@ -295,7 +295,7 @@
               input.focus();
             }, FAIL_DELAY);
           } catch (err) {
-            showError('Error');
+            showError('Error: ' + err.message);
             setTimeout(function () {
               input.disabled = false;
               submitBtn.disabled = false;
