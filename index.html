@@ -305,13 +305,6 @@
           }
         }
 
-        // Auto-submit when input matches password (avoids needing Enter/button on mobile)
-        input.addEventListener('input', function () {
-          if (input.value === '0914') {
-            doSubmit();
-          }
-        });
-
         input.addEventListener('keydown', function (e) {
           if (e.key === 'Enter') { e.preventDefault(); doSubmit(); }
           if (e.key === 'Escape') { hideModal(); }
