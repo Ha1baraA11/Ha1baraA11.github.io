@@ -280,6 +280,11 @@
 
           try {
             var ok = await LettersAuth.verify(pw);
+            console.log('[LettersAuth] verify result:', ok);
+            if (window.__lettersDebug) {
+              console.log('[LettersAuth] computed:', window.__lettersDebug.computed);
+              console.log('[LettersAuth] stored:  ', window.__lettersDebug.stored);
+            }
             if (ok) {
               var hexKey = await LettersAuth.deriveKeyHex(pw);
               sessionStorage.setItem('letters_key', hexKey);
@@ -295,6 +300,7 @@
               input.focus();
             }, FAIL_DELAY);
           } catch (err) {
+            console.error('[LettersAuth] error:', err);
             showError('Error: ' + err.message);
             setTimeout(function () {
               input.disabled = false;
