@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#E91E63">
+    <title>Our Story</title>
+    <link rel="stylesheet" href="/assets/css/letters.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♥</text></svg>">
+  </head>
+  <body>
+    <div id="loading">
+      <div class="loading-heart">&#10084;</div>
+      <p>Verifying...</p>
+    </div>
+
+    <!-- Encrypted content (base64) — paste output from encrypt.mjs -->
+    <script id="encrypted-content" type="text/plain">ZmU5rZsYMFSB4yOQTtH/lcUihTK4WReMe52K3nD315AyQaZQXT61cT6u1a6Qw7jFqjteBEK4g4z2vYwNEyguCbAuEItwS3l+h6Am8t+0IJ75RdHfTmZKg9BpSL9azoKghNfPATmIpvJcMVl3lihhR5PZJelKzfmyHGKjyIkPoiP+GgrsICWE3PGZGwkPJPR3RJs0gcCBntmi4/B3rg99K1fIMRGcprV/ODISLanRKWIkI00YXMiV1B8XS9Y70Q9JzvBB3ZHcYD7DH+COd5Mc7k/sbJh1/9S6jp0hV+/MdFiSazMwMEZRVbu1mlpc6V9OOzhovhcW0VhppJJBL3pZC8EsUfoyUP4iACHsf5Jpr1wqERtAYFPWZoqLA+sXgdIznzwR3TvUeNbCZxF3cXZ1MWg6/7gTe6EwRZ84MC025rLT0B8PybhJ4LXCY6T8NtTHk2nUtSOmiBflDI7JKcAfpOqkpuALW0vixXxr9smtKJxM+sHEEqjgXKvp5XJtorYnHXeyAFdJU9xIVkJnYOmCikzRB7CrvnRca8leZ3N6IB4M3cC9EmBCeTiW4Ohfhy+BRb79CZvrglUppLLcX8DL4sBhRevdGRO6kUXrD3RHZRTFIX44vAQHsvpCX0ylvweZMDtWZIU6HSazm38t1dLFF3qG6wBefgsM+AMT/i8Ze6LyEDyvXt9en68q2MezQk/7wnoiShPa9Q==</script>
+    <script id="encrypted-iv" type="text/plain">aZhrhT0b4oP0bggK</script>
+
+    <div id="letters-container"></div>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+      (function () {
+        'use strict';
+
+        var KEY = 'letters_key';
+        var TS = 'letters_ts';
+        var TTL_MS = 15000;
+
+        var loading = document.getElementById('loading');
+        var container = document.getElementById('letters-container');
+
+        // 1. Read sessionStorage
+        var hexKey = sessionStorage.getItem(KEY);
+        var ts = sessionStorage.getItem(TS);
+
+        // 2. Validate TTL
+        if (!hexKey || !ts || (Date.now() - parseInt(ts, 10)) > TTL_MS) {
+          sessionStorage.removeItem(KEY);
+          sessionStorage.removeItem(TS);
+          location.replace('/');
+          return;
+        }
+
+        // 3. Clear sessionStorage immediately (single-use)
+        sessionStorage.removeItem(KEY);
+        sessionStorage.removeItem(TS);
+
+        // 4. Read encrypted blobs
+        var ciphertext = document.getElementById('encrypted-content').textContent.trim();
+        var iv = document.getElementById('encrypted-iv').textContent.trim();
+
+        if (ciphertext === 'PLACEHOLDER_CIPHERTEXT' || iv === 'PLACEHOLDER_IV') {
+          loading.innerHTML = '<p style="color:#E91E63">Content not yet encrypted. Run encrypt.mjs first.</p>';
+          return;
+        }
+
+        // 5. Decrypt and render
+        LettersAuth.decryptWithKey(hexKey, ciphertext, iv)
+          .then(function (html) {
+            loading.style.display = 'none';
+            container.innerHTML = html;
+          })
+          .catch(function () {
+            loading.innerHTML = '<p style="color:#E91E63">Decryption failed.</p>';
+            setTimeout(function () { location.replace('/'); }, 2000);
+          });
+      })();
+    </script>
+  </body>
+</html>
