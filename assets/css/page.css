@@ -112,6 +112,20 @@ body {
 
 /* ===== Header ===== */
 
+/* ===== Love Counter ===== */
+
+#love-counter {
+  text-align: center;
+  padding: 1.2em 1em;
+  margin-bottom: 1.5em;
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  color: var(--letters-text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ===== Header ===== */
+
 .letters-header {
   text-align: center;
   margin-bottom: 3em;
