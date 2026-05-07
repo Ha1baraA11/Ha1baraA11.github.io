@@ -11,13 +11,14 @@
  * compresses with gzip, encrypts with AES-256-GCM, verifies, and outputs values.
  */
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { randomBytes, createHash, pbkdf2Sync, webcrypto } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
 
 const AES_GCM = 'AES-GCM';
 const PBKDF2_ITERATIONS = 100000;
 const AUTH_JS_PATH = new URL('./assets/js/auth.js', import.meta.url).pathname;
+const DATA_BIN_PATH = new URL('./letters/k7x9m2/data.bin', import.meta.url).pathname;
 const MAGIC = Buffer.from('PK01');
 
 // ---- Args ----
@@ -146,8 +147,10 @@ if (isInit) {
   console.log('');
 }
 
-console.log('=== Paste into letters/k7x9m2/index.html ===');
-console.log(`Ciphertext (base64):\n${ciphertextB64}`);
-console.log(`\nIV (base64):\n${ivB64}`);
-console.log('');
-console.log('Done. Copy the values above into the corresponding HTML elements.');
+// Write ciphertext to data.bin
+writeFileSync(DATA_BIN_PATH, ciphertextB64);
+console.log(`[OK] Ciphertext written to letters/k7x9m2/data.bin (${(ciphertextB64.length / 1024).toFixed(1)} KB)`);
+
+console.log(`\nIV (base64): ${ivB64}`);
+console.log('Paste the IV into the <script id="encrypted-iv"> element in letters/k7x9m2/index.html');
+console.log('\nDone.');
