@@ -33,7 +33,8 @@
 │       └── auth.js         # PBKDF2 + AES-256-GCM 加密核心模块
 └── letters/
     └── k7x9m2/
-        └── index.html      # 隐藏情书页面（加密内容 + auth 检查）
+        ├── index.html      # 隐藏情书页面（Web Worker 解密 + auth 检查）
+        └── data.bin         # AES-256-GCM 密文（base64），~1.36MB
 ```
 
 ## 设计风格
@@ -47,7 +48,7 @@
 
 ### 架构
 
-长按首页 hero 名字 800ms → 密码弹窗 → 验证 → 跳转 `/letters/k7x9m2/` → 解密渲染。
+长按首页 hero 名字 800ms → 密码弹窗 → 验证 → 跳转 `/letters/k7x9m2/` → fetch 加载 data.bin → Web Worker 解密渲染。
 
 加密架构：PBKDF2 (100k iterations, SHA-256) → derivedKey → SHA-256 验证 + AES-256-GCM 解密。
 
@@ -67,8 +68,8 @@
 
 核心规则：
 - **绝对禁止**用本地 `letter-content.html` 重新加密
-- 必须先解密原始密文 → 只改目标条目 → 重新加密
-- 只改 `letters/k7x9m2/index.html`，不改 CSS、不加新 class（除非明确要求）
+- 必须先解密原始密文（从 `data.bin` 读取）→ 只改目标条目 → 重新加密写回 `data.bin`
+- 只改 `letters/k7x9m2/index.html` 和 `data.bin`，不改 CSS、不加新 class（除非明确要求）
 - 每次改完用解密验证
 
 ### 当前内容
@@ -85,8 +86,9 @@
 |------|------|
 | `assets/js/auth.js` | SALT/VERIFIER 常量、PBKDF2 + AES-GCM + SHA-256（仅 crypto.subtle） |
 | `assets/css/letters.css` | 浪漫主题（玫瑰粉、Cormorant Garamond、信纸卡片） |
-| `letters/k7x9m2/index.html` | 加密 blob + Web Worker 解密 + pako 解压 + auth 检查 |
-| `encrypt.mjs` | 加密辅助脚本，gzip 压缩 + PK01 marker + AES-256-GCM |
+| `letters/k7x9m2/index.html` | Web Worker 解密 + pako 解压 + auth 检查 + fetch 加载 data.bin |
+| `letters/k7x9m2/data.bin` | AES-256-GCM 密文（base64），由 encrypt.mjs 生成 |
+| `encrypt.mjs` | 加密辅助脚本，gzip 压缩 + PK01 marker + AES-256-GCM，输出到 data.bin |
 
 ## .gitignore 规则
 
