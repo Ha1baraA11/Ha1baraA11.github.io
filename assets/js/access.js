@@ -47,8 +47,16 @@
     return bytesToHex(rawKey);
   }
 
+  async function verifyAndDeriveHex(password) {
+    var rawKey = await deriveRawKey(password);
+    var hash = await crypto.subtle.digest('SHA-256', rawKey);
+    var ok = bytesToHex(new Uint8Array(hash)) === VERIFIER;
+    return { ok: ok, hexKey: ok ? bytesToHex(rawKey) : null };
+  }
+
   window.LettersAuth = {
     verify: verify,
-    deriveKeyHex: deriveKeyHex
+    deriveKeyHex: deriveKeyHex,
+    verifyAndDeriveHex: verifyAndDeriveHex
   };
 })();
