@@ -265,7 +265,8 @@ body {
 }
 
 .letter-images img {
-  flex: 0 0 calc((100% - 2em) / 3);
+  flex: 1;
+  min-width: calc((100% - 2em) / 3);
   height: auto;
   object-fit: cover;
   border-radius: 10px;
