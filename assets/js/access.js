@@ -9,6 +9,9 @@
   var hasNativeCrypto = !!(window.crypto && window.crypto.subtle);
   var forgeReady = window.__forgeReady || Promise.resolve();
 
+  var _cachedPassword = null;
+  var _cachedRawKey = null;
+
   // ---- Helpers ----
 
   function hexToBytes(hex) {
@@ -39,6 +42,9 @@
   // ---- Core crypto ----
 
   async function deriveRawKey(password) {
+    if (_cachedPassword === password && _cachedRawKey) {
+      return _cachedRawKey;
+    }
     await forgeReady;
     if (hasNativeCrypto) {
       var enc = new TextEncoder();
@@ -49,11 +55,17 @@
         { name: 'PBKDF2', salt: hexToBytes(SALT_HEX), iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
         keyMaterial, 256
       );
-      return new Uint8Array(bits);
+      var rawKey = new Uint8Array(bits);
+      _cachedPassword = password;
+      _cachedRawKey = rawKey;
+      return rawKey;
     }
     var salt = bytesToBinaryStr(hexToBytes(SALT_HEX));
     var derived = forge.pkcs5.pbkdf2(password, salt, PBKDF2_ITERATIONS, 32, forge.md.sha256.create());
-    return new Uint8Array(derived.split('').map(function (c) { return c.charCodeAt(0); }));
+    var rawKey = new Uint8Array(derived.split('').map(function (c) { return c.charCodeAt(0); }));
+    _cachedPassword = password;
+    _cachedRawKey = rawKey;
+    return rawKey;
   }
 
   async function sha256Hex(data) {
