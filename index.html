@@ -279,10 +279,9 @@
           submitBtn.disabled = true;
 
           try {
-            var ok = await LettersAuth.verify(pw);
-            if (ok) {
-              var hexKey = await LettersAuth.deriveKeyHex(pw);
-              sessionStorage.setItem('letters_key', hexKey);
+            var result = await LettersAuth.verifyAndDeriveHex(pw);
+            if (result.ok) {
+              sessionStorage.setItem('letters_key', result.hexKey);
               sessionStorage.setItem('letters_ts', Date.now().toString());
               location.href = '/letters/k7x9m2/';
               return;
