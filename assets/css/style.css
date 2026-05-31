@@ -6,7 +6,7 @@
   --bg: #272B34;
   --bg-alt: #272B34;
   --text: #eee;
-  --text-muted: #999;
+  --text-muted: #a0a0a0;
   --border: #595959;
   --nav-bg: #232525;
   --nav-text: #eee;
@@ -17,6 +17,8 @@
   --hr-color: #eee;
   --selection-text: #181818;
   --progress-color: #64B5F6;
+  --error-color: #ef5350;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 [data-theme="light"] {
@@ -25,7 +27,7 @@
   --text: #1a1a1a;
   --text-muted: #666;
   --border: #ddd;
-  --nav-bg: #0A91B3;
+  --nav-bg: #64B5F6;
   --nav-text: #fff;
   --code-color: #d63384;
   --code-bg: #f0f0f0;
@@ -33,7 +35,8 @@
   --code-rendered: #333;
   --hr-color: #ddd;
   --selection-text: #fff;
-  --progress-color: #f9c412;
+  --progress-color: rgba(255, 255, 255, 0.85);
+  --error-color: #d32f2f;
 }
 
 /* Reset */
@@ -55,7 +58,10 @@ body {
   color: var(--text);
   font-size: 1rem;
   line-height: 1.6;
-  transition: background 0.3s ease, color 0.3s ease;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s var(--ease-out-quart), color 0.3s var(--ease-out-quart);
 }
 
 ::selection {
@@ -68,25 +74,29 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family);
   line-height: 1.25;
   margin-bottom: 0.5em;
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: 1.6rem;
-  line-height: 1.8rem;
+  font-size: 1.8rem;
+  line-height: 2.2rem;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 h2 {
-  font-size: 1.3rem;
-  line-height: 1.6rem;
+  font-size: 1.4rem;
+  line-height: 1.7rem;
   margin-bottom: 1rem;
   font-style: italic;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: 1.1rem;
-  line-height: 1.4rem;
+  font-size: 1.15rem;
+  line-height: 1.45rem;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 h4 {
@@ -191,7 +201,7 @@ a::after {
   width: 0;
   height: 1px;
   background: var(--primary);
-  transition: width 0.3s ease;
+  transition: width 0.3s var(--ease-out-quart);
 }
 
 a:hover::after {
@@ -202,9 +212,19 @@ a:hover {
   text-decoration: none;
 }
 
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* Paragraphs & Lists */
 ol, p, pre, ul {
   margin-bottom: 1.36rem;
+}
+
+article p {
+  text-wrap: pretty;
 }
 
 ol, ul {
@@ -369,7 +389,7 @@ header nav {
   background: var(--nav-bg);
   font-weight: 200;
   z-index: 10;
-  transition: background 0.3s ease;
+  transition: background 0.3s var(--ease-out-quart);
 }
 
 header nav h1 {
@@ -385,6 +405,10 @@ header nav a {
   font-family: var(--font-family);
   color: var(--nav-text);
   margin-left: 1.5em;
+}
+
+header nav a::after {
+  background: var(--nav-text);
 }
 
 header aside {
@@ -448,7 +472,7 @@ footer {
   color: var(--text);
   padding: 3em;
   text-align: center;
-  transition: background 0.3s ease;
+  transition: background 0.3s var(--ease-out-quart);
 }
 
 footer > * {
@@ -457,6 +481,7 @@ footer > * {
 
 footer nav, footer p {
   font-size: 90%;
+  color: var(--text-muted);
 }
 
 footer nav a img {
@@ -560,6 +585,11 @@ button, input[type="reset"], input[type="submit"] {
   margin: 0 0.75em 1.5em 0;
 }
 
+button:focus-visible, input[type="submit"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 button:hover, input[type="submit"]:hover {
   background: var(--primary-dark);
   color: #000;
@@ -582,7 +612,7 @@ button:hover, input[type="submit"]:hover {
   justify-content: center;
   vertical-align: middle;
   border-radius: 50%;
-  transition: background 0.2s ease;
+  transition: background 0.2s var(--ease-out-quart);
 }
 
 #theme-toggle:hover {
@@ -595,7 +625,7 @@ button:hover, input[type="submit"]:hover {
   stroke: var(--nav-text);
   stroke-width: 2;
   fill: none;
-  transition: transform 0.4s ease, stroke 0.3s ease;
+  transition: transform 0.4s var(--ease-out-quart), stroke 0.3s var(--ease-out-quart);
 }
 
 #theme-toggle:active svg {
@@ -647,11 +677,12 @@ button:hover, input[type="submit"]:hover {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 1.2em;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s var(--ease-out-quart), transform 0.25s var(--ease-out-quart);
 }
 
 .about-card:hover {
   border-color: var(--primary);
+  transform: translateY(-2px);
 }
 
 .about-card h4 {
@@ -680,7 +711,7 @@ button:hover, input[type="submit"]:hover {
   border: 1px solid var(--border);
   border-radius: 20px;
   color: var(--text-muted);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s var(--ease-out-quart), color 0.2s var(--ease-out-quart);
 }
 
 .skills-tags span:hover {
@@ -753,7 +784,7 @@ button:hover, input[type="submit"]:hover {
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s var(--ease-out-quart), transform 0.6s var(--ease-out-quart);
 }
 
 .fade-in.visible {
@@ -765,7 +796,7 @@ button:hover, input[type="submit"]:hover {
 .fade-in li {
   opacity: 0;
   transform: translateY(15px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.4s var(--ease-out-quart), transform 0.4s var(--ease-out-quart);
 }
 
 .fade-in.visible li {
@@ -784,7 +815,7 @@ button:hover, input[type="submit"]:hover {
 
 /* Post list hover */
 #posts li {
-  transition: transform 0.2s ease, padding-left 0.2s ease;
+  transition: transform 0.25s var(--ease-out-quart);
   padding-left: 0;
 }
 
@@ -794,7 +825,7 @@ button:hover, input[type="submit"]:hover {
 }
 
 #posts time {
-  transition: color 0.2s ease;
+  transition: color 0.2s var(--ease-out-quart);
 }
 
 #posts li:hover time {
@@ -819,7 +850,7 @@ button:hover, input[type="submit"]:hover {
 
 /* Section headings hover */
 article h2 {
-  transition: color 0.3s ease;
+  transition: color 0.3s var(--ease-out-quart);
 }
 
 article h2:hover {
@@ -831,6 +862,12 @@ article h2:hover {
   text-align: center;
   min-height: 120px;
   padding: 0 1.5em;
+  outline: none;
+  border-radius: 8px;
+}
+
+#hero-title-container:focus-visible {
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .hero-title-svg {
@@ -875,7 +912,7 @@ article h2:hover {
 
 .hero-pressing {
   filter: drop-shadow(0 0 12px rgba(100, 181, 246, 0.5));
-  transition: filter 0.3s ease;
+  transition: filter 0.3s var(--ease-out-quart);
 }
 
 /* ===== Auth Modal ===== */
@@ -933,7 +970,7 @@ article h2:hover {
   width: 100%;
   text-align: center;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s var(--ease-out-quart);
 }
 
 .auth-modal-content input[type="password"]:focus {
@@ -951,7 +988,7 @@ article h2:hover {
   border-radius: 6px;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s var(--ease-out-quart);
 }
 
 #auth-submit:hover {
@@ -964,7 +1001,7 @@ article h2:hover {
 }
 
 .auth-error {
-  color: #ef5350;
+  color: var(--error-color);
   font-size: 0.85rem;
   margin: 0.8em 0 0;
 }
@@ -980,4 +1017,44 @@ article h2:hover {
 
 .shake {
   animation: shake 0.4s ease;
+}
+
+/* ===== Reduced Motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .fade-in li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .typing-cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  #posts li:hover {
+    transform: none;
+  }
+
+  .about-card:hover {
+    transform: none;
+  }
+
+  .hero-pressing {
+    filter: none;
+  }
 }
