@@ -10,10 +10,10 @@
     <meta property="og:url" content="https://zetazero.top/">
     <meta name="twitter:card" content="summary">
     <title>zetazero's blog</title>
-    <link rel="stylesheet" href="/assets/css/style.css?v=5">
+    <link rel="stylesheet" href="/assets/css/style.css?v=9">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
   </head>
   <body>
@@ -21,12 +21,17 @@
       <nav>
         <div id="nav">
           <h1><a href="/" title="Homepage">zetazero</a></h1>
-          <a href="/about">About</a>
-          <a href="https://github.com/Ha1baraA11">GitHub</a>
-          <button id="theme-toggle" aria-label="Toggle theme">
-            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </button>
+          <div class="nav-controls">
+            <a href="/about" data-en="About" data-zh="关于">About</a>
+            <a href="https://github.com/Ha1baraA11">GitHub</a>
+            <button id="theme-toggle" aria-label="Toggle theme">
+              <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <button class="lang-toggle" aria-label="Switch language">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </button>
+          </div>
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
@@ -40,53 +45,62 @@
           <p>"Give me liberty, or give me death!"</p>
         </blockquote>
 
-        <h2 class="fade-in">Posts</h2>
-        <ul id="posts" class="fade-in">
-          <li>
-            <a href="/blog/2026/05/04/building-with-github-pages/">Building a Personal Site with GitHub Pages</a>
-            <time datetime="2026-05-04">04 May 2026</time>
-          </li>
-          <li>
-            <a href="/blog/2026/05/04/hello-world/">Hello World</a>
-            <time datetime="2026-05-04">04 May 2026</time>
-          </li>
-        </ul>
+        <section class="home-section fade-in">
+          <h2 data-en="Posts" data-zh="文章">Posts</h2>
+          <ul id="posts" class="post-list">
+            <li>
+              <a href="/blog/2026/06/01/building-with-impeccable/" data-en="Building with Impeccable" data-zh="用 Impeccable 构建">Building with Impeccable</a>
+              <time datetime="2026-06-01">01 Jun 2026</time>
+            </li>
+            <li>
+              <a href="/blog/2026/05/04/building-with-github-pages/" data-en="Building a Personal Site with GitHub Pages" data-zh="用 GitHub Pages 搭建个人网站">Building a Personal Site with GitHub Pages</a>
+              <time datetime="2026-05-04">04 May 2026</time>
+            </li>
+            <li>
+              <a href="/blog/2026/05/04/hello-world/" data-en="Hello World" data-zh="你好世界">Hello World</a>
+              <time datetime="2026-05-04">04 May 2026</time>
+            </li>
+          </ul>
+        </section>
 
-        <h2 class="fade-in">Now</h2>
-        <ul class="fade-in">
-          <li>Hackathon (Web3 and related)</li>
-        </ul>
+        <section class="home-section fade-in">
+          <h2 data-en="Now" data-zh="当下">Now</h2>
+          <ul>
+            <li data-en="Hackathon (Web3 and related)" data-zh="黑客松（Web3 及相关）">Hackathon (Web3 and related)</li>
+          </ul>
+        </section>
 
-        <div class="two-col fade-in">
+        <section class="home-section two-col fade-in">
           <div>
-            <h2>Reading</h2>
+            <h2 data-en="Reading" data-zh="阅读">Reading</h2>
             <ul>
-              <li>Designing Data-Intensive Applications</li>
-              <li>The Pragmatic Programmer</li>
+              <li data-en="Designing Data-Intensive Applications" data-zh="数据密集型应用系统设计">Designing Data-Intensive Applications</li>
+              <li data-en="The Pragmatic Programmer" data-zh="程序员修炼之道">The Pragmatic Programmer</li>
             </ul>
           </div>
           <div>
-            <h2>Bookmarks</h2>
+            <h2 data-en="Bookmarks" data-zh="书签">Bookmarks</h2>
             <ul>
               <li><a href="https://github.com">GitHub</a></li>
               <li><a href="https://news.ycombinator.com">Hacker News</a></li>
               <li><a href="https://arxiv.org">arXiv</a></li>
             </ul>
           </div>
-        </div>
+        </section>
 
-        <h2 class="fade-in">Interests</h2>
-        <ul class="fade-in">
-          <li>AI / RAG Systems</li>
-          <li>Full-stack Development</li>
-          <li>Performance Engineering</li>
-        </ul>
+        <section class="home-section fade-in">
+          <h2 data-en="Interests" data-zh="兴趣">Interests</h2>
+          <ul>
+            <li data-en="AI / RAG Systems" data-zh="AI / RAG 系统">AI / RAG Systems</li>
+            <li data-en="Full-stack Development" data-zh="全栈开发">Full-stack Development</li>
+            <li data-en="Performance Engineering" data-zh="性能工程">Performance Engineering</li>
+          </ul>
+        </section>
       </article>
     </main>
 
     <footer>
-      <p>Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
-      <a href="/">zetazero</a>
+      <p data-en="Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense." data-zh="用 HTML、CSS 和一个文本编辑器搭建。没有框架，没有构建工具，没有废话。">Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
     </footer>
 
     <div id="auth-modal" class="auth-modal" hidden>
@@ -147,6 +161,47 @@
         });
       })();
 
+      // Language toggle
+      (function() {
+        var langToggle = document.querySelector('.lang-toggle');
+        var taglineEl = document.getElementById('tagline');
+        var taglineText = "A personal blog about code, AI, and building things.";
+        var currentLang = localStorage.getItem('lang') || 'en';
+
+        function applyLang(lang) {
+          document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+          document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+            el.innerHTML = el.getAttribute('data-' + lang);
+          });
+          langToggle.setAttribute('aria-label', lang === 'zh' ? 'Switch to English' : '切换到中文');
+          // Retype tagline
+          if (taglineEl) {
+            taglineEl.textContent = '';
+            var text = taglineText;
+            var i = 0;
+            var cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            taglineEl.appendChild(cursor);
+            function type() {
+              if (i < text.length) {
+                taglineEl.insertBefore(document.createTextNode(text.charAt(i)), cursor);
+                i++;
+                setTimeout(type, 55);
+              }
+            }
+            setTimeout(type, 200);
+          }
+        }
+
+        applyLang(currentLang);
+
+        langToggle.addEventListener('click', function() {
+          currentLang = currentLang === 'en' ? 'zh' : 'en';
+          localStorage.setItem('lang', currentLang);
+          applyLang(currentLang);
+        });
+      })();
+
       // Theme toggle
       (function() {
         const toggle = document.getElementById('theme-toggle');
@@ -167,24 +222,7 @@
         });
       })();
 
-      // 1. Typing effect on tagline
-      (function() {
-        const text = "A personal blog about code, AI, and building things.";
-        const el = document.getElementById('tagline');
-        let i = 0;
-        const cursor = document.createElement('span');
-        cursor.className = 'typing-cursor';
-        el.appendChild(cursor);
-
-        function type() {
-          if (i < text.length) {
-            el.insertBefore(document.createTextNode(text.charAt(i)), cursor);
-            i++;
-            setTimeout(type, 55);
-          }
-        }
-        setTimeout(type, 200);
-      })();
+      // 1. Tagline typing (handled by language toggle above)
 
       // 2. Fade-in on scroll (IntersectionObserver)
       (function() {

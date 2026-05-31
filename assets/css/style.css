@@ -2,7 +2,7 @@
 :root {
   --primary: #64B5F6;
   --primary-dark: #42A5F5;
-  --font-family: 'Inter UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   --bg: #272B34;
   --bg-alt: #272B34;
   --text: #eee;
@@ -198,14 +198,16 @@ a::after {
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
   background: var(--primary);
-  transition: width 0.3s var(--ease-out-quart);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out-quart);
 }
 
 a:hover::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 a:hover {
@@ -366,7 +368,7 @@ dd + dt {
 
 /* Header / Navigation */
 header {
-  padding: 4.5em 1.5em 3em;
+  padding: 4.5em 1.5em 1.5em;
   width: 55em;
   margin: 0 auto;
   text-align: center;
@@ -404,11 +406,54 @@ header nav a {
   text-decoration: none;
   font-family: var(--font-family);
   color: var(--nav-text);
-  margin-left: 1.5em;
 }
 
 header nav a::after {
   background: var(--nav-text);
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-left: auto;
+}
+
+.nav-controls a {
+  margin-left: 0;
+}
+
+.lang-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  transition: background 0.2s var(--ease-out-quart);
+  color: var(--nav-text);
+}
+
+.lang-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--nav-text);
+  stroke-width: 2;
+  fill: none;
+}
+
+.lang-toggle:hover {
+  background: rgba(128, 128, 128, 0.15);
+}
+
+.lang-toggle svg {
+  stroke: var(--nav-text);
+  stroke-width: 2;
+  fill: none;
 }
 
 header aside {
@@ -436,6 +481,19 @@ section {
   width: 900px;
   max-width: 100%;
   padding: 0 1.5em;
+}
+
+.home-section {
+  padding: 1.5em 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-section:last-child {
+  border-bottom: none;
+}
+
+.home-section h2 {
+  margin-top: 0;
 }
 
 /* Posts list */
@@ -470,13 +528,13 @@ section {
 footer {
   background: var(--bg-alt);
   color: var(--text);
-  padding: 3em;
+  padding: 2em 1.5em;
   text-align: center;
   transition: background 0.3s var(--ease-out-quart);
 }
 
 footer > * {
-  margin: 1.5em;
+  margin: 0.5em 0;
 }
 
 footer nav, footer p {
@@ -606,7 +664,7 @@ button:hover, input[type="submit"]:hover {
   border: none;
   cursor: pointer;
   padding: 4px;
-  margin: 0 0 0 1.5em;
+  margin: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -754,22 +812,14 @@ button:hover, input[type="submit"]:hover {
 }
 
 .two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2em;
-  margin: 0 0 2em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
 }
 
 .two-col h2 {
-  font-size: 1.1rem;
+  margin-top: 0;
   margin-bottom: 0.8em;
-}
-
-@media (max-width: 600px) {
-  .two-col {
-    grid-template-columns: 1fr;
-    gap: 1em;
-  }
 }
 
 /* ===== Animations & Interactions ===== */
