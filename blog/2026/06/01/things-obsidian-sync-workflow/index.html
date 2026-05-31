@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#64B5F6">
+    <meta property="og:title" content="Bridging Things and Obsidian: My Daily Planning Sync Workflow">
+    <meta property="og:description" content="Using Claude Code to sync task management and journaling, so plans only need to be written once.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://zetazero.top/blog/2026/06/01/things-obsidian-sync-workflow/">
+    <meta name="twitter:card" content="summary">
+    <title>Bridging Things and Obsidian: My Daily Planning Sync Workflow | zetazero's blog</title>
+    <link rel="stylesheet" href="/assets/css/style.css?v=9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <div class="nav-controls">
+            <a href="/about">About</a>
+            <a href="https://github.com/Ha1baraA11">GitHub</a>
+          </div>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1>Bridging Things and Obsidian: My Daily Planning Sync Workflow</h1>
+      <aside>6 min read.</aside>
+    </header>
+
+    <main>
+      <article>
+        <blockquote>
+          <p>Using Claude Code to sync task management and journaling, so plans only need to be written once.</p>
+        </blockquote>
+
+        <h2>Background</h2>
+
+        <p>I use two tools to manage my life:</p>
+
+        <ul>
+          <li><strong>Things 3</strong>: Task management. Structured to-dos with project grouping and recurring tasks.</li>
+          <li><strong>Obsidian</strong>: Journaling system. Daily plans, reviews, and habit tracking.</li>
+        </ul>
+
+        <p>The problem: these two systems are completely independent. Every morning I check Things for what's due, then manually copy it into my Obsidian journal's Plan section. At night, during review, I manually mark completed tasks back in Things.</p>
+
+        <p>Repetitive work, and easy to miss things.</p>
+
+        <h2>The Goal</h2>
+
+        <p><strong>Pull one way, sync completion status both ways.</strong></p>
+
+        <pre><code>Morning:   Things ──pull──→ Obsidian journal Plan section
+                                    │
+Daytime:   User reports habits ─────┤
+                                    │
+Night:     Review checks off items ─┤
+                                    ▼
+                          Things todo marked complete</code></pre>
+
+        <h2>Design</h2>
+
+        <h3>1. Things → Obsidian (Plan Pull)</h3>
+
+        <p>When making a daily plan, automatically pull all incomplete to-dos from Things, grouped by project, and write them into the Obsidian journal's <code>#### Plan</code> section.</p>
+
+        <p>Each task sourced from Things is tagged with an HTML comment containing the date:</p>
+
+        <pre><code>#### Plan
+- [ ] Native Obsidian task (no tag, not synced to Things)
+
+**Project A**
+- [ ] Task A &lt;!-- 2026-06-01 --&gt;
+- [ ] Task B &lt;!-- 2026-06-01 --&gt;
+
+**Project B**
+- [ ] Task C &lt;!-- 2026-06-01 --&gt;</code></pre>
+
+        <p>Items without a date tag are native Obsidian tasks and won't be pushed to Things.</p>
+
+        <h3>2. Obsidian → Things (Completion Sync)</h3>
+
+        <p>Two trigger methods:</p>
+
+        <p><strong>Method 1: Batch sync during review</strong></p>
+
+        <p>During nightly review, check all <code>- [x]</code> items in the Plan section, extract their titles and dates, find the matching to-do in Things, and mark it complete.</p>
+
+        <p><strong>Method 2: Real-time sync when reporting habits</strong></p>
+
+        <p>When the user says "I went for a run today" or "finished reading the book," simultaneously:</p>
+
+        <ul>
+          <li>Update the Obsidian habit field (<code>[workout:: 1]</code> / <code>[reading:: 1]</code>)</li>
+          <li>Find and complete the corresponding to-do in Things (Exercise / Reading)</li>
+        </ul>
+
+        <h2>Technical Implementation</h2>
+
+        <p>The entire system is composed of 4 Claude Code Skills:</p>
+
+        <h3>Skill 1: daily-plan (Plan Management)</h3>
+
+        <p>Workflow:</p>
+        <ol>
+          <li>Check or create today's journal entry</li>
+          <li>Call Things MCP to pull all incomplete to-dos</li>
+          <li>Group by project, add <code>&lt;!-- YYYY-MM-DD --&gt;</code> date tags</li>
+          <li>Merge with native Obsidian tasks</li>
+          <li>Show to user for confirmation, then write</li>
+        </ol>
+
+        <h3>Skill 2: daily-review (Review Management)</h3>
+
+        <p>Workflow:</p>
+        <ol>
+          <li>Write the user's narrative into the journal's Freewrite section</li>
+          <li>Check all <code>- [x]</code> items in the Plan</li>
+          <li>For items with date tags, sync completion back to Things</li>
+          <li>Detect habit signal words (reading, exercise) and auto-check them off</li>
+        </ol>
+
+        <h3>Skill 3: daily-habits (Habit Tracking)</h3>
+
+        <p>Workflow:</p>
+        <ol>
+          <li>Update habit fields in the journal</li>
+          <li>Check if there's a matching Things to-do in the Plan</li>
+          <li>If not, map directly via keywords (exercise → Exercise, reading → Reading)</li>
+          <li>Find and complete the corresponding to-do in Things</li>
+        </ol>
+
+        <h3>Skill 4: daily-dispatch (Smart Routing)</h3>
+
+        <p>Analyzes the user's message and automatically determines which Skill to call:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>User says</th>
+              <th>Routes to</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"Went for a run today"</td>
+              <td>daily-habits</td>
+            </tr>
+            <tr>
+              <td>"Need to study linear algebra tomorrow"</td>
+              <td>daily-plan</td>
+            </tr>
+            <tr>
+              <td>"Had a fight with a friend today"</td>
+              <td>daily-review</td>
+            </tr>
+            <tr>
+              <td>"Studied vocabulary, hitting the gym tonight"</td>
+              <td>daily-habits + daily-plan</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Data Format</h2>
+
+        <h3>Obsidian Journal Plan Section</h3>
+
+        <pre><code>#### Plan
+- [ ] English speaking practice
+
+**English**
+- [ ] 1h vocabulary memorization &lt;!-- 2026-06-01 --&gt;
+
+**Other**
+- [ ] Daily review &lt;!-- 2026-06-01 --&gt;</code></pre>
+
+        <h3>Things To-Do</h3>
+
+        <pre><code>Title: 1h vocabulary memorization
+Project: English
+Start Date: 2026-06-01
+Status: incomplete</code></pre>
+
+        <h3>Sync Marker</h3>
+
+        <p>The HTML comment <code>&lt;!-- YYYY-MM-DD --&gt;</code> serves as the sync marker:</p>
+        <ul>
+          <li>Has tag → Sourced from Things. On completion, sync back to Things.</li>
+          <li>No tag → Native Obsidian task. No sync.</li>
+        </ul>
+
+        <h2>Things Daily Recurring Tasks</h2>
+
+        <p>For habits that happen every day (exercise, reading), set them as daily recurring in Things and link them via a keyword mapping table:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Habit Keywords</th>
+              <th>Things To-Do</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>exercise, gym, run, workout</td>
+              <td>Exercise</td>
+            </tr>
+            <tr>
+              <td>reading, book, finished reading, Kindle</td>
+              <td>Reading</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>This way, even if these tasks aren't in the Obsidian Plan, habit tracking still syncs automatically.</p>
+
+        <h2>Before and After</h2>
+
+        <p><strong>Before:</strong></p>
+        <ol>
+          <li>Open Things, check what's due today</li>
+          <li>Manually copy to Obsidian journal</li>
+          <li>At night, review and manually check off items</li>
+          <li>Go back to Things and mark each one complete</li>
+        </ol>
+
+        <p><strong>After:</strong></p>
+        <ol>
+          <li>Say "make a plan," Things to-dos auto-pull into the journal</li>
+          <li>During the day, say "studied vocabulary," both sides check off automatically</li>
+          <li>At night, review. Checked items auto-sync back to Things</li>
+        </ol>
+
+        <p>Plans only need to be written once. Completion only needs to be said once.</p>
+
+        <h2>Tech Stack</h2>
+
+        <ul>
+          <li><strong>Claude Code</strong>: AI orchestration layer, runs the Skills</li>
+          <li><strong>Things MCP Server</strong>: Operates Things 3 via the MCP protocol</li>
+          <li><strong>Obsidian</strong>: Journal and notes system</li>
+          <li><strong>Markdown</strong>: Journal file format</li>
+        </ul>
+
+        <h2>Takeaway</h2>
+
+        <p>The core idea behind this workflow: <strong>use an AI agent as a bridge between two systems.</strong></p>
+
+        <p>No complex API integration needed. No sync scripts to write. Just define the responsibilities and data format for 4 Skills, and let the AI handle sync on every interaction.</p>
+
+        <p>Things manages structured tasks. Obsidian manages journals and habits. Claude Code manages sync. Each does its own job.</p>
+
+        <p>Published <time datetime="2026-06-01">01 Jun 2026</time></p>
+      </article>
+    </main>
+
+    <footer>
+      <p data-en="Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense." data-zh="用 HTML、CSS 和一个文本编辑器搭建。没有框架，没有构建工具，没有废话。">Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
+    </footer>
+
+    <script>
+      // Apply language preference from homepage
+      (function() {
+        var lang = localStorage.getItem('lang') || 'en';
+        if (lang === 'zh') {
+          document.documentElement.setAttribute('lang', 'zh-CN');
+          document.querySelectorAll('[data-zh]').forEach(function(el) {
+            el.innerHTML = el.getAttribute('data-zh');
+          });
+        }
+      })();
+      // Reading progress bar
+      const progress = document.getElementById('reading-progress');
+      if (progress) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const percent = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
+          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
