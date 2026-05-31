@@ -28,33 +28,32 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <h1>Bridging Things 3 and Obsidian: My Daily Planning Sync Workflow</h1>
+      <h1 data-en="Bridging Things 3 and Obsidian: My Daily Planning Sync Workflow" data-zh="打通 Things 3 与 Obsidian：我的每日计划同步工作流">Bridging Things 3 and Obsidian: My Daily Planning Sync Workflow</h1>
       <aside>6 min read.</aside>
     </header>
 
     <main>
       <article>
         <blockquote>
-          <p>Using Claude Code to sync task management and journaling, so plans only need to be written once.</p>
+          <p data-en="Using Claude Code to sync task management and journaling, so plans only need to be written once." data-zh="用 Claude Code 自动同步待办管理和日记系统，让计划只写一遍。">Using Claude Code to sync task management and journaling, so plans only need to be written once.</p>
         </blockquote>
 
-        <h2>Background</h2>
+        <h2 data-en="Background" data-zh="背景">Background</h2>
 
-        <p>I use two tools to manage my life:</p>
+        <p data-en="I use two tools to manage my life:" data-zh="我同时使用两个工具管理生活：">I use two tools to manage my life:</p>
 
         <ul>
-          <li><strong>Things 3</strong>: Task management. Structured to-dos with project grouping and recurring tasks.</li>
-
-          <li><strong>Obsidian</strong>: Journaling system. Daily plans, reviews, and habit tracking.</li>
+          <li data-en="<strong>Things 3</strong>: Task management. Structured to-dos with project grouping and recurring tasks." data-zh="<strong>Things 3</strong>：任务管理，结构化待办，支持项目分组和重复任务"><strong>Things 3</strong>: Task management. Structured to-dos with project grouping and recurring tasks.</li>
+          <li data-en="<strong>Obsidian</strong>: Journaling system. Daily plans, reviews, and habit tracking." data-zh="<strong>Obsidian</strong>：日记系统，每天记录计划、复盘、习惯打卡"><strong>Obsidian</strong>: Journaling system. Daily plans, reviews, and habit tracking.</li>
         </ul>
 
-        <p>The problem: these two systems are completely independent. Every morning I check Things 3 for what's due, then manually copy it into my Obsidian journal's Plan section. At night, during review, I manually mark completed tasks back in Things.</p>
+        <p data-en="The problem: these two systems are completely independent. Every morning I check Things 3 for what's due, then manually copy it into my Obsidian journal's Plan section. At night, during review, I manually mark completed tasks back in Things." data-zh="问题是：这两个系统完全独立。每天早上在 Things 3 里看有什么待办，再手动抄到 Obsidian 日记的 Plan 部分。晚上复盘时，又要手动把完成的任务回标到 Things。">The problem: these two systems are completely independent. Every morning I check Things 3 for what's due, then manually copy it into my Obsidian journal's Plan section. At night, during review, I manually mark completed tasks back in Things.</p>
 
-        <p>Repetitive work, and easy to miss things.</p>
+        <p data-en="Repetitive work, and easy to miss things." data-zh="重复劳动，而且容易漏。">Repetitive work, and easy to miss things.</p>
 
-        <h2>The Goal</h2>
+        <h2 data-en="The Goal" data-zh="目标">The Goal</h2>
 
-        <p><strong>Pull one way, sync completion status both ways.</strong></p>
+        <p><strong data-en="Pull one way, sync completion status both ways." data-zh="单向拉取，双向同步完成状态。">Pull one way, sync completion status both ways.</strong></p>
 
         <pre><code>Morning:   Things 3 ──pull──→ Obsidian journal Plan section
                                     │
@@ -64,13 +63,13 @@ Night:     Review checks off items ─┤
                                     ▼
                           Things 3 todo marked complete</code></pre>
 
-        <h2>Design</h2>
+        <h2 data-en="Design" data-zh="方案设计">Design</h2>
 
-        <h3>1. Things 3 → Obsidian (Plan Pull)</h3>
+        <h3 data-en="1. Things 3 → Obsidian (Plan Pull)" data-zh="1. Things 3 → Obsidian（计划拉取）">1. Things 3 → Obsidian (Plan Pull)</h3>
 
-        <p>When making a daily plan, automatically pull all incomplete to-dos from Things, grouped by project, and write them into the Obsidian journal's <code>#### Plan</code> section.</p>
+        <p data-en="When making a daily plan, automatically pull all incomplete to-dos from Things, grouped by project, and write them into the Obsidian journal's <code>#### Plan</code> section." data-zh="每天做计划时，自动从 Things 3 拉取所有未完成待办，按项目分组写入 Obsidian 日记的 <code>#### Plan</code> 部分。">When making a daily plan, automatically pull all incomplete to-dos from Things, grouped by project, and write them into the Obsidian journal's <code>#### Plan</code> section.</p>
 
-        <p>Each task sourced from Things 3 is tagged with an HTML comment containing the date:</p>
+        <p data-en="Each task sourced from Things 3 is tagged with an HTML comment containing the date:" data-zh="每个 Things 3 来源的任务用 HTML 注释标记日期：">Each task sourced from Things 3 is tagged with an HTML comment containing the date:</p>
 
         <pre><code>#### Plan
 - [ ] Native Obsidian task (no tag, not synced to Things)
@@ -82,94 +81,94 @@ Night:     Review checks off items ─┤
 **Project B**
 - [ ] Task C &lt;!-- 2026-06-01 --&gt;</code></pre>
 
-        <p>Items without a date tag are native Obsidian tasks and won't be pushed to Things.</p>
+        <p data-en="Items without a date tag are native Obsidian tasks and won't be pushed to Things." data-zh="没有日期标记的是 Obsidian 原生任务，不会推送到 Things 3。">Items without a date tag are native Obsidian tasks and won't be pushed to Things.</p>
 
-        <h3>2. Obsidian → Things 3 (Completion Sync)</h3>
+        <h3 data-en="2. Obsidian → Things 3 (Completion Sync)" data-zh="2. Obsidian → Things 3（完成同步）">2. Obsidian → Things 3 (Completion Sync)</h3>
 
-        <p>Two trigger methods:</p>
+        <p data-en="Two trigger methods:" data-zh="两种触发方式：">Two trigger methods:</p>
 
-        <p><strong>Method 1: Batch sync during review</strong></p>
+        <p><strong data-en="Method 1: Batch sync during review" data-zh="方式一：复盘时批量同步">Method 1: Batch sync during review</strong></p>
 
-        <p>During nightly review, check all <code>- [x]</code> items in the Plan section, extract their titles and dates, find the matching to-do in Things, and mark it complete.</p>
+        <p data-en="During nightly review, check all <code>- [x]</code> items in the Plan section, extract their titles and dates, find the matching to-do in Things, and mark it complete." data-zh="复盘时检查 Plan 里所有 <code>- [x]</code> 的项，提取标题和日期，搜索 Things 3 对应待办并标完成。">During nightly review, check all <code>- [x]</code> items in the Plan section, extract their titles and dates, find the matching to-do in Things, and mark it complete.</p>
 
-        <p><strong>Method 2: Real-time sync when reporting habits</strong></p>
+        <p><strong data-en="Method 2: Real-time sync when reporting habits" data-zh="方式二：报告习惯时实时同步">Method 2: Real-time sync when reporting habits</strong></p>
 
-        <p>When the user says "I went for a run today" or "finished reading the book," simultaneously:</p>
+        <p data-en='When the user says "I went for a run today" or "finished reading the book," simultaneously:' data-zh='用户说"今天跑了步"或"看完了书"，同时：'>When the user says "I went for a run today" or "finished reading the book," simultaneously:</p>
 
         <ul>
-          <li>Update the Obsidian habit field (<code>[workout:: 1]</code> / <code>[reading:: 1]</code>)</li>
-          <li>Find and complete the corresponding to-do in Things 3 (Exercise / Reading)</li>
+          <li data-en="Update the Obsidian habit field (<code>[workout:: 1]</code> / <code>[reading:: 1]</code>)" data-zh="更新 Obsidian 习惯字段（<code>[workout:: 1]</code> / <code>[reading:: 1]</code>）">Update the Obsidian habit field (<code>[workout:: 1]</code> / <code>[reading:: 1]</code>)</li>
+          <li data-en="Find and complete the corresponding to-do in Things 3 (Exercise / Reading)" data-zh="在 Things 3 中找到 Exercise / Reading 待办并标完成">Find and complete the corresponding to-do in Things 3 (Exercise / Reading)</li>
         </ul>
 
-        <h2>Technical Implementation</h2>
+        <h2 data-en="Technical Implementation" data-zh="技术实现">Technical Implementation</h2>
 
-        <p>The entire system is composed of 4 Claude Code Skills:</p>
+        <p data-en="The entire system is composed of 4 Claude Code Skills:" data-zh="整个系统由 4 个 Claude Code Skill 组成：">The entire system is composed of 4 Claude Code Skills:</p>
 
-        <h3>Skill 1: daily-plan (Plan Management)</h3>
+        <h3 data-en="Skill 1: daily-plan (Plan Management)" data-zh="Skill 1：daily-plan（计划管理）">Skill 1: daily-plan (Plan Management)</h3>
 
-        <p>Workflow:</p>
+        <p data-en="Workflow:" data-zh="工作流：">Workflow:</p>
         <ol>
-          <li>Check or create today's journal entry</li>
-          <li>Call Things 3 MCP to pull all incomplete to-dos</li>
-          <li>Group by project, add <code>&lt;!-- YYYY-MM-DD --&gt;</code> date tags</li>
-          <li>Merge with native Obsidian tasks</li>
-          <li>Show to user for confirmation, then write</li>
+          <li data-en="Check or create today's journal entry" data-zh="检查/创建当天日记">Check or create today's journal entry</li>
+          <li data-en="Call Things 3 MCP to pull all incomplete to-dos" data-zh="调用 Things MCP 拉取所有未完成待办">Call Things 3 MCP to pull all incomplete to-dos</li>
+          <li data-en="Group by project, add date tags" data-zh="按项目分组，添加日期标记">Group by project, add date tags</li>
+          <li data-en="Merge with native Obsidian tasks" data-zh="与 Obsidian 原生任务合并">Merge with native Obsidian tasks</li>
+          <li data-en="Show to user for confirmation, then write" data-zh="展示给用户确认后写入">Show to user for confirmation, then write</li>
         </ol>
 
-        <h3>Skill 2: daily-review (Review Management)</h3>
+        <h3 data-en="Skill 2: daily-review (Review Management)" data-zh="Skill 2：daily-review（复盘管理）">Skill 2: daily-review (Review Management)</h3>
 
-        <p>Workflow:</p>
+        <p data-en="Workflow:" data-zh="工作流：">Workflow:</p>
         <ol>
-          <li>Write the user's narrative into the journal's Freewrite section</li>
-          <li>Check all <code>- [x]</code> items in the Plan</li>
-          <li>For items with date tags, sync completion back to Things</li>
-          <li>Detect habit signal words (reading, exercise) and auto-check them off</li>
+          <li data-en="Write the user's narrative into the journal's Freewrite section" data-zh="将用户叙述写入日记 Freewrite 部分">Write the user's narrative into the journal's Freewrite section</li>
+          <li data-en="Check all completed items in the Plan" data-zh="检查 Plan 中已完成的项">Check all completed items in the Plan</li>
+          <li data-en="For items with date tags, sync completion back to Things" data-zh="对有日期标记的项，同步回 Things 3 标完成">For items with date tags, sync completion back to Things</li>
+          <li data-en="Detect habit signal words and auto-check them off" data-zh="检测习惯信号词，自动打卡">Detect habit signal words and auto-check them off</li>
         </ol>
 
-        <h3>Skill 3: daily-habits (Habit Tracking)</h3>
+        <h3 data-en="Skill 3: daily-habits (Habit Tracking)" data-zh="Skill 3：daily-habits（习惯打卡）">Skill 3: daily-habits (Habit Tracking)</h3>
 
-        <p>Workflow:</p>
+        <p data-en="Workflow:" data-zh="工作流：">Workflow:</p>
         <ol>
-          <li>Update habit fields in the journal</li>
-          <li>Check if there's a matching Things 3 to-do in the Plan</li>
-          <li>If not, map directly via keywords (exercise → Exercise, reading → Reading)</li>
-          <li>Find and complete the corresponding to-do in Things</li>
+          <li data-en="Update habit fields in the journal" data-zh="更新日记中的习惯字段">Update habit fields in the journal</li>
+          <li data-en="Check if there's a matching Things 3 to-do in the Plan" data-zh="先查 Plan 中是否有匹配的 Things 3 待办">Check if there's a matching Things 3 to-do in the Plan</li>
+          <li data-en="If not, map directly via keywords (exercise → Exercise, reading → Reading)" data-zh="若没有，通过关键词直接映射（锻炼→Exercise，阅读→Reading）">If not, map directly via keywords (exercise → Exercise, reading → Reading)</li>
+          <li data-en="Find and complete the corresponding to-do in Things" data-zh="在 Things 3 中找到对应待办并标完成">Find and complete the corresponding to-do in Things</li>
         </ol>
 
-        <h3>Skill 4: daily-dispatch (Smart Routing)</h3>
+        <h3 data-en="Skill 4: daily-dispatch (Smart Routing)" data-zh="Skill 4：daily-dispatch（智能路由）">Skill 4: daily-dispatch (Smart Routing)</h3>
 
-        <p>Analyzes the user's message and automatically determines which Skill to call:</p>
+        <p data-en="Analyzes the user's message and automatically determines which Skill to call:" data-zh="分析用户消息，自动判断应该调用哪个 Skill：">Analyzes the user's message and automatically determines which Skill to call:</p>
 
         <table>
           <thead>
             <tr>
-              <th>User says</th>
-              <th>Routes to</th>
+              <th data-en="User says" data-zh="用户说">User says</th>
+              <th data-en="Routes to" data-zh="路由到">Routes to</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>"Went for a run today"</td>
+              <td data-en="&quot;Went for a run today&quot;" data-zh="&quot;今天跑了步&quot;">"Went for a run today"</td>
               <td>daily-habits</td>
             </tr>
             <tr>
-              <td>"Need to study linear algebra tomorrow"</td>
+              <td data-en="&quot;Need to study linear algebra tomorrow&quot;" data-zh="&quot;明天要学线代&quot;">"Need to study linear algebra tomorrow"</td>
               <td>daily-plan</td>
             </tr>
             <tr>
-              <td>"Had a fight with a friend today"</td>
+              <td data-en="&quot;Had a fight with a friend today&quot;" data-zh="&quot;今天跟朋友吵架了&quot;">"Had a fight with a friend today"</td>
               <td>daily-review</td>
             </tr>
             <tr>
-              <td>"Studied vocabulary, hitting the gym tonight"</td>
+              <td data-en="&quot;Studied vocabulary, hitting the gym tonight&quot;" data-zh="&quot;背了单词，晚上去健身&quot;">"Studied vocabulary, hitting the gym tonight"</td>
               <td>daily-habits + daily-plan</td>
             </tr>
           </tbody>
         </table>
 
-        <h2>Data Format</h2>
+        <h2 data-en="Data Format" data-zh="数据格式">Data Format</h2>
 
-        <h3>Obsidian Journal Plan Section</h3>
+        <h3 data-en="Obsidian Journal Plan Section" data-zh="Obsidian 日记 Plan 部分">Obsidian Journal Plan Section</h3>
 
         <pre><code>#### Plan
 - [ ] English speaking practice
@@ -180,81 +179,81 @@ Night:     Review checks off items ─┤
 **Other**
 - [ ] Daily review &lt;!-- 2026-06-01 --&gt;</code></pre>
 
-        <h3>Things To-Do</h3>
+        <h3 data-en="Things To-Do" data-zh="Things 3 中的待办">Things To-Do</h3>
 
         <pre><code>Title: 1h vocabulary memorization
 Project: English
 Start Date: 2026-06-01
 Status: incomplete</code></pre>
 
-        <h3>Sync Marker</h3>
+        <h3 data-en="Sync Marker" data-zh="同步标识">Sync Marker</h3>
 
-        <p>The HTML comment <code>&lt;!-- YYYY-MM-DD --&gt;</code> serves as the sync marker:</p>
+        <p data-en="The HTML comment serves as the sync marker:" data-zh="用 HTML 注释作为同步标识：">The HTML comment serves as the sync marker:</p>
         <ul>
-          <li>Has tag → Sourced from Things. On completion, sync back to Things.</li>
-          <li>No tag → Native Obsidian task. No sync.</li>
+          <li data-en="Has tag → Sourced from Things. On completion, sync back to Things." data-zh="有标记 → Things 3 来源，完成时同步回 Things 3。">Has tag → Sourced from Things. On completion, sync back to Things.</li>
+          <li data-en="No tag → Native Obsidian task. No sync." data-zh="无标记 → Obsidian 原生，不同步。">No tag → Native Obsidian task. No sync.</li>
         </ul>
 
-        <h2>Things Daily Recurring Tasks</h2>
+        <h2 data-en="Things Daily Recurring Tasks" data-zh="Things 3 每日重复任务">Things Daily Recurring Tasks</h2>
 
-        <p>For habits that happen every day (exercise, reading), set them as daily recurring in Things 3 and link them via a keyword mapping table:</p>
+        <p data-en="For habits that happen every day (exercise, reading), set them as daily recurring in Things 3 and link them via a keyword mapping table:" data-zh="对于每天都要做的习惯（锻炼、阅读），在 Things 3 中设为每日重复，用关键词映射表关联：">For habits that happen every day (exercise, reading), set them as daily recurring in Things 3 and link them via a keyword mapping table:</p>
 
         <table>
           <thead>
             <tr>
-              <th>Habit Keywords</th>
-              <th>Things To-Do</th>
+              <th data-en="Habit Keywords" data-zh="习惯关键词">Habit Keywords</th>
+              <th data-en="Things To-Do" data-zh="Things 3 待办">Things To-Do</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>exercise, gym, run, workout</td>
+              <td data-en="exercise, gym, run, workout" data-zh="锻炼、健身、跑步、运动">exercise, gym, run, workout</td>
               <td>Exercise</td>
             </tr>
             <tr>
-              <td>reading, book, finished reading, Kindle</td>
+              <td data-en="reading, book, finished reading, Kindle" data-zh="阅读、看书、读了、Kindle">reading, book, finished reading, Kindle</td>
               <td>Reading</td>
             </tr>
           </tbody>
         </table>
 
-        <p>This way, even if these tasks aren't in the Obsidian Plan, habit tracking still syncs automatically.</p>
+        <p data-en="This way, even if these tasks aren't in the Obsidian Plan, habit tracking still syncs automatically." data-zh="这样即使这些任务不在 Obsidian Plan 里，习惯打卡时也能自动同步。">This way, even if these tasks aren't in the Obsidian Plan, habit tracking still syncs automatically.</p>
 
-        <h2>Before and After</h2>
+        <h2 data-en="Before and After" data-zh="实际效果">Before and After</h2>
 
-        <p><strong>Before:</strong></p>
+        <p><strong data-en="Before:" data-zh="以前：">Before:</strong></p>
         <ol>
-          <li>Open Things, check what's due today</li>
-          <li>Manually copy to Obsidian journal</li>
-          <li>At night, review and manually check off items</li>
-          <li>Go back to Things 3 and mark each one complete</li>
+          <li data-en="Open Things, check what's due today" data-zh="打开 Things 3，看今天有什么">Open Things, check what's due today</li>
+          <li data-en="Manually copy to Obsidian journal" data-zh="手动抄到 Obsidian 日记">Manually copy to Obsidian journal</li>
+          <li data-en="At night, review and manually check off items" data-zh="晚上复盘，手动勾选">At night, review and manually check off items</li>
+          <li data-en="Go back to Things 3 and mark each one complete" data-zh="再去 Things 3 里一个个标完成">Go back to Things 3 and mark each one complete</li>
         </ol>
 
-        <p><strong>After:</strong></p>
+        <p><strong data-en="After:" data-zh="现在：">After:</strong></p>
         <ol>
-          <li>Say "make a plan," Things 3 to-dos auto-pull into the journal</li>
-          <li>During the day, say "studied vocabulary," both sides check off automatically</li>
-          <li>At night, review. Checked items auto-sync back to Things</li>
+          <li data-en='Say "make a plan," Things 3 to-dos auto-pull into the journal' data-zh='说"做计划"，自动拉取 Things 3 待办写入日记'>Say "make a plan," Things 3 to-dos auto-pull into the journal</li>
+          <li data-en='During the day, say "studied vocabulary," both sides check off automatically' data-zh='白天说"背了单词"，两边自动打勾'>During the day, say "studied vocabulary," both sides check off automatically</li>
+          <li data-en="At night, review. Checked items auto-sync back to Things" data-zh="晚上复盘，勾选项自动同步回 Things 3">At night, review. Checked items auto-sync back to Things</li>
         </ol>
 
-        <p>Plans only need to be written once. Completion only needs to be said once.</p>
+        <p data-en="Plans only need to be written once. Completion only needs to be said once." data-zh="计划只写一遍，完成只说一次。">Plans only need to be written once. Completion only needs to be said once.</p>
 
-        <h2>Tech Stack</h2>
+        <h2 data-en="Tech Stack" data-zh="技术栈">Tech Stack</h2>
 
         <ul>
-          <li><strong>Claude Code</strong>: AI orchestration layer, runs the Skills</li>
-          <li><strong>Things MCP Server</strong>: Operates Things 3 via the MCP protocol</li>
-          <li><strong>Obsidian</strong>: Journal and notes system</li>
-          <li><strong>Markdown</strong>: Journal file format</li>
+          <li data-en="<strong>Claude Code</strong>: AI orchestration layer, runs the Skills" data-zh="<strong>Claude Code</strong>：AI 编排层，运行 Skills"><strong>Claude Code</strong>: AI orchestration layer, runs the Skills</li>
+          <li data-en="<strong>Things MCP Server</strong>: Operates Things 3 via the MCP protocol" data-zh="<strong>Things MCP Server</strong>：通过 MCP 协议操作 Things 3"><strong>Things MCP Server</strong>: Operates Things 3 via the MCP protocol</li>
+          <li data-en="<strong>Obsidian</strong>: Journal and notes system" data-zh="<strong>Obsidian</strong>：日记和笔记系统"><strong>Obsidian</strong>: Journal and notes system</li>
+          <li data-en="<strong>Markdown</strong>: Journal file format" data-zh="<strong>Markdown</strong>：日记文件格式"><strong>Markdown</strong>: Journal file format</li>
         </ul>
 
-        <h2>Takeaway</h2>
+        <h2 data-en="Takeaway" data-zh="总结">Takeaway</h2>
 
-        <p>The core idea behind this workflow: <strong>use an AI agent as a bridge between two systems.</strong></p>
+        <p data-en="The core idea behind this workflow: <strong>use an AI agent as a bridge between two systems.</strong>" data-zh="这个工作流的核心思路是：<strong>用一个 AI Agent 作为两个系统之间的桥梁</strong>。">The core idea behind this workflow: <strong>use an AI agent as a bridge between two systems.</strong></p>
 
-        <p>No complex API integration needed. No sync scripts to write. Just define the responsibilities and data format for 4 Skills, and let the AI handle sync on every interaction.</p>
+        <p data-en="No complex API integration needed. No sync scripts to write. Just define the responsibilities and data format for 4 Skills, and let the AI handle sync on every interaction." data-zh="不需要复杂的 API 集成，不需要编写同步脚本。只需要定义好 4 个 Skill 的职责和数据格式，让 AI 在每次交互时自动完成同步。">No complex API integration needed. No sync scripts to write. Just define the responsibilities and data format for 4 Skills, and let the AI handle sync on every interaction.</p>
 
-        <p>Things manages structured tasks. Obsidian manages journals and habits. Claude Code manages sync. Each does its own job.</p>
+        <p data-en="Things manages structured tasks. Obsidian manages journals and habits. Claude Code manages sync. Each does its own job." data-zh="Things 3 管结构化任务，Obsidian 管日记和习惯，Claude Code 管同步。三者各司其职。">Things manages structured tasks. Obsidian manages journals and habits. Claude Code manages sync. Each does its own job.</p>
 
         <p>Published <time datetime="2026-06-01">01 Jun 2026</time></p>
       </article>
