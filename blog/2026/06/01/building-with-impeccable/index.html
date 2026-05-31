@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#64B5F6">
+    <meta property="og:title" content="Building with Impeccable">
+    <meta property="og:description" content="How I used /impeccable to take my personal blog from rough to polished, one command at a time.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://zetazero.top/blog/2026/06/01/building-with-impeccable/">
+    <meta name="twitter:card" content="summary">
+    <title>Building with Impeccable | zetazero's blog</title>
+    <link rel="stylesheet" href="/assets/css/style.css?v=7">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <div class="nav-controls">
+            <a href="/about">About</a>
+            <a href="https://github.com/Ha1baraA11">GitHub</a>
+          </div>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1>Building with Impeccable</h1>
+      <aside>8 min read.</aside>
+    </header>
+
+    <main>
+      <article>
+        <p data-en="I have a personal blog. It's nothing fancy: static HTML, a dark theme, a handwriting animation on the hero. It worked. It looked fine. But &quot;fine&quot; and &quot;polished&quot; are different things." data-zh="我有一个个人博客。没什么花哨的：纯静态 HTML、暗色主题、首页一个手写动画。能用，看着还行。但「还行」和「精致」是两回事。">I have a personal blog. It's nothing fancy: static HTML, a dark theme, a handwriting animation on the hero. It worked. It looked fine. But "fine" and "polished" are different things.</p>
+
+        <p data-en="Recently I went through the whole site using <a href='https://impeccable.style'>Impeccable</a>, a design-focused AI skill for Claude Code. The process follows a loop: plan, build, review, refine. Six commands, each doing one thing well. Here's what happened at each step." data-zh="最近我用 <a href='https://impeccable.style'>Impeccable</a> 把整个站点过了一遍，这是一个面向设计的 Claude Code skill。流程是一个循环：规划、构建、评审、打磨。六个命令，各司其职。以下是每一步发生了什么。">Recently I went through the whole site using <a href="https://impeccable.style">Impeccable</a>, a design-focused AI skill for Claude Code. The process follows a loop: plan, build, review, refine. Six commands, each doing one thing well. Here's what happened at each step.</p>
+
+        <h2 data-en="1. Init: Setting the Foundation" data-zh="1. Init：打下基础">1. Init: Setting the Foundation</h2>
+
+        <p data-en="Before touching any code, <code>/impeccable init</code> asked me questions about the project. What's the purpose? Who's the audience? What's the brand personality?" data-zh="在动任何代码之前，<code>/impeccable init</code> 先问我关于项目的问题。目的是什么？受众是谁？品牌个性是什么？">Before touching any code, <code>/impeccable init</code> asked me questions about the project. What's the purpose? Who's the audience? What's the brand personality?</p>
+
+        <p data-en="My answers were straightforward: a personal blog, not a portfolio. Visitors land here through a direct link or a GitHub profile. The brand personality is &quot;restrained, intimate, opinionated.&quot; The site should feel like a notebook on someone's desk, not a pitch deck." data-zh="我的回答很直接：一个个人博客，不是作品集。访客通过直接链接或 GitHub 主页来到这里。品牌个性是「克制、私密、有主见」。这个站点应该像某人桌上的笔记本，而不是融资 PPT。">My answers were straightforward: a personal blog, not a portfolio. Visitors land here through a direct link or a GitHub profile. The brand personality is "restrained, intimate, opinionated." The site should feel like a notebook on someone's desk, not a pitch deck.</p>
+
+        <p data-en="Init generated a <code>PRODUCT.md</code> file that captures all of this. Every subsequent command reads it to understand context. The anti-references were especially useful: &quot;no generic SaaS landing pages, no corporate portfolio templates.&quot; Having that written down meant the AI wouldn't drift toward defaults." data-zh="Init 生成了一个 <code>PRODUCT.md</code> 文件，把这些都记录下来。后续每个命令都会读取它来理解上下文。反向参考特别有用：「不要通用 SaaS 落地页，不要企业作品集模板。」把这些写下来意味着 AI 不会滑向默认值。">Init generated a <code>PRODUCT.md</code> file that captures all of this. Every subsequent command reads it to understand context. The anti-references were especially useful: "no generic SaaS landing pages, no corporate portfolio templates." Having that written down meant the AI wouldn't drift toward defaults.</p>
+
+        <h2 data-en="2. Shape: Planning Before Building" data-zh="2. Shape：先规划再动手">2. Shape: Planning Before Building</h2>
+
+        <p data-en="<code>/impeccable shape</code> is the &quot;think before you build&quot; step. Instead of jumping straight to code, it produces a design brief: what's being built, what it should look like, what references to draw from." data-zh="<code>/impeccable shape</code> 是「先想清楚再动手」的步骤。它不会直接跳到代码，而是先产出一份设计简报：要构建什么、应该长什么样、参考什么。"><code>/impeccable shape</code> is the "think before you build" step. Instead of jumping straight to code, it produces a design brief: what's being built, what it should look like, what references to draw from.</p>
+
+        <p data-en="I didn't use shape for a single feature. Instead, I used it to frame the overall improvement direction. The brief identified the key surfaces: the homepage layout, the about page, the typography hierarchy, the interaction states. It recommended a &quot;Restrained&quot; color strategy (one accent, tinted neutrals), which matched what the site already was." data-zh="我没有用 shape 来处理单个功能，而是用它来框定整体改进方向。简报指出了关键表面：首页布局、关于页、排版层级、交互状态。它推荐了「克制」的色彩策略（一个强调色、带色调的中性色），这跟站点已有的风格一致。">I didn't use shape for a single feature. Instead, I used it to frame the overall improvement direction. The brief identified the key surfaces: the homepage layout, the about page, the typography hierarchy, the interaction states. It recommended a "Restrained" color strategy (one accent, tinted neutrals), which matched what the site already was.</p>
+
+        <p data-en="The important thing shape gave me was a contract. Once the brief was confirmed, every subsequent command had a clear target to aim at." data-zh="shape 给我的最重要的东西是一份契约。一旦简报确认，后续每个命令都有了明确的目标。">The important thing shape gave me was a contract. Once the brief was confirmed, every subsequent command had a clear target to aim at.</p>
+
+        <h2 data-en="3. Craft: Building to Production Quality" data-zh="3. Craft：构建到生产级质量">3. Craft: Building to Production Quality</h2>
+
+        <p data-en="<code>/impeccable craft</code> is where the actual work happens. It reads the design brief, inspects the existing code, and makes changes in passes: structure first, then visual system, then states, then motion, then responsive behavior." data-zh="<code>/impeccable craft</code> 是真正干活的地方。它读取设计简报、检查现有代码，然后分步骤修改：先结构，再视觉系统，再状态，再动效，再响应式行为。"><code>/impeccable craft</code> is where the actual work happens. It reads the design brief, inspects the existing code, and makes changes in passes: structure first, then visual system, then states, then motion, then responsive behavior.</p>
+
+        <p data-en="The craft pass on my site did a lot of small things that add up:" data-zh="craft 在我的站点上做了很多小改动，积少成多：">The craft pass on my site did a lot of small things that add up:</p>
+
+        <ul>
+          <li data-en="Unified all transitions to use an ease-out-quart curve instead of the default <code>ease</code>" data-zh="统一所有 transition 使用 ease-out-quart 曲线，替换默认的 <code>ease</code>">Unified all transitions to use an ease-out-quart curve instead of the default <code>ease</code></li>
+          <li data-en="Improved the heading hierarchy: larger h1, heavier weights, <code>text-wrap: balance</code>" data-zh="改进标题层级：更大的 h1、更粗的字重、<code>text-wrap: balance</code>">Improved the heading hierarchy: larger h1, heavier weights, <code>text-wrap: balance</code></li>
+          <li data-en="Fixed the light theme's nav color from a mismatched teal to the brand blue" data-zh="修复亮色主题的导航颜色，从不匹配的青色改为品牌蓝">Fixed the light theme's nav color from a mismatched teal to the brand blue</li>
+          <li data-en="Added <code>font-feature-settings</code> and font smoothing to the body" data-zh="给 body 添加 <code>font-feature-settings</code> 和字体平滑">Added <code>font-feature-settings</code> and font smoothing to the body</li>
+          <li data-en="Added <code>prefers-reduced-motion</code> support across all animations" data-zh="为所有动画添加 <code>prefers-reduced-motion</code> 支持">Added <code>prefers-reduced-motion</code> support across all animations</li>
+          <li data-en="Added focus-visible styles for keyboard navigation" data-zh="为键盘导航添加 focus-visible 样式">Added focus-visible styles for keyboard navigation</li>
+        </ul>
+
+        <p data-en="None of these changes are dramatic on their own. But together they make the site feel like someone cared about the details." data-zh="这些改动单独来看都不起眼。但合在一起，让站点感觉有人在乎细节。">None of these changes are dramatic on their own. But together they make the site feel like someone cared about the details.</p>
+
+        <h2 data-en="4. Audit: Technical Quality Check" data-zh="4. Audit：技术质量检查">4. Audit: Technical Quality Check</h2>
+
+        <p data-en="<code>/impeccable audit</code> is a technical pass, not a design critique. It checks five dimensions: accessibility, performance, theming, responsive design, and anti-patterns. Each gets a score from 0 to 4." data-zh="<code>/impeccable audit</code> 是技术层面的检查，不是设计评审。它检查五个维度：无障碍、性能、主题、响应式设计和反模式。每个维度 0 到 4 分。"><code>/impeccable audit</code> is a technical pass, not a design critique. It checks five dimensions: accessibility, performance, theming, responsive design, and anti-patterns. Each gets a score from 0 to 4.</p>
+
+        <p data-en="My first audit scored 17 out of 20. The findings:" data-zh="第一次审计得分 17/20。发现的问题：">My first audit scored 17 out of 20. The findings:</p>
+
+        <ul>
+          <li data-en="The password input in the auth modal had no <code>aria-label</code> (P1)" data-zh="认证弹窗的密码输入框没有 <code>aria-label</code>（P1）">The password input in the auth modal had no <code>aria-label</code> (P1)</li>
+          <li data-en="Two CSS transitions used layout properties like <code>padding-left</code> (P2)" data-zh="两个 CSS transition 使用了 <code>padding-left</code> 这样的布局属性（P2）">Two CSS transitions used layout properties like <code>padding-left</code> (P2)</li>
+          <li data-en="The error color was hard-coded instead of using a token (P2)" data-zh="错误颜色是硬编码的，没有使用 token（P2）">The error color was hard-coded instead of using a token (P2)</li>
+          <li data-en="The muted text color was right at the WCAG contrast threshold (P2)" data-zh="弱化文字颜色刚好卡在 WCAG 对比度门槛上（P2）">The muted text color was right at the WCAG contrast threshold (P2)</li>
+        </ul>
+
+        <p data-en="I fixed all four in one pass. The second audit scored 19 out of 20. The only remaining deduction was a <code>width</code> transition on a pseudo-element, which is technically a layout property but has negligible impact since it's absolutely positioned." data-zh="我一次性修了四个。第二次审计得分 19/20。唯一扣分是一个伪元素上的 <code>width</code> transition，严格来说是布局属性，但因为是绝对定位，影响可以忽略。">I fixed all four in one pass. The second audit scored 19 out of 20. The only remaining deduction was a <code>width</code> transition on a pseudo-element, which is technically a layout property but has negligible impact since it's absolutely positioned.</p>
+
+        <h2 data-en="5. Critique: Design Review" data-zh="5. Critique：设计评审">5. Critique: Design Review</h2>
+
+        <p data-en="Where audit checks the code, <code>/impeccable critique</code> checks the design. It scores Nielsen's 10 usability heuristics, runs an automated detector for AI slop tells, and tests through different user personas." data-zh="audit 检查代码，<code>/impeccable critique</code> 检查设计。它对 Nielsen 的 10 条可用性启发式评分，运行自动检测器查找 AI 痕迹，并通过不同用户画像进行测试。">Where audit checks the code, <code>/impeccable critique</code> checks the design. It scores Nielsen's 10 usability heuristics, runs an automated detector for AI slop tells, and tests through different user personas.</p>
+
+        <p data-en="My critique scored 31 out of 40. The highlights were strong: &quot;Does NOT look AI-generated&quot; (the detector's verdict), consistent token usage, clear visual hierarchy. The weak spots were:" data-zh="我的 critique 得分 31/40。亮点很强：「看不出是 AI 生成的」（检测器的结论）、一致的 token 使用、清晰的视觉层级。薄弱环节是：">My critique scored 31 out of 40. The highlights were strong: "Does NOT look AI-generated" (the detector's verdict), consistent token usage, clear visual hierarchy. The weak spots were:</p>
+
+        <ul>
+          <li data-en="The About page had generic copy that didn't match the homepage's personality" data-zh="关于页的文案太通用，跟首页的个性不匹配">The About page had generic copy that didn't match the homepage's personality</li>
+          <li data-en="The footer was a single link with no context" data-zh="Footer 只有一个链接，没有上下文">The footer was a single link with no context</li>
+          <li data-en="The blog post used em-dashes (the style guide bans them)" data-zh="博客文章用了破折号（风格指南禁止使用）">The blog post used em-dashes (the style guide bans them)</li>
+        </ul>
+
+        <p data-en="The persona tests were the most useful part. &quot;Jordan&quot; (first-timer) noted the About page felt like a different site. These aren't things a code audit would catch." data-zh="用户画像是最有用的部分。「Jordan」（首次访客）指出关于页感觉像另一个站点。这些不是代码审计能发现的。">The persona tests were the most useful part. "Jordan" (first-timer) noted the About page felt like a different site. These aren't things a code audit would catch.</p>
+
+        <h2 data-en="6. Polish: The Final Pass" data-zh="6. Polish：最终打磨">6. Polish: The Final Pass</h2>
+
+        <p data-en="<code>/impeccable polish</code> is the last step. It goes through everything systematically: spacing, typography, color contrast, interaction states, responsive behavior, code quality." data-zh="<code>/impeccable polish</code> 是最后一步。它系统性地检查所有东西：间距、排版、色彩对比度、交互状态、响应式行为、代码质量。"><code>/impeccable polish</code> is the last step. It goes through everything systematically: spacing, typography, color contrast, interaction states, responsive behavior, code quality.</p>
+
+        <p data-en="By the time I reached polish, most of the heavy lifting was done. The polish pass caught a few remaining details: the footer spacing was too generous on mobile, the <code>console.error</code> in the font loader was intentional (not debug logging), and the Prism.js syntax highlighting colors don't adapt to the light theme." data-zh="到 polish 的时候，大部分重活已经干完了。polish 抓住了几个剩余细节：移动端 footer 间距太大、字体加载器中的 <code>console.error</code> 是故意的（不是 debug 日志）、Prism.js 的语法高亮颜色不会随亮色主题变化。">By the time I reached polish, most of the heavy lifting was done. The polish pass caught a few remaining details: the footer spacing was too generous on mobile, the <code>console.error</code> in the font loader was intentional (not debug logging), and the Prism.js syntax highlighting colors don't adapt to the light theme.</p>
+
+        <p data-en="The last one is still on my list. Everything else shipped." data-zh="最后那个还在我的待办清单上。其他都已上线。">The last one is still on my list. Everything else shipped.</p>
+
+        <h2 data-en="What I Learned" data-zh="我学到了什么">What I Learned</h2>
+
+        <p data-en="The biggest takeaway wasn't any specific fix. It was the discipline of the loop. Each command has one job. Init sets context. Shape plans. Craft builds. Audit checks the code. Critique checks the design. Polish catches what's left." data-zh="最大的收获不是某个具体的修复，而是循环的纪律。每个命令只做一件事。Init 设定上下文。Shape 规划。Craft 构建。Audit 检查代码。Critique 检查设计。Polish 收拾残局。">The biggest takeaway wasn't any specific fix. It was the discipline of the loop. Each command has one job. Init sets context. Shape plans. Craft builds. Audit checks the code. Critique checks the design. Polish catches what's left.</p>
+
+        <p data-en="Without that structure, I'd have jumped straight to &quot;make it look better&quot; and ended up tweaking colors randomly. With it, every change had a reason and a priority." data-zh="没有这个结构，我会直接跳到「让它好看点」然后随机调颜色。有了它，每个改动都有理由和优先级。">Without that structure, I'd have jumped straight to "make it look better" and ended up tweaking colors randomly. With it, every change had a reason and a priority.</p>
+
+        <p data-en="The anti-pattern detection was surprisingly useful. The detector flagged things I wouldn't have noticed: the em-dashes, the hard-coded error color, the layout-property transitions. Small things, but they add up to a site that feels intentional instead of accidental." data-zh="反模式检测出乎意料地有用。检测器标出了我不会注意到的东西：破折号、硬编码的错误颜色、布局属性 transition。都是小事，但加起来让站点感觉是刻意的而不是偶然的。">The anti-pattern detection was surprisingly useful. The detector flagged things I wouldn't have noticed: the em-dashes, the hard-coded error color, the layout-property transitions. Small things, but they add up to a site that feels intentional instead of accidental.</p>
+
+        <h2 data-en="Skills: Beyond the Core Six" data-zh="Skills：不止六个核心命令">Skills: Beyond the Core Six</h2>
+
+        <p data-en="The six commands above are the core workflow, but <code>/impeccable</code> isn't limited to them. It ships with over 20 sub-commands covering everything from animation to typography to responsive design. You don't need to memorize them all. You just describe what you want, and <code>/impeccable</code> figures out which skill to invoke." data-zh="以上六个命令是核心工作流，但 <code>/impeccable</code> 不止于此。它附带超过 20 个子命令，涵盖从动画到排版到响应式设计的所有内容。你不需要全部记住。你只需要描述你想要什么，<code>/impeccable</code> 会自己判断调用哪个 skill。">The six commands above are the core workflow, but <code>/impeccable</code> isn't limited to them. It ships with over 20 sub-commands covering everything from animation to typography to responsive design. You don't need to memorize them all. You just describe what you want, and <code>/impeccable</code> figures out which skill to invoke.</p>
+
+        <p data-en="Say &quot;the colors feel flat.&quot; It routes to <code>/impeccable colorize</code>. Say &quot;this error message is confusing.&quot; It calls <code>/impeccable clarify</code>. Say &quot;make the animations smoother.&quot; It invokes <code>/impeccable animate</code>. The routing is based on intent, not syntax. You talk about your problem; it picks the right tool." data-zh="说「颜色太平了」，它会路由到 <code>/impeccable colorize</code>。说「这个错误消息看不懂」，它会调用 <code>/impeccable clarify</code>。说「让动画更流畅」，它会调用 <code>/impeccable animate</code>。路由基于意图，不是语法。你描述问题，它选对的工具。">Say "the colors feel flat." It routes to <code>/impeccable colorize</code>. Say "this error message is confusing." It calls <code>/impeccable clarify</code>. Say "make the animations smoother." It invokes <code>/impeccable animate</code>. The routing is based on intent, not syntax. You talk about your problem; it picks the right tool.</p>
+
+        <p data-en="There's also <code>/impeccable live</code>, which opens a browser overlay where you can click on any element, leave a comment, and get three visual variants generated directly into your source code. Accept one, and the rest are removed. It's the fastest way to iterate on a specific element without describing it in words." data-zh="还有 <code>/impeccable live</code>，它打开一个浏览器覆盖层，你可以点击任何元素、留下评论，然后得到三个直接生成到源码中的视觉变体。接受一个，其余自动删除。这是在不描述的情况下迭代特定元素的最快方式。">There's also <code>/impeccable live</code>, which opens a browser overlay where you can click on any element, leave a comment, and get three visual variants generated directly into your source code. Accept one, and the rest are removed. It's the fastest way to iterate on a specific element without describing it in words.</p>
+
+        <p data-en="The full command list is in the <a href='https://impeccable.style/docs/'>docs</a>. But in practice, you'll use maybe 5 or 6 commands regularly. The rest are there when you need them." data-zh="完整命令列表在<a href='https://impeccable.style/docs/'>文档</a>中。但实际上，你经常用的可能就 5、6 个命令。其他的在你需要时才会用到。">The full command list is in the <a href="https://impeccable.style/docs/">docs</a>. But in practice, you'll use maybe 5 or 6 commands regularly. The rest are there when you need them.</p>
+
+        <p>Published <time datetime="2026-06-01">01 Jun 2026</time></p>
+      </article>
+    </main>
+
+    <footer>
+      <p data-en="Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense." data-zh="用 HTML、CSS 和一个文本编辑器搭建。没有框架，没有构建工具，没有废话。">Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
+    </footer>
+
+    <script>
+      // Apply language preference from homepage
+      (function() {
+        var lang = localStorage.getItem('lang') || 'en';
+        if (lang === 'zh') {
+          document.documentElement.setAttribute('lang', 'zh-CN');
+          document.querySelectorAll('[data-zh]').forEach(function(el) {
+            el.innerHTML = el.getAttribute('data-zh');
+          });
+        }
+      })();
+      // Reading progress bar
+      const progress = document.getElementById('reading-progress');
+      if (progress) {
+        window.addEventListener('scroll', () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const percent = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
+          progress.style.transform = `translate(${-100 + percent}vw, 0)`;
+        }, { passive: true });
+      }
+    </script>
+  </body>
+</html>
