@@ -3,23 +3,30 @@
 :root {
   --letters-primary: #2C2A20;
   --letters-primary-light: #5C5A4E;
+  --letters-accent: #c9a87c;
   --letters-bg: #1a1216;
   --letters-bg-card: #231a1e;
+  --letters-bg-card-hover: #2a2024;
   --letters-text: #F5E6E0;
   --letters-text-muted: #d4c4ba;
-  --letters-border: #4d3a40;
+  --letters-border: #3d2a30;
   --letters-shadow: rgba(44, 42, 32, 0.15);
+  --letters-glow: rgba(201, 168, 124, 0.08);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 [data-theme="light"] {
   --letters-primary: #2C2A20;
   --letters-primary-light: #5C5A4E;
+  --letters-accent: #a08060;
   --letters-bg: #FFF8F0;
   --letters-bg-card: #fff;
+  --letters-bg-card-hover: #fefaf5;
   --letters-text: #1a1a1a;
   --letters-text-muted: #6B5E53;
   --letters-border: #D0C0B4;
   --letters-shadow: rgba(44, 42, 32, 0.08);
+  --letters-glow: rgba(160, 128, 96, 0.06);
 }
 
 /* ===== Base ===== */
@@ -37,11 +44,14 @@ body {
   font-size: 1.15rem;
   line-height: 1.8;
   min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.4s var(--ease-out-quart), color 0.4s var(--ease-out-quart);
 }
 
 ::selection {
-  background: var(--letters-primary);
+  background: var(--letters-accent);
   color: #fff;
 }
 
@@ -56,19 +66,22 @@ body {
   font-family: 'Caveat', cursive;
   font-size: 1.2rem;
   color: var(--letters-text-muted);
+  gap: 1.2em;
 }
 
 .loading-heart {
-  font-size: 2rem;
-  color: var(--letters-primary);
-  animation: heartbeat 1.2s ease-in-out infinite;
+  font-size: 2.5rem;
+  color: var(--letters-accent);
+  animation: heartbeat 1.4s var(--ease-out-quart) infinite;
+  filter: drop-shadow(0 0 12px var(--letters-glow));
 }
 
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.25); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.15); }
+  12% { transform: scale(1.3); }
+  24% { transform: scale(1); }
+  36% { transform: scale(1.2); }
+  48% { transform: scale(1); }
 }
 
 /* ===== Page Layout ===== */
@@ -82,12 +95,14 @@ body {
 /* ===== Back Link ===== */
 
 .back-home {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
   color: var(--letters-text-muted);
   font-size: 0.9rem;
-  margin-bottom: 2em;
+  margin-bottom: 2.5em;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.25s var(--ease-out-quart);
   position: relative;
 }
 
@@ -96,48 +111,65 @@ body {
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
-  background: var(--letters-primary);
-  transition: width 0.3s ease;
+  background: var(--letters-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-out-quart);
 }
 
 .back-home:hover {
-  color: var(--letters-primary);
+  color: var(--letters-accent);
 }
 
 .back-home:hover::after {
-  width: 100%;
+  transform: scaleX(1);
 }
-
-/* ===== Header ===== */
 
 /* ===== Love Counter ===== */
 
 #love-counter {
   text-align: center;
-  padding: 1.2em 1em;
-  margin-bottom: 1.5em;
+  padding: 1.5em 1em;
+  margin-bottom: 2em;
   font-family: 'Caveat', cursive;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--letters-text-muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  position: relative;
 }
+
+#love-counter::before,
+#love-counter::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--letters-border), transparent);
+}
+
+#love-counter::before { top: 0; }
+#love-counter::after { bottom: 0; }
 
 /* ===== Header ===== */
 
 .letters-header {
   text-align: center;
-  margin-bottom: 3em;
+  margin-bottom: 3.5em;
+  position: relative;
 }
 
 .letters-header h1 {
   font-family: 'Caveat', cursive;
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
   color: var(--letters-text);
-  margin: 0 0 0.3em;
-  line-height: 1.2;
+  margin: 0 0 0.4em;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
 }
 
 .letters-header .subtitle {
@@ -145,6 +177,7 @@ body {
   color: var(--letters-text-muted);
   font-style: italic;
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 /* ===== Letter Card ===== */
@@ -152,90 +185,138 @@ body {
 .letter-card {
   background: var(--letters-bg-card);
   border: 1px solid var(--letters-border);
-  border-radius: 12px;
-  padding: 2em 2.2em;
+  border-radius: 14px;
+  padding: 2.2em 2.4em;
   margin-bottom: 2em;
-  box-shadow: 0 4px 20px var(--letters-shadow);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 16px var(--letters-shadow);
+  transition:
+    border-color 0.3s var(--ease-out-quart),
+    box-shadow 0.3s var(--ease-out-quart),
+    transform 0.3s var(--ease-out-quart),
+    background 0.3s var(--ease-out-quart);
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.letter-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--letters-accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out-quart);
 }
 
 .letter-card:hover {
-  border-color: var(--letters-primary-light);
-  box-shadow: 0 6px 28px var(--letters-shadow);
-  transform: translateY(-2px);
+  border-color: var(--letters-accent);
+  background: var(--letters-bg-card-hover);
+  box-shadow: 0 8px 32px var(--letters-shadow), 0 0 40px var(--letters-glow);
+  transform: translateY(-3px);
+}
+
+.letter-card:hover::before {
+  opacity: 0.4;
 }
 
 .letter-preview {
   color: var(--letters-text-muted);
   font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 /* ===== Letter Reader ===== */
 
 #letter-reader {
-  animation: fadeIn 0.3s ease;
+  animation: fadeInUp 0.4s var(--ease-out-quart);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .letter-back {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
   background: none;
   border: 1px solid var(--letters-border);
   border-radius: 8px;
   color: var(--letters-text-muted);
   font-size: 0.9rem;
-  padding: 0.4em 1em;
-  margin-bottom: 2em;
+  padding: 0.45em 1.1em;
+  margin-bottom: 2.5em;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  font-family: 'Cormorant Garamond', serif;
+  transition: color 0.25s var(--ease-out-quart), border-color 0.25s var(--ease-out-quart), background 0.25s var(--ease-out-quart);
 }
 
 .letter-back:hover {
-  color: var(--letters-primary);
-  border-color: var(--letters-primary);
+  color: var(--letters-accent);
+  border-color: var(--letters-accent);
+  background: var(--letters-glow);
+}
+
+.letter-back:focus-visible {
+  outline: 2px solid var(--letters-accent);
+  outline-offset: 2px;
+}
+
+.letter-card:focus-visible {
+  outline: 2px solid var(--letters-accent);
+  outline-offset: 2px;
+  border-color: var(--letters-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--letters-accent);
+  outline-offset: 2px;
 }
 
 #letter-reader-content time {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--letters-text-muted);
   font-family: 'Caveat', cursive;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.6em;
+  letter-spacing: 0.02em;
 }
 
 #letter-reader-content h2 {
   font-family: 'Caveat', cursive;
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: var(--letters-text);
-  margin: 0 0 1em;
+  margin: 0 0 1.2em;
+  line-height: 1.2;
 }
 
 #letter-reader-content p {
   font-size: 1.15rem;
   line-height: 2;
   margin-bottom: 1.5em;
+  text-wrap: pretty;
 }
 
 .letter-card time {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--letters-text-muted);
   font-family: 'Caveat', cursive;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.6em;
   letter-spacing: 0.02em;
 }
 
 .letter-card h2 {
   font-family: 'Caveat', cursive;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   color: var(--letters-text);
   margin: 0 0 0.8em;
   font-weight: 700;
+  line-height: 1.25;
 }
 
 .letter-card p {
@@ -248,13 +329,18 @@ body {
 }
 
 .letter-image {
-  max-width: 280px;
+  max-width: 300px;
   width: 100%;
   height: auto;
   display: block;
   margin: 1.5em auto 0;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px var(--letters-shadow);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--letters-shadow);
+  transition: transform 0.3s var(--ease-out-quart);
+}
+
+.letter-image:hover {
+  transform: scale(1.02);
 }
 
 .letter-images {
@@ -269,22 +355,27 @@ body {
   min-width: calc((100% - 2em) / 3);
   height: auto;
   object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px var(--letters-shadow);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--letters-shadow);
+  transition: transform 0.3s var(--ease-out-quart);
+}
+
+.letter-images img:hover {
+  transform: scale(1.02);
 }
 
 /* ===== Heart Divider ===== */
 
 .heart-divider {
   text-align: center;
-  color: var(--letters-primary-light);
+  color: var(--letters-accent);
   font-size: 1rem;
-  margin: 2em 0 0;
-  opacity: 0.6;
-  letter-spacing: 0.5em;
+  margin: 2.5em 0 0;
+  opacity: 0.5;
+  letter-spacing: 0.6em;
 }
 
-/* ===== Floating Hearts Background ===== */
+/* ===== Floating Particles Background ===== */
 
 .letters-page::before {
   content: '';
@@ -296,20 +387,37 @@ body {
   pointer-events: none;
   z-index: -1;
   background-image:
-    radial-gradient(2px 2px at 10% 20%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(2px 2px at 85% 15%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 30% 70%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(2px 2px at 70% 60%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 50% 90%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(2px 2px at 20% 50%, var(--letters-primary) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 90% 80%, var(--letters-primary) 50%, transparent 50%);
-  opacity: 0.08;
-  animation: floatHearts 20s ease-in-out infinite alternate;
+    radial-gradient(1.5px 1.5px at 12% 18%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 12%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 35% 72%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 72% 58%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 48% 92%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 22% 45%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 92% 82%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 35%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 8% 65%, var(--letters-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 78% 28%, var(--letters-accent) 50%, transparent 50%);
+  opacity: 0.06;
+  animation: floatParticles 25s ease-in-out infinite alternate;
 }
 
-@keyframes floatHearts {
+@keyframes floatParticles {
   0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-20px) rotate(2deg); }
+  100% { transform: translateY(-15px) rotate(1deg); }
+}
+
+/* ===== Decorative Separator ===== */
+
+.letters-page::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(to top, var(--letters-bg), transparent);
 }
 
 /* ===== Responsive ===== */
@@ -320,10 +428,52 @@ body {
   }
 
   .letters-header h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 
   .letter-card {
-    padding: 1.5em 1.3em;
+    padding: 1.5em 1.4em;
+    border-radius: 12px;
+  }
+
+  .letter-card h2 {
+    font-size: 1.5rem;
+  }
+
+  #letter-reader-content h2 {
+    font-size: 1.8rem;
+  }
+
+  .letter-image {
+    max-width: 100%;
+  }
+
+  .letter-images img {
+    min-width: calc((100% - 1em) / 2);
+  }
+}
+
+/* ===== Reduced Motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .letter-card:hover {
+    transform: none;
+  }
+
+  .letter-image:hover,
+  .letter-images img:hover {
+    transform: none;
+  }
+
+  .loading-heart {
+    animation: none;
   }
 }
