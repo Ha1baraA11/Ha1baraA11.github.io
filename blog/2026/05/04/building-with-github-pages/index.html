@@ -23,132 +23,112 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <h1>Building a Personal Site with GitHub Pages</h1>
+      <h1 data-en="Building a Personal Site with GitHub Pages" data-zh="用 GitHub Pages 搭建个人网站">Building a Personal Site with GitHub Pages</h1>
       <aside>8 min read.</aside>
     </header>
 
     <main>
       <article>
-        <p>I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way.</p>
+        <p data-en="I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way." data-zh="我最近用 GitHub Pages 搭建了我的个人网站。看似简单的任务，结果深入研究了静态站点生成器、DNS 配置、SSL 证书和 Web 性能优化。以下是我学到的东西。">I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way.</p>
 
-        <h2>Why GitHub Pages?</h2>
+        <h2 data-en="Why GitHub Pages?" data-zh="为什么选 GitHub Pages？">Why GitHub Pages?</h2>
 
-        <p>There are dozens of ways to host a personal website. You could use Vercel, Netlify, Cloudflare Pages, or even a traditional VPS. So why did I choose GitHub Pages?</p>
+        <p data-en="There are dozens of ways to host a personal website. You could use Vercel, Netlify, Cloudflare Pages, or even a traditional VPS. So why did I choose GitHub Pages?" data-zh="搭建个人网站有几十种方式。可以用 Vercel、Netlify、Cloudflare Pages，甚至传统的 VPS。那我为什么选 GitHub Pages？">There are dozens of ways to host a personal website. You could use Vercel, Netlify, Cloudflare Pages, or even a traditional VPS. So why did I choose GitHub Pages?</p>
 
-        <p>The answer is simplicity. GitHub Pages is <strong>free</strong>, requires <strong>zero server maintenance</strong>, and integrates directly with your Git workflow. Push to main, and your site is live. No build pipelines to configure, no servers to patch, no bills to pay.</p>
+        <p data-en="The answer is simplicity. GitHub Pages is <strong>free</strong>, requires <strong>zero server maintenance</strong>, and integrates directly with your Git workflow. Push to main, and your site is live. No build pipelines to configure, no servers to patch, no bills to pay." data-zh="答案是简单。GitHub Pages <strong>免费</strong>，<strong>零服务器维护</strong>，直接集成你的 Git 工作流。推送到 main，站点就上线了。没有构建流水线要配置，没有服务器要打补丁，没有账单要付。">The answer is simplicity. GitHub Pages is <strong>free</strong>, requires <strong>zero server maintenance</strong>, and integrates directly with your Git workflow. Push to main, and your site is live. No build pipelines to configure, no servers to patch, no bills to pay.</p>
 
         <blockquote>
-          <p>The best infrastructure is the infrastructure you don't have to think about.</p>
+          <p data-en="The best infrastructure is the infrastructure you don't have to think about." data-zh="最好的基础设施是你不需要操心的基础设施。">The best infrastructure is the infrastructure you don't have to think about.</p>
         </blockquote>
 
-        <p>For a personal blog or portfolio site, GitHub Pages is more than enough. It serves static files over HTTPS with a global CDN, handles custom domains, and even supports Jekyll out of the box if you want it.</p>
+        <p data-en="For a personal blog or portfolio site, GitHub Pages is more than enough. It serves static files over HTTPS with a global CDN, handles custom domains, and even supports Jekyll out of the box if you want it." data-zh="对于个人博客或作品集站点，GitHub Pages 绑绑有余。它通过 HTTPS 提供静态文件，有全球 CDN，支持自定义域名，甚至开箱即用地支持 Jekyll。">For a personal blog or portfolio site, GitHub Pages is more than enough. It serves static files over HTTPS with a global CDN, handles custom domains, and even supports Jekyll out of the box if you want it.</p>
 
-        <h2>The Setup Process</h2>
+        <h2 data-en="The Setup Process" data-zh="搭建流程">The Setup Process</h2>
 
-        <h3>Step 1: Create the Repository</h3>
+        <h3 data-en="Step 1: Create the Repository" data-zh="第一步：创建仓库">Step 1: Create the Repository</h3>
 
-        <p>GitHub Pages for user sites requires a specific repository naming convention. Your repo must be named <code>username.github.io</code>, where <code>username</code> is your GitHub username. This is non-negotiable.</p>
+        <p data-en="GitHub Pages for user sites requires a specific repository naming convention. Your repo must be named <code>username.github.io</code>, where <code>username</code> is your GitHub username. This is non-negotiable." data-zh="GitHub Pages 的用户站点要求特定的仓库命名规范。仓库必须命名为 <code>username.github.io</code>，其中 <code>username</code> 是你的 GitHub 用户名。这是硬性要求。">GitHub Pages for user sites requires a specific repository naming convention. Your repo must be named <code>username.github.io</code>, where <code>username</code> is your GitHub username. This is non-negotiable.</p>
 
         <pre><code>gh repo create Ha1baraA11.github.io --public --clone</code></pre>
 
-        <p>The <code>--public</code> flag is important. GitHub Pages only works with public repositories on the free tier (unless you have GitHub Pro).</p>
+        <p data-en="The <code>--public</code> flag is important. GitHub Pages only works with public repositories on the free tier (unless you have GitHub Pro)." data-zh="<code>--public</code> 标志很重要。GitHub Pages 免费版只支持公开仓库（除非你有 GitHub Pro）。">The <code>--public</code> flag is important. GitHub Pages only works with public repositories on the free tier (unless you have GitHub Pro).</p>
 
-        <h3>Step 2: Choose Your Tech Stack</h3>
+        <h3 data-en="Step 2: Choose Your Tech Stack" data-zh="第二步：选择技术栈">Step 2: Choose Your Tech Stack</h3>
 
-        <p>You have several options for building your site:</p>
+        <p data-en="You have several options for building your site:" data-zh="搭建站点有几种选择：">You have several options for building your site:</p>
 
         <ul>
-          <li><strong>Pure HTML/CSS/JS</strong>: Maximum control, no build step</li>
-          <li><strong>Jekyll</strong>: GitHub's built-in static site generator</li>
-          <li><strong>Hugo</strong>: Fast, Go-based static site generator</li>
-          <li><strong>11ty (Eleventy)</strong>: Flexible JavaScript-based SSG</li>
-          <li><strong>React/Vue/Svelte</strong>: SPA frameworks with static export</li>
+          <li data-en="<strong>Pure HTML/CSS/JS</strong>: Maximum control, no build step" data-zh="<strong>纯 HTML/CSS/JS</strong>：最大控制权，无需构建步骤"><strong>Pure HTML/CSS/JS</strong>: Maximum control, no build step</li>
+          <li data-en="<strong>Jekyll</strong>: GitHub's built-in static site generator" data-zh="<strong>Jekyll</strong>：GitHub 内置的静态站点生成器"><strong>Jekyll</strong>: GitHub's built-in static site generator</li>
+          <li data-en="<strong>Hugo</strong>: Fast, Go-based static site generator" data-zh="<strong>Hugo</strong>：快速的 Go 语言静态站点生成器"><strong>Hugo</strong>: Fast, Go-based static site generator</li>
+          <li data-en="<strong>11ty (Eleventy)</strong>: Flexible JavaScript-based SSG" data-zh="<strong>11ty (Eleventy)</strong>：灵活的 JavaScript 静态站点生成器"><strong>11ty (Eleventy)</strong>: Flexible JavaScript-based SSG</li>
+          <li data-en="<strong>React/Vue/Svelte</strong>: SPA frameworks with static export" data-zh="<strong>React/Vue/Svelte</strong>：支持静态导出的 SPA 框架"><strong>React/Vue/Svelte</strong>: SPA frameworks with static export</li>
         </ul>
 
-        <p>I went with a hybrid approach: <strong>pure HTML/CSS for the layout</strong>, with Jekyll handling the blog post pipeline. This gives me full control over the design while still letting me write blog posts in Markdown.</p>
+        <p data-en="I went with a hybrid approach: <strong>pure HTML/CSS for the layout</strong>, with Jekyll handling the blog post pipeline. This gives me full control over the design while still letting me write blog posts in Markdown." data-zh="我选择了混合方案：<strong>纯 HTML/CSS 做布局</strong>，Jekyll 处理博客文章流水线。这样我完全控制设计，同时还能用 Markdown 写博客。">I went with a hybrid approach: <strong>pure HTML/CSS for the layout</strong>, with Jekyll handling the blog post pipeline. This gives me full control over the design while still letting me write blog posts in Markdown.</p>
 
-        <h3>Step 3: Configure a Custom Domain</h3>
+        <h3 data-en="Step 3: Configure a Custom Domain" data-zh="第三步：配置自定义域名">Step 3: Configure a Custom Domain</h3>
 
-        <p>If you own a domain (I bought <code>zetazero.top</code>), you can point it to GitHub Pages. This involves two things:</p>
+        <p data-en="If you own a domain (I bought <code>zetazero.top</code>), you can point it to GitHub Pages. This involves two things:" data-zh="如果你有域名（我买了 <code>zetazero.top</code>），可以指向 GitHub Pages。这涉及两件事：">If you own a domain (I bought <code>zetazero.top</code>), you can point it to GitHub Pages. This involves two things:</p>
 
-        <h4>DNS Configuration</h4>
+        <h4 data-en="DNS Configuration" data-zh="DNS 配置">DNS Configuration</h4>
 
-        <p>You need to create A records pointing to GitHub's IP addresses:</p>
+        <p data-en="You need to create A records pointing to GitHub's IP addresses:" data-zh="需要创建指向 GitHub IP 地址的 A 记录：">You need to create A records pointing to GitHub's IP addresses:</p>
 
         <table>
           <thead>
             <tr>
-              <th>Record Type</th>
+              <th data-en="Record Type" data-zh="记录类型">Record Type</th>
               <th>Host</th>
               <th>Value</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>A</td>
-              <td>@</td>
-              <td>185.199.108.153</td>
-            </tr>
-            <tr>
-              <td>A</td>
-              <td>@</td>
-              <td>185.199.109.153</td>
-            </tr>
-            <tr>
-              <td>A</td>
-              <td>@</td>
-              <td>185.199.110.153</td>
-            </tr>
-            <tr>
-              <td>A</td>
-              <td>@</td>
-              <td>185.199.111.153</td>
-            </tr>
-            <tr>
-              <td>CNAME</td>
-              <td>www</td>
-              <td>username.github.io</td>
-            </tr>
+            <tr><td>A</td><td>@</td><td>185.199.108.153</td></tr>
+            <tr><td>A</td><td>@</td><td>185.199.109.153</td></tr>
+            <tr><td>A</td><td>@</td><td>185.199.110.153</td></tr>
+            <tr><td>A</td><td>@</td><td>185.199.111.153</td></tr>
+            <tr><td>CNAME</td><td>www</td><td>username.github.io</td></tr>
           </tbody>
         </table>
 
-        <h4>CNAME File</h4>
+        <h4 data-en="CNAME File" data-zh="CNAME 文件">CNAME File</h4>
 
-        <p>Add a file named <code>CNAME</code> to the root of your repository with your domain:</p>
+        <p data-en="Add a file named <code>CNAME</code> to the root of your repository with your domain:" data-zh="在仓库根目录添加一个名为 <code>CNAME</code> 的文件，写入你的域名：">Add a file named <code>CNAME</code> to the root of your repository with your domain:</p>
 
         <pre><code>zetazero.top</code></pre>
 
-        <p>This tells GitHub Pages to serve your site at that domain instead of <code>username.github.io</code>.</p>
+        <p data-en="This tells GitHub Pages to serve your site at that domain instead of <code>username.github.io</code>." data-zh="这告诉 GitHub Pages 在该域名上提供站点，而不是 <code>username.github.io</code>。">This tells GitHub Pages to serve your site at that domain instead of <code>username.github.io</code>.</p>
 
-        <h4>SSL Certificate</h4>
+        <h4 data-en="SSL Certificate" data-zh="SSL 证书">SSL Certificate</h4>
 
-        <p>GitHub automatically provisions a free SSL certificate via Let's Encrypt after you verify your domain. The process involves adding a TXT record to your DNS:</p>
+        <p data-en="GitHub automatically provisions a free SSL certificate via Let's Encrypt after you verify your domain. The process involves adding a TXT record to your DNS:" data-zh="GitHub 在你验证域名后自动通过 Let's Encrypt 颁发免费 SSL 证书。过程需要在 DNS 中添加 TXT 记录：">GitHub automatically provisions a free SSL certificate via Let's Encrypt after you verify your domain. The process involves adding a TXT record to your DNS:</p>
 
         <pre><code>_github-pages-challenge-username.zetazero.top  TXT  "your-verification-code"</code></pre>
 
-        <p>After verification, HTTPS is enabled automatically. This can take anywhere from a few minutes to an hour.</p>
+        <p data-en="After verification, HTTPS is enabled automatically. This can take anywhere from a few minutes to an hour." data-zh="验证后，HTTPS 自动启用。可能需要几分钟到一小时。">After verification, HTTPS is enabled automatically. This can take anywhere from a few minutes to an hour.</p>
 
-        <h2>Design Decisions</h2>
+        <h2 data-en="Design Decisions" data-zh="设计决策">Design Decisions</h2>
 
-        <p>I spent a lot of time thinking about the design. My reference was <a href="https://www.industrialempathy.com/">industrialempathy.com</a>, a blog by Malte Ubl (formerly of Google) that uses the <code>eleventy-high-performance-blog</code> template.</p>
+        <p data-en='I spent a lot of time thinking about the design. My reference was <a href="https://www.industrialempathy.com/">industrialempathy.com</a>, a blog by Malte Ubl (formerly of Google) that uses the <code>eleventy-high-performance-blog</code> template.' data-zh='我花了很多时间思考设计。我的参考是 <a href="https://www.industrialempathy.com/">industrialempathy.com</a>，Malte Ubl（前 Google 员工）的博客，使用 <code>eleventy-high-performance-blog</code> 模板。'>I spent a lot of time thinking about the design. My reference was <a href="https://www.industrialempathy.com/">industrialempathy.com</a>, a blog by Malte Ubl (formerly of Google) that uses the <code>eleventy-high-performance-blog</code> template.</p>
 
-        <h3>What Makes It Work</h3>
+        <h3 data-en="What Makes It Work" data-zh="它为什么有效">What Makes It Work</h3>
 
-        <p>The design succeeds because of what it <em>doesn't</em> do. There are no:</p>
+        <p data-en="The design succeeds because of what it <em>doesn't</em> do. There are no:" data-zh="设计之所以成功，是因为它<em>没有</em>做什么。没有：">The design succeeds because of what it <em>doesn't</em> do. There are no:</p>
 
         <ul>
-          <li>Hero images or background videos</li>
-          <li>Complex multi-column layouts</li>
-          <li>Animated transitions or parallax effects</li>
-          <li>Social media feeds or comment widgets</li>
-          <li>Cookie banners or newsletter popups</li>
+          <li data-en="Hero images or background videos" data-zh="Hero 图片或背景视频">Hero images or background videos</li>
+          <li data-en="Complex multi-column layouts" data-zh="复杂的多列布局">Complex multi-column layouts</li>
+          <li data-en="Animated transitions or parallax effects" data-zh="动画过渡或视差效果">Animated transitions or parallax effects</li>
+          <li data-en="Social media feeds or comment widgets" data-zh="社交媒体流或评论组件">Social media feeds or comment widgets</li>
+          <li data-en="Cookie banners or newsletter popups" data-zh="Cookie 横幅或新闻弹窗">Cookie banners or newsletter popups</li>
         </ul>
 
-        <p>Instead, it relies on <strong>strong typography</strong> and <strong>generous whitespace</strong>. The content is the design.</p>
+        <p data-en="Instead, it relies on <strong>strong typography</strong> and <strong>generous whitespace</strong>. The content is the design." data-zh="相反，它依靠<strong>优秀的排版</strong>和<strong>充裕的留白</strong>。内容就是设计。">Instead, it relies on <strong>strong typography</strong> and <strong>generous whitespace</strong>. The content is the design.</p>
 
-        <h3>The CSS Framework</h3>
+        <h3 data-en="The CSS Framework" data-zh="CSS 框架">The CSS Framework</h3>
 
-        <p>Under the hood, it uses <strong>Bahunya</strong>, a classless CSS framework. "Classless" means you don't need to add CSS classes to your HTML elements. The framework styles semantic HTML directly:</p>
+        <p data-en='Under the hood, it uses <strong>Bahunya</strong>, a classless CSS framework. "Classless" means you don\'t need to add CSS classes to your HTML elements. The framework styles semantic HTML directly:' data-zh='底层使用 <strong>Bahunya</strong>，一个无类名 CSS 框架。"无类名"意味着你不需要给 HTML 元素添加 CSS 类。框架直接为语义化 HTML 设置样式：'>Under the hood, it uses <strong>Bahunya</strong>, a classless CSS framework. "Classless" means you don't need to add CSS classes to your HTML elements. The framework styles semantic HTML directly:</p>
 
         <pre><code>&lt;!-- No classes needed --&gt;
 &lt;article&gt;
@@ -159,77 +139,62 @@
   &lt;/blockquote&gt;
 &lt;/article&gt;</code></pre>
 
-        <p>This approach has several advantages:</p>
+        <p data-en="This approach has several advantages:" data-zh="这种方法有几个优势：">This approach has several advantages:</p>
 
         <ol>
-          <li><strong>Cleaner HTML</strong>: No <code>class="text-lg font-bold text-gray-700"</code> everywhere</li>
-          <li><strong>Smaller CSS</strong>: The entire framework is under 3KB</li>
-          <li><strong>Better accessibility</strong>: Forces you to use proper semantic elements</li>
-          <li><strong>Easier maintenance</strong>: Change the design by editing one CSS file</li>
+          <li data-en="<strong>Cleaner HTML</strong>: No <code>class=\"text-lg font-bold text-gray-700\"</code> everywhere" data-zh="<strong>更干净的 HTML</strong>：到处都是 <code>class=\"text-lg font-bold text-gray-700\"</code>"><strong>Cleaner HTML</strong>: No <code>class="text-lg font-bold text-gray-700"</code> everywhere</li>
+          <li data-en="<strong>Smaller CSS</strong>: The entire framework is under 3KB" data-zh="<strong>更小的 CSS</strong>：整个框架不到 3KB"><strong>Smaller CSS</strong>: The entire framework is under 3KB</li>
+          <li data-en="<strong>Better accessibility</strong>: Forces you to use proper semantic elements" data-zh="<strong>更好的无障碍</strong>：强制使用正确的语义元素"><strong>Better accessibility</strong>: Forces you to use proper semantic elements</li>
+          <li data-en="<strong>Easier maintenance</strong>: Change the design by editing one CSS file" data-zh="<strong>更容易维护</strong>：编辑一个 CSS 文件就能改设计"><strong>Easier maintenance</strong>: Change the design by editing one CSS file</li>
         </ol>
 
-        <h3>Color Palette</h3>
+        <h3 data-en="Color Palette" data-zh="配色方案">Color Palette</h3>
 
-        <p>The color scheme is minimal:</p>
+        <p data-en="The color scheme is minimal:" data-zh="配色方案很简洁：">The color scheme is minimal:</p>
 
         <ul>
-          <li><strong>Background:</strong> <code>#181818</code> (near-black)</li>
-          <li><strong>Text:</strong> <code>#eee</code> (off-white)</li>
-          <li><strong>Accent:</strong> <code>#f9c412</code> (gold)</li>
-          <li><strong>Code background:</strong> <code>#2d2d2d</code> (dark gray)</li>
-          <li><strong>Inline code:</strong> <code>#e2777a</code> (soft red)</li>
+          <li data-en="<strong>Background:</strong> <code>#181818</code> (near-black)" data-zh="<strong>背景：</strong><code>#181818</code>（接近黑色）"><strong>Background:</strong> <code>#181818</code> (near-black)</li>
+          <li data-en="<strong>Text:</strong> <code>#eee</code> (off-white)" data-zh="<strong>文字：</strong><code>#eee</code>（灰白色）"><strong>Text:</strong> <code>#eee</code> (off-white)</li>
+          <li data-en="<strong>Accent:</strong> <code>#f9c412</code> (gold)" data-zh="<strong>强调色：</strong><code>#f9c412</code>（金色）"><strong>Accent:</strong> <code>#f9c412</code> (gold)</li>
+          <li data-en="<strong>Code background:</strong> <code>#2d2d2d</code> (dark gray)" data-zh="<strong>代码背景：</strong><code>#2d2d2d</code>（深灰色）"><strong>Code background:</strong> <code>#2d2d2d</code> (dark gray)</li>
+          <li data-en="<strong>Inline code:</strong> <code>#e2777a</code> (soft red)" data-zh="<strong>行内代码：</strong><code>#e2777a</code>（柔和红色）"><strong>Inline code:</strong> <code>#e2777a</code> (soft red)</li>
         </ul>
 
-        <p>The gold accent color serves multiple purposes: links, buttons, blockquote borders, progress bars, and table headers. It creates visual consistency without needing a complex design system.</p>
+        <p data-en="The gold accent color serves multiple purposes: links, buttons, blockquote borders, progress bars, and table headers. It creates visual consistency without needing a complex design system." data-zh="金色强调色有多种用途：链接、按钮、引用边框、进度条和表头。它在不需要复杂设计系统的情况下创造了视觉一致性。">The gold accent color serves multiple purposes: links, buttons, blockquote borders, progress bars, and table headers. It creates visual consistency without needing a complex design system.</p>
 
-        <h2>Typography</h2>
+        <h2 data-en="Typography" data-zh="排版">Typography</h2>
 
-        <p>Typography is the backbone of any reading-focused site. The template uses <strong>Inter UI</strong>, a variable font designed for screens. Variable fonts are great because they include all weights in a single file, reducing HTTP requests.</p>
+        <p data-en="Typography is the backbone of any reading-focused site. The template uses <strong>Inter UI</strong>, a variable font designed for screens. Variable fonts are great because they include all weights in a single file, reducing HTTP requests." data-zh="排版是任何阅读型站点的骨架。模板使用 <strong>Inter UI</strong>，一个为屏幕设计的可变字体。可变字体的优势在于所有字重都在一个文件中，减少 HTTP 请求。">Typography is the backbone of any reading-focused site. The template uses <strong>Inter UI</strong>, a variable font designed for screens. Variable fonts are great because they include all weights in a single file, reducing HTTP requests.</p>
 
-        <h3>Responsive Scaling</h3>
+        <h3 data-en="Responsive Scaling" data-zh="响应式缩放">Responsive Scaling</h3>
 
-        <p>The font sizes scale across three breakpoints:</p>
+        <p data-en="The font sizes scale across three breakpoints:" data-zh="字体大小在三个断点间缩放：">The font sizes scale across three breakpoints:</p>
 
         <table>
           <thead>
             <tr>
               <th>Viewport</th>
-              <th>Body Text</th>
+              <th data-en="Body Text" data-zh="正文">Body Text</th>
               <th>H1</th>
               <th>H2</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>&lt; 600px</td>
-              <td>1rem</td>
-              <td>2.074rem</td>
-              <td>1.728rem</td>
-            </tr>
-            <tr>
-              <td>600px &ndash; 1199px</td>
-              <td>1.1rem</td>
-              <td>4.398rem</td>
-              <td>3.11rem</td>
-            </tr>
-            <tr>
-              <td>&ge; 1200px</td>
-              <td>1.2rem</td>
-              <td>6.076rem</td>
-              <td>4.05rem</td>
-            </tr>
+            <tr><td>&lt; 600px</td><td>1rem</td><td>2.074rem</td><td>1.728rem</td></tr>
+            <tr><td>600px &ndash; 1199px</td><td>1.1rem</td><td>4.398rem</td><td>3.11rem</td></tr>
+            <tr><td>&ge; 1200px</td><td>1.2rem</td><td>6.076rem</td><td>4.05rem</td></tr>
           </tbody>
         </table>
 
-        <p>This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony.</p>
+        <p data-en="This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony." data-zh="这在大屏幕上创造了强烈的视觉层级，同时在移动端保持可读性。标题大小使用基于 <code>1.2</code>（小三度）的模块化比例，创造自然的视觉和谐。">This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony.</p>
 
-        <h2>Performance</h2>
+        <h2 data-en="Performance" data-zh="性能">Performance</h2>
 
-        <p>Performance was a key design goal. The original template achieves a perfect 100 on all Lighthouse audits. Here's how:</p>
+        <p data-en="Performance was a key design goal. The original template achieves a perfect 100 on all Lighthouse audits. Here's how:" data-zh="性能是关键设计目标。原始模板在所有 Lighthouse 审计中获得满分 100。方法如下：">Performance was a key design goal. The original template achieves a perfect 100 on all Lighthouse audits. Here's how:</p>
 
-        <h3>Critical CSS Inlining</h3>
+        <h3 data-en="Critical CSS Inlining" data-zh="关键 CSS 内联">Critical CSS Inlining</h3>
 
-        <p>The CSS is inlined directly into the HTML <code>&lt;head&gt;</code> instead of loading an external stylesheet. This eliminates a render-blocking request:</p>
+        <p data-en="The CSS is inlined directly into the HTML <code>&lt;head&gt;</code> instead of loading an external stylesheet. This eliminates a render-blocking request:" data-zh="CSS 直接内联到 HTML <code>&lt;head&gt;</code> 中，而不是加载外部样式表。这消除了一个渲染阻塞请求：">The CSS is inlined directly into the HTML <code>&lt;head&gt;</code> instead of loading an external stylesheet. This eliminates a render-blocking request:</p>
 
         <pre><code>&lt;head&gt;
   &lt;style&gt;
@@ -237,11 +202,11 @@
   &lt;/style&gt;
 &lt;/head&gt;</code></pre>
 
-        <p>For a small site like this, the CSS is under 5KB, so inlining it is a net win. For larger sites, you'd want to split critical CSS from non-critical CSS.</p>
+        <p data-en="For a small site like this, the CSS is under 5KB, so inlining it is a net win. For larger sites, you'd want to split critical CSS from non-critical CSS." data-zh="对于这样的小站点，CSS 不到 5KB，内联是净收益。对于更大的站点，需要将关键 CSS 和非关键 CSS 分离。">For a small site like this, the CSS is under 5KB, so inlining it is a net win. For larger sites, you'd want to split critical CSS from non-critical CSS.</p>
 
-        <h3>Image Optimization</h3>
+        <h3 data-en="Image Optimization" data-zh="图片优化">Image Optimization</h3>
 
-        <p>The template generates multiple image sizes with <code>srcset</code>, creates blurry placeholders, and transcodes to AVIF and WebP formats. It also uses native lazy loading and async decoding.</p>
+        <p data-en="The template generates multiple image sizes with <code>srcset</code>, creates blurry placeholders, and transcodes to AVIF and WebP formats. It also uses native lazy loading and async decoding." data-zh="模板用 <code>srcset</code> 生成多种图片尺寸，创建模糊占位符，转码为 AVIF 和 WebP 格式。还使用原生懒加载和异步解码。">The template generates multiple image sizes with <code>srcset</code>, creates blurry placeholders, and transcodes to AVIF and WebP formats. It also uses native lazy loading and async decoding.</p>
 
         <pre><code>&lt;picture&gt;
   &lt;source srcset="image.avif" type="image/avif"&gt;
@@ -250,44 +215,53 @@
        width="800" height="600" alt="Description"&gt;
 &lt;/picture&gt;</code></pre>
 
-        <h3>Font Loading</h3>
+        <h3 data-en="Font Loading" data-zh="字体加载">Font Loading</h3>
 
-        <p>Fonts are served from the same origin (not from Google Fonts) with <code>display: optional</code>. This means the text renders immediately with a system font, and the custom font only loads if it's available by the time the browser paints. No layout shift, no invisible text.</p>
+        <p data-en='Fonts are served from the same origin (not from Google Fonts) with <code>display: optional</code>. This means the text renders immediately with a system font, and the custom font only loads if it\'s available by the time the browser paints. No layout shift, no invisible text.' data-zh='字体从同源提供（不是 Google Fonts），使用 <code>display: optional</code>。这意味着文字立即用系统字体渲染，自定义字体只在浏览器绘制时可用才加载。没有布局偏移，没有不可见文字。'>Fonts are served from the same origin (not from Google Fonts) with <code>display: optional</code>. This means the text renders immediately with a system font, and the custom font only loads if it's available by the time the browser paints. No layout shift, no invisible text.</p>
 
-        <h2>What I'd Do Differently</h2>
+        <h2 data-en="What I'd Do Differently" data-zh="如果重来我会怎么做">What I'd Do Differently</h2>
 
-        <p>Looking back, there are a few things I'd change:</p>
+        <p data-en="Looking back, there are a few things I'd change:" data-zh="回头看，有几件事我会改变：">Looking back, there are a few things I'd change:</p>
 
         <dl>
-          <dt>Start with a template</dt>
-          <dd>Don't build from scratch. Find a template that's close to what you want and customize it. You'll save hours.</dd>
+          <dt data-en="Start with a template" data-zh="从模板开始">Start with a template</dt>
+          <dd data-en="Don't build from scratch. Find a template that's close to what you want and customize it. You'll save hours." data-zh="不要从零开始。找一个接近你需求的模板然后定制。能省好几个小时。">Don't build from scratch. Find a template that's close to what you want and customize it. You'll save hours.</dd>
 
-          <dt>Use a build tool from day one</dt>
-          <dd>Even for a simple site, having a build step for CSS minification and image optimization pays off quickly.</dd>
+          <dt data-en="Use a build tool from day one" data-zh="第一天就用构建工具">Use a build tool from day one</dt>
+          <dd data-en="Even for a simple site, having a build step for CSS minification and image optimization pays off quickly." data-zh="即使是简单站点，有 CSS 压缩和图片优化的构建步骤很快就能回本。">Even for a simple site, having a build step for CSS minification and image optimization pays off quickly.</dd>
 
-          <dt>Write content first</dt>
-          <dd>I spent too much time on the design before having any content. The design should serve the content, not the other way around.</dd>
+          <dt data-en="Write content first" data-zh="先写内容">Write content first</dt>
+          <dd data-en="I spent too much time on the design before having any content. The design should serve the content, not the other way around." data-zh="我在没有任何内容之前花了太多时间在设计上。设计应该服务内容，而不是反过来。">I spent too much time on the design before having any content. The design should serve the content, not the other way around.</dd>
 
-          <dt>Don't over-optimize</dt>
-          <dd>A personal blog doesn't need edge functions, ISR, or a CDN with 200 PoPs. GitHub Pages is enough.</dd>
+          <dt data-en="Don't over-optimize" data-zh="不要过度优化">Don't over-optimize</dt>
+          <dd data-en="A personal blog doesn't need edge functions, ISR, or a CDN with 200 PoPs. GitHub Pages is enough." data-zh="个人博客不需要边缘函数、ISR 或有 200 个节点的 CDN。GitHub Pages 就够了。">A personal blog doesn't need edge functions, ISR, or a CDN with 200 PoPs. GitHub Pages is enough.</dd>
         </dl>
 
-        <h2>Conclusion</h2>
+        <h2 data-en="Conclusion" data-zh="总结">Conclusion</h2>
 
-        <p>Building a personal site with GitHub Pages is a great way to learn web fundamentals. You'll encounter DNS, SSL, CSS, HTML, and JavaScript in a low-stakes environment. And when you're done, you have a permanent home on the internet that you fully control.</p>
+        <p data-en="Building a personal site with GitHub Pages is a great way to learn web fundamentals. You'll encounter DNS, SSL, CSS, HTML, and JavaScript in a low-stakes environment. And when you're done, you have a permanent home on the internet that you fully control." data-zh="用 GitHub Pages 搭建个人网站是学习 Web 基础的好方法。你会在低风险环境中接触 DNS、SSL、CSS、HTML 和 JavaScript。完成后，你就有了一个完全掌控的互联网永久家园。">Building a personal site with GitHub Pages is a great way to learn web fundamentals. You'll encounter DNS, SSL, CSS, HTML, and JavaScript in a low-stakes environment. And when you're done, you have a permanent home on the internet that you fully control.</p>
 
-        <p>The code for this site is available on <a href="https://github.com/Ha1baraA11/Ha1baraA11.github.io">GitHub</a>. Feel free to use it as a starting point for your own site.</p>
+        <p data-en='The code for this site is available on <a href="https://github.com/Ha1baraA11/Ha1baraA11.github.io">GitHub</a>. Feel free to use it as a starting point for your own site.' data-zh='这个站点的代码在 <a href="https://github.com/Ha1baraA11/Ha1baraA11.github.io">GitHub</a> 上。欢迎拿去做你自己站点的起点。'>The code for this site is available on <a href="https://github.com/Ha1baraA11/Ha1baraA11.github.io">GitHub</a>. Feel free to use it as a starting point for your own site.</p>
 
         <p>Published <time datetime="2026-05-04">04 May 2026</time></p>
       </article>
     </main>
 
     <footer>
-      <p>Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
-      <a href="/">zetazero</a>
+      <p data-en="Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense." data-zh="用 HTML、CSS 和一个文本编辑器搭建。没有框架，没有构建工具，没有废话。">Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
     </footer>
 
     <script>
+      // Apply language preference from homepage
+      (function() {
+        var lang = localStorage.getItem('lang') || 'en';
+        if (lang === 'zh') {
+          document.documentElement.setAttribute('lang', 'zh-CN');
+          document.querySelectorAll('[data-zh]').forEach(function(el) {
+            el.innerHTML = el.getAttribute('data-zh');
+          });
+        }
+      })();
       // Reading progress bar
       const progress = document.getElementById('reading-progress');
       if (progress) {
