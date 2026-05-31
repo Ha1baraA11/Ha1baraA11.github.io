@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#64B5F6">
+    <meta property="og:title" content="zetazero's blog">
+    <meta property="og:description" content="A personal blog about code, AI, and building things.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zetazero.top/">
+    <meta name="twitter:card" content="summary">
     <title>zetazero's blog</title>
     <link rel="stylesheet" href="/assets/css/style.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +30,7 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <div id="hero-title-container"></div>
+      <div id="hero-title-container" tabindex="0" role="button" aria-label="zetazero"></div>
       <p id="tagline"></p>
     </header>
 
@@ -80,14 +85,15 @@
     </main>
 
     <footer>
-      <a href="/about/">zetazero</a>
+      <p>Built with HTML, CSS, and a text editor. No frameworks, no build tools, no nonsense.</p>
+      <a href="/">zetazero</a>
     </footer>
 
     <div id="auth-modal" class="auth-modal" hidden>
       <div class="auth-modal-backdrop"></div>
       <div class="auth-modal-content">
         <p class="auth-hint">Password</p>
-        <input type="password" id="auth-password" autocomplete="off" spellcheck="false" inputmode="numeric">
+        <input type="password" id="auth-password" autocomplete="off" spellcheck="false" inputmode="numeric" aria-label="Password">
         <button id="auth-submit" type="button">Enter</button>
         <p id="auth-error" class="auth-error" hidden></p>
       </div>
@@ -236,6 +242,19 @@
         container.addEventListener('touchend', cancelHold);
         container.addEventListener('touchmove', cancelHold);
         container.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+        // Keyboard: hold Enter or Space
+        container.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (!timer) startHold(e);
+          }
+        });
+        container.addEventListener('keyup', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            cancelHold();
+          }
+        });
       })();
 
       // 5. Auth modal logic
