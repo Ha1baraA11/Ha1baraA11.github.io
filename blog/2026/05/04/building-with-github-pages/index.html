@@ -256,6 +256,13 @@
     </footer>
 
     <script>
+      // Apply theme preference from homepage
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved) document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
+    <script>
       // GoatCounter page tracking
       if (!window.goatcounter) window.goatcounter = {};
       window.goatcounter.allow_local = true;
