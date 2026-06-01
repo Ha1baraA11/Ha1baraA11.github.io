@@ -74,6 +74,12 @@
     </footer>
 
     <script>
+      // Apply theme preference from homepage
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved) document.documentElement.setAttribute('data-theme', saved);
+      })();
+
       // Apply language preference from homepage
       (function() {
         var lang = localStorage.getItem('lang') || 'en';
