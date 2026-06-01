@@ -10,6 +10,7 @@
     <meta property="og:url" content="https://zetazero.top/">
     <meta name="twitter:card" content="summary">
     <title>zetazero's blog</title>
+    <script>var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
     <link rel="stylesheet" href="/assets/css/style.css?v=13">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,27 +68,17 @@
           </ul>
         </section>
 
-        <section class="home-section fade-in">
-          <h2 data-en="Now" data-zh="当下">Now</h2>
-          <ul>
-            <li data-en="Hackathon (Web3 and related)" data-zh="黑客松（Web3 及相关）">Hackathon (Web3 and related)</li>
-          </ul>
-        </section>
-
         <section class="home-section two-col fade-in">
           <div>
-            <h2 data-en="Reading" data-zh="阅读">Reading</h2>
+            <h2 data-en="Now" data-zh="当下">Now</h2>
             <ul>
-              <li data-en="Designing Data-Intensive Applications" data-zh="数据密集型应用系统设计">Designing Data-Intensive Applications</li>
-              <li data-en="The Pragmatic Programmer" data-zh="程序员修炼之道">The Pragmatic Programmer</li>
+              <li data-en="Hackathon (Web3 and related)" data-zh="黑客松（Web3 及相关）">Hackathon (Web3 and related)</li>
             </ul>
           </div>
           <div>
-            <h2 data-en="Bookmarks" data-zh="书签">Bookmarks</h2>
+            <h2 data-en="Reading" data-zh="阅读">Reading</h2>
             <ul>
-              <li><a href="https://github.com">GitHub</a></li>
-              <li><a href="https://news.ycombinator.com">Hacker News</a></li>
-              <li><a href="https://arxiv.org">arXiv</a></li>
+              <li data-en="The Road to Financial Freedom" data-zh="财富自由之路">The Road to Financial Freedom</li>
             </ul>
           </div>
         </section>
@@ -150,7 +141,7 @@
           for (var i = 0; i < glyphs.length; i++) {
             var path = glyphs[i].getPath(x, baseline, fontSize);
             var d = path.toPathData({ flipY: true, decimalPlaces: 1 });
-            svgHTML += '<path d="' + d + '" fill="none" stroke="#64B5F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+            svgHTML += '<path d="' + d + '" fill="none" stroke="' + getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
             x += glyphWidths[i];
           }
           svgHTML += '</svg>';
