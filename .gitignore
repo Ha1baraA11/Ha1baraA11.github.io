@@ -6,6 +6,7 @@ vendor/
 Gemfile.lock
 .DS_Store
 .impeccable/
+.claude/
 letters/k7x9m2/letter-content.html
 letters/k7x9m2/xiaoxue.png
 letters/k7x9m2/zaiyiqi.jpg
