@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#2C2A20">
+    <meta name="theme-color" content="#0f1219">
     <title>Our Story</title>
     <link rel="stylesheet" href="/assets/css/letters.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
   <body>
     <div id="loading">
       <div class="loading-heart">&#10084;</div>
-      <p>Verifying...</p>
+      <p>正在拆信...</p>
     </div>
     <div id="letters-container"></div>
 
@@ -49,7 +49,7 @@
         var iv = document.getElementById('encrypted-iv').textContent.trim();
 
         if (iv === 'PLACEHOLDER_IV') {
-          loading.innerHTML = '<p style="color:#2C2A20">Content not yet encrypted. Run encrypt.mjs first.</p>';
+          loading.innerHTML = '<p style="color:var(--letters-text-muted)">Content not yet encrypted. Run encrypt.mjs first.</p>';
           return;
         }
 
@@ -61,13 +61,13 @@
           })
           .then(function (ciphertext) {
             if (!ciphertext || ciphertext.length < 10) {
-              loading.innerHTML = '<p style="color:#2C2A20">Content not yet encrypted. Run encrypt.mjs first.</p>';
+              loading.innerHTML = '<p style="color:var(--letters-text-muted)">Content not yet encrypted. Run encrypt.mjs first.</p>';
               return;
             }
             startDecryption(hexKey, ciphertext, iv);
           })
           .catch(function () {
-            loading.innerHTML = '<p style="color:#2C2A20">Failed to load content.</p>';
+            loading.innerHTML = '<p style="color:var(--letters-text-muted)">Failed to load content.</p>';
             setTimeout(function () { location.replace('/'); }, 2000);
           });
 
@@ -122,7 +122,7 @@
 
           worker.onmessage = function (e) {
             if (!e.data.ok) {
-              loading.innerHTML = '<p style="color:#2C2A20">Decryption failed.</p>';
+              loading.innerHTML = '<p style="color:var(--letters-text-muted)">Decryption failed.</p>';
               setTimeout(function () { location.replace('/'); }, 2000);
               return;
             }
@@ -138,7 +138,7 @@
           };
 
           worker.onerror = function () {
-            loading.innerHTML = '<p style="color:#2C2A20">Decryption failed.</p>';
+            loading.innerHTML = '<p style="color:var(--letters-text-muted)">Decryption failed.</p>';
             setTimeout(function () { location.replace('/'); }, 2000);
           };
 
