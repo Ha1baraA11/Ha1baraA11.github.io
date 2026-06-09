@@ -1,32 +1,32 @@
 /* ===== Romantic Theme — Letters Page ===== */
 
 :root {
-  --letters-primary: #2C2A20;
-  --letters-primary-light: #5C5A4E;
-  --letters-accent: #c9a87c;
-  --letters-bg: #1a1216;
-  --letters-bg-card: #231a1e;
-  --letters-bg-card-hover: #2a2024;
-  --letters-text: #F5E6E0;
-  --letters-text-muted: #d4c4ba;
-  --letters-border: #3d2a30;
-  --letters-shadow: rgba(44, 42, 32, 0.15);
-  --letters-glow: rgba(201, 168, 124, 0.08);
+  --letters-primary: #151a24;
+  --letters-primary-light: #303846;
+  --letters-accent: #c4976a;
+  --letters-bg: #0f1219;
+  --letters-bg-card: #181d27;
+  --letters-bg-card-hover: #1e2433;
+  --letters-text: #e3e8ef;
+  --letters-text-muted: #7a8494;
+  --letters-border: #252b36;
+  --letters-shadow: rgba(0, 0, 0, 0.25);
+  --letters-glow: rgba(196, 151, 106, 0.07);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 [data-theme="light"] {
-  --letters-primary: #2C2A20;
-  --letters-primary-light: #5C5A4E;
-  --letters-accent: #a08060;
-  --letters-bg: #FFF8F0;
+  --letters-primary: #1e2430;
+  --letters-primary-light: #3d4758;
+  --letters-accent: #9a7548;
+  --letters-bg: #f7f5f2;
   --letters-bg-card: #fff;
-  --letters-bg-card-hover: #fefaf5;
+  --letters-bg-card-hover: #fafaf8;
   --letters-text: #1a1a1a;
-  --letters-text-muted: #6B5E53;
-  --letters-border: #D0C0B4;
-  --letters-shadow: rgba(44, 42, 32, 0.08);
-  --letters-glow: rgba(160, 128, 96, 0.06);
+  --letters-text-muted: #5c6370;
+  --letters-border: #d5d0ca;
+  --letters-shadow: rgba(0, 0, 0, 0.06);
+  --letters-glow: rgba(154, 117, 72, 0.05);
 }
 
 /* ===== Base ===== */
@@ -51,7 +51,7 @@ body {
 }
 
 ::selection {
-  background: var(--letters-accent);
+  background: #6b4a2e;
   color: #fff;
 }
 
@@ -148,7 +148,8 @@ body {
   transform: translateX(-50%);
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--letters-border), transparent);
+  background: linear-gradient(90deg, transparent, var(--letters-accent), transparent);
+  opacity: 0.3;
 }
 
 #love-counter::before { top: 0; }
@@ -451,6 +452,10 @@ a:focus-visible {
   .letter-images img {
     min-width: calc((100% - 1em) / 2);
   }
+
+  #letter-reader-content {
+    border-radius: 12px;
+  }
 }
 
 /* ===== Reduced Motion ===== */
@@ -475,5 +480,9 @@ a:focus-visible {
 
   .loading-heart {
     animation: none;
+  }
+
+  .letters-page::before {
+    display: none;
   }
 }
