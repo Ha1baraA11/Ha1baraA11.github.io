@@ -136,7 +136,7 @@ body {
   font-family: 'Caveat', cursive;
   font-size: 1.4rem;
   color: var(--page-text-muted);
-  entry-spacing: 0.04em;
+  letter-spacing: 0.04em;
   position: relative;
 }
 
@@ -170,7 +170,7 @@ body {
   color: var(--page-text);
   margin: 0 0 0.4em;
   line-height: 1.15;
-  entry-spacing: 0.01em;
+  letter-spacing: 0.01em;
 }
 
 .page-header .subtitle {
@@ -178,7 +178,7 @@ body {
   color: var(--page-text-muted);
   font-style: italic;
   margin: 0;
-  entry-spacing: 0.02em;
+  letter-spacing: 0.02em;
 }
 
 /* ===== Entry Card ===== */
@@ -284,7 +284,7 @@ a:focus-visible {
   color: var(--page-text-muted);
   font-family: 'Caveat', cursive;
   margin-bottom: 0.6em;
-  entry-spacing: 0.02em;
+  letter-spacing: 0.02em;
 }
 
 #entry-reader-content h2 {
@@ -308,7 +308,7 @@ a:focus-visible {
   color: var(--page-text-muted);
   font-family: 'Caveat', cursive;
   margin-bottom: 0.6em;
-  entry-spacing: 0.02em;
+  letter-spacing: 0.02em;
 }
 
 .entry-card h2 {
@@ -373,7 +373,7 @@ a:focus-visible {
   font-size: 1rem;
   margin: 2.5em 0 0;
   opacity: 0.5;
-  entry-spacing: 0.6em;
+  letter-spacing: 0.6em;
 }
 
 /* ===== Floating Particles Background ===== */
