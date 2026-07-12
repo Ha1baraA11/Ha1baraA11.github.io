@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#0f1219">
-    <title>Our Story</title>
-    <link rel="stylesheet" href="/assets/css/letters.css">
+    <title>Archive</title>
+    <link rel="stylesheet" href="/assets/css/page.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
@@ -15,24 +15,24 @@
   </head>
   <body>
     <div id="loading">
-      <div class="loading-heart">&#10084;</div>
-      <p>正在拆信...</p>
+      <div class="loading-mark" aria-hidden="true">&#8226;</div>
+      <p>正在加载...</p>
     </div>
-    <div id="letters-container"></div>
+    <div id="page-container"></div>
 
-    <script id="encrypted-iv" type="text/plain">2Yxv53j97CMOMUKx</script>
+    <script id="payload-iv" type="text/plain">X/yg6GVOE1GMyO38</script>
 
-    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/access.js"></script>
     <script>
       (function () {
         'use strict';
 
-        var KEY = 'letters_key';
-        var TS = 'letters_ts';
+        var KEY = 'page_key';
+        var TS = 'page_ts';
         var TTL_MS = 120000;
 
         var loading = document.getElementById('loading');
-        var container = document.getElementById('letters-container');
+        var container = document.getElementById('page-container');
 
         // 1. Read & validate sessionStorage
         var hexKey = sessionStorage.getItem(KEY);
@@ -46,33 +46,33 @@
         sessionStorage.removeItem(KEY);
         sessionStorage.removeItem(TS);
 
-        var iv = document.getElementById('encrypted-iv').textContent.trim();
+        var iv = document.getElementById('payload-iv').textContent.trim();
 
         if (iv === 'PLACEHOLDER_IV') {
-          loading.innerHTML = '<p style="color:var(--letters-text-muted)">Content not yet encrypted. Run encrypt.mjs first.</p>';
+          loading.innerHTML = '<p style="color:var(--page-text-muted)">Content unavailable.</p>';
           return;
         }
 
-        // 2. Fetch encrypted blob from external file
-        fetch('/letters/k7x9m2/data.bin')
+        // 2. Fetch data blob from external file
+        fetch('/p/k7x9m2/data.bin')
           .then(function (resp) {
             if (!resp.ok) throw new Error('Failed to load data');
             return resp.text();
           })
           .then(function (ciphertext) {
             if (!ciphertext || ciphertext.length < 10) {
-              loading.innerHTML = '<p style="color:var(--letters-text-muted)">Content not yet encrypted. Run encrypt.mjs first.</p>';
+              loading.innerHTML = '<p style="color:var(--page-text-muted)">Content unavailable.</p>';
               return;
             }
-            startDecryption(hexKey, ciphertext, iv);
+            startProcessing(hexKey, ciphertext, iv);
           })
           .catch(function () {
-            loading.innerHTML = '<p style="color:var(--letters-text-muted)">Failed to load content.</p>';
+            loading.innerHTML = '<p style="color:var(--page-text-muted)">Failed to load content.</p>';
             setTimeout(function () { location.replace('/'); }, 2000);
           });
 
-        // 3. Create inline Web Worker for decryption + decompression
-        function startDecryption(hexKey, ciphertext, iv) {
+        // 3. Create inline Web Worker for data processing + decompression
+        function startProcessing(hexKey, ciphertext, iv) {
           var workerCode = [
             'self.onmessage = async function(e) {',
             '  var hexKey = e.data.hexKey;',
@@ -122,7 +122,7 @@
 
           worker.onmessage = function (e) {
             if (!e.data.ok) {
-              loading.innerHTML = '<p style="color:var(--letters-text-muted)">Decryption failed.</p>';
+              loading.innerHTML = '<p style="color:var(--page-text-muted)">Processing failed.</p>';
               setTimeout(function () { location.replace('/'); }, 2000);
               return;
             }
@@ -138,7 +138,7 @@
           };
 
           worker.onerror = function () {
-            loading.innerHTML = '<p style="color:var(--letters-text-muted)">Decryption failed.</p>';
+            loading.innerHTML = '<p style="color:var(--page-text-muted)">Processing failed.</p>';
             setTimeout(function () { location.replace('/'); }, 2000);
           };
 

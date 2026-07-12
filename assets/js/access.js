@@ -54,7 +54,7 @@
     return { ok: ok, hexKey: ok ? bytesToHex(rawKey) : null };
   }
 
-  window.LettersAuth = {
+  window.AccessAuth = {
     verify: verify,
     deriveKeyHex: deriveKeyHex,
     verifyAndDeriveHex: verifyAndDeriveHex
