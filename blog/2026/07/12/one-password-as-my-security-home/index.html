@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#64B5F6">
+    <meta property="og:title" content="Making 1Password My Security Home">
+    <meta property="og:description" content="A practical approach to consolidating passwords, passkeys, and one-time codes without creating a single point of failure.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://zetazero.top/blog/2026/07/12/one-password-as-my-security-home/">
+    <meta name="twitter:card" content="summary">
+    <title>Making 1Password My Security Home | zetazero's blog</title>
+    <script>var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+    <link rel="stylesheet" href="/assets/css/style.css?v=13">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;z&lt;/text&gt;&lt;/svg&gt;">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="nav">
+          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <div class="nav-controls">
+            <a href="/about" data-en="About" data-zh="关于">About</a>
+            <a href="https://github.com/Ha1baraA11">GitHub</a>
+          </div>
+        </div>
+        <div id="reading-progress" aria-hidden="true"></div>
+      </nav>
+      <h1 data-en="Making 1Password My Security Home" data-zh="把 1Password 变成我的安全中枢">Making 1Password My Security Home</h1>
+      <div class="post-meta"><span data-en="7 min read." data-zh="预计阅读 7 分钟">7 min read.</span></div>
+    </header>
+
+    <main><article>
+      <blockquote><p data-en="Passwords, passkeys, and two-factor codes are easier to live with when they have &lt;strong&gt;one deliberate home&lt;/strong&gt;. The important word is deliberate." data-zh="当密码、Passkey 和双重验证代码都有一个经过认真选择的归处，安全会更容易坚持。重点在于「&lt;strong&gt;认真选择&lt;/strong&gt;」。">Passwords, passkeys, and two-factor codes are easier to live with when they have <strong>one deliberate home</strong>. The important word is deliberate.</p></blockquote>
+
+      <p data-en="For a long time, my credentials were spread across browser autofill, Apple Passwords, and separate authenticator apps. None of those tools was inherently wrong. The friction came from not knowing which one would appear, which copy was current, or where the recovery material lived. I wanted &lt;strong&gt;one everyday interface&lt;/strong&gt;: 1Password." data-zh="很长一段时间，我的凭据分散在浏览器自动填充、Apple 密码和独立验证器 App 里。它们本身都没有错；问题在于我不知道哪个会弹出来、哪份密码是最新的，以及恢复资料在哪里。我想要一个&lt;strong&gt;日常使用的统一入口&lt;/strong&gt;：1Password。">For a long time, my credentials were spread across browser autofill, Apple Passwords, and separate authenticator apps. None of those tools was inherently wrong. The friction came from not knowing which one would appear, which copy was current, or where the recovery material lived. I wanted <strong>one everyday interface</strong>: 1Password.</p>
+
+      <h2 data-en="One home, not one careless dependency" data-zh="一个入口，不是一种鲁莽的依赖">One home, not one careless dependency</h2>
+
+      <p data-en="The goal is not to put every security decision on autopilot. It is to make the normal path reliable enough that I stop reusing passwords or postponing two-factor authentication. A password manager gives each account a &lt;strong&gt;unique password&lt;/strong&gt;, remembers it, and makes the secure option less annoying than the shortcut." data-zh="目标不是把所有安全决策都交给自动驾驶，而是让日常流程足够可靠，使我不再复用密码，也不再拖延开启双重验证。密码管理器为每个账户生成&lt;strong&gt;独立密码&lt;/strong&gt;、记住它，并让安全做法比偷懒更省事。">The goal is not to put every security decision on autopilot. It is to make the normal path reliable enough that I stop reusing passwords or postponing two-factor authentication. A password manager gives each account a <strong>unique password</strong>, remembers it, and makes the secure option less annoying than the shortcut.</p>
+
+      <p data-en="1Password can keep three things that used to be scattered: &lt;strong&gt;Login items, passkeys, and time-based one-time passwords (TOTP)&lt;/strong&gt;. Passkeys saved in 1Password can be used to sign in in the browser, and a passkey can live in an existing Login item or as its own item. TOTP codes can also be stored with a Login, so the six-digit code is ready after the password is filled." data-zh="1Password 可以收纳过去分散的三类信息：&lt;strong&gt;登录项目、Passkey 和基于时间的一次性密码（TOTP）&lt;/strong&gt;。保存到 1Password 的 Passkey 可在浏览器中用于登录；它既可以附在已有登录项目中，也可以单独保存。TOTP 代码也能和登录项目放在一起，填完密码后六位验证码就已就绪。">1Password can keep three things that used to be scattered: <strong>Login items, passkeys, and time-based one-time passwords (TOTP)</strong>. Passkeys saved in 1Password can be used to sign in in the browser, and a passkey can live in an existing Login item or as its own item. TOTP codes can also be stored with a Login, so the six-digit code is ready after the password is filled.</p>
+
+      <h2 data-en="The migration rule: change the default, preserve the escape hatch" data-zh="迁移原则：更换默认入口，保留退路">The migration rule: change the default, preserve the escape hatch</h2>
+
+      <p data-en="The untidy part of the transition is browser autofill. When Chrome and 1Password both offer credentials, the page feels noisy and it becomes easy to save an updated password in the wrong place. My preferred end state is simple: &lt;strong&gt;1Password is the only tool that offers to fill and save passwords in the browser&lt;/strong&gt;." data-zh="迁移中最混乱的部分是浏览器自动填充。当 Chrome 和 1Password 同时提供凭据时，页面会很嘈杂，也很容易把新密码保存到错误的位置。我理想的最终状态很简单：&lt;strong&gt;浏览器中只有 1Password 负责建议、填充和保存密码&lt;/strong&gt;。">The untidy part of the transition is browser autofill. When Chrome and 1Password both offer credentials, the page feels noisy and it becomes easy to save an updated password in the wrong place. My preferred end state is simple: <strong>1Password is the only tool that offers to fill and save passwords in the browser</strong>.</p>
+
+      <p data-en="That does not require deleting everything on day one. First import or verify the important logins, then disable the browser's save-and-fill prompts. Keep the old store as a read-only fallback during the transition. Only after testing key accounts, recovery methods, and passkeys should it be cleaned up. A CSV export is useful as a password inventory, but it is not a complete migration format: treat passkeys and TOTP secrets as items that need individual verification." data-zh="这并不意味着第一天就要删光所有旧数据。先导入或核验重要登录项目，再关闭浏览器的保存和填充提示；迁移期间把旧存储当作只读后备。只有在测试过关键账户、恢复方式和 Passkey 之后，再进行清理。CSV 导出适合作为密码清单，但不是完整迁移格式：Passkey 和 TOTP 密钥应逐项核验。">That does not require deleting everything on day one. First import or verify the important logins, then disable the browser's save-and-fill prompts. Keep the old store as a read-only fallback during the transition. Only after testing key accounts, recovery methods, and passkeys should it be cleaned up. A CSV export is useful as a password inventory, but it is not a complete migration format: treat passkeys and TOTP secrets as items that need individual verification.</p>
+
+      <h3 data-en="A small cleanup standard" data-zh="一套简洁的整理标准">A small cleanup standard</h3>
+      <ul>
+        <li data-en="&lt;strong&gt;One Login item per account&lt;/strong&gt; whenever possible, with the primary domain in its website field." data-zh="尽量做到&lt;strong&gt;每个账户只保留一个登录项目&lt;/strong&gt;，并在网站字段中填写主域名。"><strong>One Login item per account</strong> whenever possible, with the primary domain in its website field.</li>
+        <li data-en="Add a specific sign-in URL only when a service genuinely needs a different subdomain or flow." data-zh="只有服务确实依赖不同子域名或登录流程时，才添加具体登录网址。">Add a specific sign-in URL only when a service genuinely needs a different subdomain or flow.</li>
+        <li data-en="After changing a password, &lt;strong&gt;confirm the saved item&lt;/strong&gt; before closing the site. A confirmation click is cheaper than an account-recovery flow." data-zh="改完密码后，在关闭网页前&lt;strong&gt;确认保存项目&lt;/strong&gt;是否已更新。一次确认点击，远比账户恢复流程便宜。">After changing a password, <strong>confirm the saved item</strong> before closing the site. A confirmation click is cheaper than an account-recovery flow.</li>
+        <li data-en="On iPhone and iPad, make 1Password the chosen password and passkey provider, then test one ordinary login on each device." data-zh="在 iPhone 和 iPad 上选择 1Password 作为密码与 Passkey 提供方，然后在每台设备上测试一个普通登录。">On iPhone and iPad, make 1Password the chosen password and passkey provider, then test one ordinary login on each device.</li>
+      </ul>
+
+      <h2 data-en="TOTP is convenient, but recovery codes still matter" data-zh="TOTP 很方便，但恢复代码依然重要">TOTP is convenient, but recovery codes still matter</h2>
+
+      <p data-en="Putting a password and its one-time code in the same manager makes everyday sign-in wonderfully smooth. It also means that access to that manager becomes more important. For low-friction accounts, that trade-off is often exactly what I want. For email, financial services, developer infrastructure, and anything that can reset other accounts, I keep the service's &lt;strong&gt;recovery codes separately&lt;/strong&gt; and record which recovery path exists." data-zh="把密码和一次性验证码放在同一个管理器里，会让日常登录非常顺滑；同时也意味着，访问这个管理器变得更重要。对于普通账户，这个取舍通常正合我意。对于邮箱、金融服务、开发基础设施，以及任何能重置其他账户的入口，我会&lt;strong&gt;单独保存恢复代码&lt;/strong&gt;，并记录可用的恢复路径。">Putting a password and its one-time code in the same manager makes everyday sign-in wonderfully smooth. It also means that access to that manager becomes more important. For low-friction accounts, that trade-off is often exactly what I want. For email, financial services, developer infrastructure, and anything that can reset other accounts, I keep the service's <strong>recovery codes separately</strong> and record which recovery path exists.</p>
+
+      <p data-en="When a site shows a QR code for two-factor setup, the reliable method is to edit the matching Login item in 1Password, add a one-time-password field, and scan the code or enter the setup secret. Before leaving the setup screen, copy the generated code from 1Password and complete the website's confirmation step. If scanning is awkward, choosing the site's manual setup option is usually clearer than repeatedly trying the camera." data-zh="当网站展示双重验证二维码时，更可靠的做法是编辑 1Password 中对应的登录项目，添加一次性密码字段，再扫描二维码或输入设置密钥。离开设置页面前，从 1Password 复制生成的验证码，完成网站的确认步骤。若扫描不顺畅，选择网站的手动设置选项，通常比反复对着摄像头尝试更清楚。">When a site shows a QR code for two-factor setup, the reliable method is to edit the matching Login item in 1Password, add a one-time-password field, and scan the code or enter the setup secret. Before leaving the setup screen, copy the generated code from 1Password and complete the website's confirmation step. If scanning is awkward, choosing the site's manual setup option is usually clearer than repeatedly trying the camera.</p>
+
+      <h2 data-en="Security is also recoverability" data-zh="安全也意味着可恢复">Security is also recoverability</h2>
+
+      <p data-en="The reason I am comfortable centralizing daily use is not that a password manager is magic. It is that 1Password combines an account password with a Secret Key when protecting account data. The Secret Key is &lt;strong&gt;not a substitute for the account password&lt;/strong&gt; and it is not a recovery code. It is an additional secret required when signing in on a new device, so it deserves a backup plan of its own." data-zh="我愿意把日常使用集中起来，并不是因为密码管理器有什么魔法，而是因为 1Password 用账户密码和 Secret Key 共同保护账户数据。Secret Key&lt;strong&gt;不能替代账户密码&lt;/strong&gt;，也不是恢复代码；它是在新设备登录时所需的额外秘密，因此值得拥有独立的备份方案。">The reason I am comfortable centralizing daily use is not that a password manager is magic. It is that 1Password combines an account password with a Secret Key when protecting account data. The Secret Key is <strong>not a substitute for the account password</strong> and it is not a recovery code. It is an additional secret required when signing in on a new device, so it deserves a backup plan of its own.</p>
+
+      <p data-en="My baseline is an &lt;strong&gt;Emergency Kit stored offline&lt;/strong&gt;, plus a tested recovery path for the primary email account. The kit should be available if every familiar device disappears, but it should not be casually photographed, pasted into chat, or left in a public cloud folder. A sealed paper copy in a controlled physical location is boring, which is part of why it works." data-zh="我的底线是：&lt;strong&gt;离线保存 Emergency Kit&lt;/strong&gt;，并为主邮箱准备一条经过测试的恢复路径。即使所有常用设备都不在身边，也应该能拿到这份资料；但它不该被随手拍照、粘贴到聊天记录，或放进公开的云盘文件夹。把纸质副本密封后放在可控的实体地点很朴素，也正因如此可靠。">My baseline is an <strong>Emergency Kit stored offline</strong>, plus a tested recovery path for the primary email account. The kit should be available if every familiar device disappears, but it should not be casually photographed, pasted into chat, or left in a public cloud folder. A sealed paper copy in a controlled physical location is boring, which is part of why it works.</p>
+
+      <h2 data-en="An exit plan makes the setup stronger" data-zh="准备退出方案，反而让系统更稳">An exit plan makes the setup stronger</h2>
+
+      <p data-en="A subscription is not a trap if I can inspect and export my own data. According to 1Password's current policy, a frozen account after cancellation can still be used to view and export data, provided the account is not deleted. That is reassuring, but I would rather not discover the details during an emergency. Once a year, I plan to review the Emergency Kit, the primary-email recovery path, and a current export stored safely for reference." data-zh="只要能查看并导出自己的数据，订阅就不是陷阱。按照 1Password 现行政策，取消订阅后账户被冻结，仍可登录查看和导出数据，前提是没有删除账户。这令人安心，但我不想在紧急时刻才了解这些细节。我计划每年检查一次 Emergency Kit、主邮箱恢复路径，以及一份安全保存的当前导出文件。">A subscription is not a trap if I can inspect and export my own data. According to 1Password's current policy, a frozen account after cancellation can still be used to view and export data, provided the account is not deleted. That is reassuring, but I would rather not discover the details during an emergency. Once a year, I plan to review the Emergency Kit, the primary-email recovery path, and a current export stored safely for reference.</p>
+
+      <p data-en="If I ever move to another 1Password account, I will keep both accounts available long enough to copy or move items and test them in the new account. Passwords are only one part of the job. TOTP, passkeys, recovery codes, and shared-vault permissions all need a deliberate check. &lt;strong&gt;Migration is finished when the new setup signs in successfully&lt;/strong&gt;, not when a CSV file exists." data-zh="如果未来迁移到另一个 1Password 账户，我会让新旧账户同时可用足够长的时间，以便复制或移动项目，并在新账户中测试。密码只是其中一部分；TOTP、Passkey、恢复代码和共享保险库权限都需要有意识地检查。&lt;strong&gt;迁移完成的标志是新系统能成功登录&lt;/strong&gt;，而不只是手上有一份 CSV。">If I ever move to another 1Password account, I will keep both accounts available long enough to copy or move items and test them in the new account. Passwords are only one part of the job. TOTP, passkeys, recovery codes, and shared-vault permissions all need a deliberate check. <strong>Migration is finished when the new setup signs in successfully</strong>, not when a CSV file exists.</p>
+
+      <h2 data-en="The setup I actually want" data-zh="我真正想要的配置">The setup I actually want</h2>
+      <p data-en="One password manager for daily work. One clear autofill provider per device. Unique passwords everywhere. Passkeys when a service supports them. TOTP for convenience, with recovery codes kept separately for the accounts that matter most. And a boring, offline Emergency Kit that can get me back in when convenience fails. &lt;em&gt;Centralization is useful only when it comes with verification, recovery, and an exit plan.&lt;/em&gt;" data-zh="一个密码管理器负责日常使用；每台设备只有一个明确的自动填充提供方；所有网站使用唯一密码；服务支持时使用 Passkey；TOTP 用于便利，而最重要账户的恢复代码单独保存。再加上一份朴素的离线 Emergency Kit，在便利失效时把我带回来。&lt;em&gt;集中管理只有在配合验证、恢复和退出方案时，才真正有价值。&lt;/em&gt;">One password manager for daily work. One clear autofill provider per device. Unique passwords everywhere. Passkeys when a service supports them. TOTP for convenience, with recovery codes kept separately for the accounts that matter most. And a boring, offline Emergency Kit that can get me back in when convenience fails. <em>Centralization is useful only when it comes with verification, recovery, and an exit plan.</em></p>
+
+      <h2 data-en="References" data-zh="参考资料">References</h2>
+      <ul>
+        <li><a href="https://support.1password.com/save-use-passkeys/" data-en="1Password Support: Save and sign in with passkeys" data-zh="1Password 支持文档：保存并使用 Passkey 登录">1Password Support: Save and sign in with passkeys</a></li>
+        <li><a href="https://support.1password.com/one-time-passwords/" data-en="1Password Support: Use 1Password as an authenticator" data-zh="1Password 支持文档：将 1Password 用作验证器">1Password Support: Use 1Password as an authenticator</a></li>
+        <li><a href="https://support.1password.com/secret-key-security/" data-en="1Password Support: About your Secret Key" data-zh="1Password 支持文档：关于 Secret Key">1Password Support: About your Secret Key</a></li>
+        <li><a href="https://support.1password.com/membership-billing-policy/" data-en="1Password Support: Subscription billing policy" data-zh="1Password 支持文档：订阅计费政策">1Password Support: Subscription billing policy</a></li>
+      </ul>
+      <p data-en="Published <time datetime=&quot;2026-07-12&quot;>12 Jul 2026</time>" data-zh="发布于 <time datetime=&quot;2026-07-12&quot;>2026 年 7 月 12 日</time>">Published <time datetime="2026-07-12">12 Jul 2026</time></p>
+    </article></main>
+    <footer></footer>
+    <script>
+      (function(){var lang=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('lang',lang==='zh'?'zh-CN':'en');document.querySelectorAll('[data-'+lang+']').forEach(function(el){el.innerHTML=el.getAttribute('data-'+lang);});var progress=document.getElementById('reading-progress');window.addEventListener('scroll',function(){var h=document.documentElement.scrollHeight-document.documentElement.clientHeight;var p=h?Math.min(100,Math.max(0,(window.scrollY/h)*100)):0;progress.style.transform='translate('+(-100+p)+'vw,0)';},{passive:true});})();
+    </script>
+    <script data-goatcounter="https://zetazero.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>
