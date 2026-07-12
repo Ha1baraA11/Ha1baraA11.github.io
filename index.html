@@ -112,7 +112,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/opentype.js@0.12.0/dist/opentype.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vivus@0.4.6/dist/vivus.min.js"></script>
-    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/access.js"></script>
     <script>
       // Hero title handwriting animation
       (function() {
@@ -333,11 +333,11 @@
           submitBtn.disabled = true;
 
           try {
-            var result = await LettersAuth.verifyAndDeriveHex(pw);
+            var result = await AccessAuth.verifyAndDeriveHex(pw);
             if (result.ok) {
-              sessionStorage.setItem('letters_key', result.hexKey);
-              sessionStorage.setItem('letters_ts', Date.now().toString());
-              location.href = '/letters/k7x9m2/';
+              sessionStorage.setItem('page_key', result.hexKey);
+              sessionStorage.setItem('page_ts', Date.now().toString());
+              location.href = '/p/k7x9m2/';
               return;
             }
             showError('Wrong password');

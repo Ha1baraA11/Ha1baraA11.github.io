@@ -1,32 +1,32 @@
-/* ===== Romantic Theme — Letters Page ===== */
+/* ===== Archive Theme — Page ===== */
 
 :root {
-  --letters-primary: #151a24;
-  --letters-primary-light: #303846;
-  --letters-accent: #c4976a;
-  --letters-bg: #0f1219;
-  --letters-bg-card: #181d27;
-  --letters-bg-card-hover: #1e2433;
-  --letters-text: #e3e8ef;
-  --letters-text-muted: #7a8494;
-  --letters-border: #252b36;
-  --letters-shadow: rgba(0, 0, 0, 0.25);
-  --letters-glow: rgba(196, 151, 106, 0.07);
+  --page-primary: #151a24;
+  --page-primary-light: #303846;
+  --page-accent: #c4976a;
+  --page-bg: #0f1219;
+  --page-bg-card: #181d27;
+  --page-bg-card-hover: #1e2433;
+  --page-text: #e3e8ef;
+  --page-text-muted: #7a8494;
+  --page-border: #252b36;
+  --page-shadow: rgba(0, 0, 0, 0.25);
+  --page-glow: rgba(196, 151, 106, 0.07);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 [data-theme="light"] {
-  --letters-primary: #1e2430;
-  --letters-primary-light: #3d4758;
-  --letters-accent: #9a7548;
-  --letters-bg: #f7f5f2;
-  --letters-bg-card: #fff;
-  --letters-bg-card-hover: #fafaf8;
-  --letters-text: #1a1a1a;
-  --letters-text-muted: #5c6370;
-  --letters-border: #d5d0ca;
-  --letters-shadow: rgba(0, 0, 0, 0.06);
-  --letters-glow: rgba(154, 117, 72, 0.05);
+  --page-primary: #1e2430;
+  --page-primary-light: #3d4758;
+  --page-accent: #9a7548;
+  --page-bg: #f7f5f2;
+  --page-bg-card: #fff;
+  --page-bg-card-hover: #fafaf8;
+  --page-text: #1a1a1a;
+  --page-text-muted: #5c6370;
+  --page-border: #d5d0ca;
+  --page-shadow: rgba(0, 0, 0, 0.06);
+  --page-glow: rgba(154, 117, 72, 0.05);
 }
 
 /* ===== Base ===== */
@@ -39,8 +39,8 @@
 body {
   margin: 0;
   font-family: 'Cormorant Garamond', 'Georgia', serif;
-  background: var(--letters-bg);
-  color: var(--letters-text);
+  background: var(--page-bg);
+  color: var(--page-text);
   font-size: 1.15rem;
   line-height: 1.8;
   min-height: 100vh;
@@ -65,18 +65,18 @@ body {
   min-height: 60vh;
   font-family: 'Caveat', cursive;
   font-size: 1.2rem;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   gap: 1.2em;
 }
 
-.loading-heart {
+.loading-mark {
   font-size: 2.5rem;
-  color: var(--letters-accent);
-  animation: heartbeat 1.4s var(--ease-out-quart) infinite;
-  filter: drop-shadow(0 0 12px var(--letters-glow));
+  color: var(--page-accent);
+  animation: pulse 1.4s var(--ease-out-quart) infinite;
+  filter: drop-shadow(0 0 12px var(--page-glow));
 }
 
-@keyframes heartbeat {
+@keyframes pulse {
   0%, 100% { transform: scale(1); }
   12% { transform: scale(1.3); }
   24% { transform: scale(1); }
@@ -86,7 +86,7 @@ body {
 
 /* ===== Page Layout ===== */
 
-.letters-page {
+.page-page {
   max-width: 48em;
   margin: 0 auto;
   padding: 3em 1.5em 5em;
@@ -98,7 +98,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   font-size: 0.9rem;
   margin-bottom: 2.5em;
   text-decoration: none;
@@ -113,83 +113,83 @@ body {
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--letters-accent);
+  background: var(--page-accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s var(--ease-out-quart);
 }
 
 .back-home:hover {
-  color: var(--letters-accent);
+  color: var(--page-accent);
 }
 
 .back-home:hover::after {
   transform: scaleX(1);
 }
 
-/* ===== Love Counter ===== */
+/* ===== Status Marker ===== */
 
-#love-counter {
+#status-marker {
   text-align: center;
   padding: 1.5em 1em;
   margin-bottom: 2em;
   font-family: 'Caveat', cursive;
   font-size: 1.4rem;
-  color: var(--letters-text-muted);
-  letter-spacing: 0.04em;
+  color: var(--page-text-muted);
+  entry-spacing: 0.04em;
   position: relative;
 }
 
-#love-counter::before,
-#love-counter::after {
+#status-marker::before,
+#status-marker::after {
   content: '';
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--letters-accent), transparent);
+  background: linear-gradient(90deg, transparent, var(--page-accent), transparent);
   opacity: 0.3;
 }
 
-#love-counter::before { top: 0; }
-#love-counter::after { bottom: 0; }
+#status-marker::before { top: 0; }
+#status-marker::after { bottom: 0; }
 
 /* ===== Header ===== */
 
-.letters-header {
+.page-header {
   text-align: center;
   margin-bottom: 3.5em;
   position: relative;
 }
 
-.letters-header h1 {
+.page-header h1 {
   font-family: 'Caveat', cursive;
   font-size: 3rem;
   font-weight: 700;
-  color: var(--letters-text);
+  color: var(--page-text);
   margin: 0 0 0.4em;
   line-height: 1.15;
-  letter-spacing: 0.01em;
+  entry-spacing: 0.01em;
 }
 
-.letters-header .subtitle {
+.page-header .subtitle {
   font-size: 1.05rem;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   font-style: italic;
   margin: 0;
-  letter-spacing: 0.02em;
+  entry-spacing: 0.02em;
 }
 
-/* ===== Letter Card ===== */
+/* ===== Entry Card ===== */
 
-.letter-card {
-  background: var(--letters-bg-card);
-  border: 1px solid var(--letters-border);
+.entry-card {
+  background: var(--page-bg-card);
+  border: 1px solid var(--page-border);
   border-radius: 14px;
   padding: 2.2em 2.4em;
   margin-bottom: 2em;
-  box-shadow: 0 2px 16px var(--letters-shadow);
+  box-shadow: 0 2px 16px var(--page-shadow);
   transition:
     border-color 0.3s var(--ease-out-quart),
     box-shadow 0.3s var(--ease-out-quart),
@@ -200,38 +200,38 @@ body {
   overflow: hidden;
 }
 
-.letter-card::before {
+.entry-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--letters-accent), transparent);
+  background: linear-gradient(90deg, transparent, var(--page-accent), transparent);
   opacity: 0;
   transition: opacity 0.3s var(--ease-out-quart);
 }
 
-.letter-card:hover {
-  border-color: var(--letters-accent);
-  background: var(--letters-bg-card-hover);
-  box-shadow: 0 8px 32px var(--letters-shadow), 0 0 40px var(--letters-glow);
+.entry-card:hover {
+  border-color: var(--page-accent);
+  background: var(--page-bg-card-hover);
+  box-shadow: 0 8px 32px var(--page-shadow), 0 0 40px var(--page-glow);
   transform: translateY(-3px);
 }
 
-.letter-card:hover::before {
+.entry-card:hover::before {
   opacity: 0.4;
 }
 
-.letter-preview {
-  color: var(--letters-text-muted);
+.entry-preview {
+  color: var(--page-text-muted);
   font-size: 0.95rem;
   line-height: 1.7;
 }
 
-/* ===== Letter Reader ===== */
+/* ===== Entry Reader ===== */
 
-#letter-reader {
+#entry-reader {
   animation: fadeInUp 0.4s var(--ease-out-quart);
 }
 
@@ -240,14 +240,14 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.letter-back {
+.entry-back {
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
   background: none;
-  border: 1px solid var(--letters-border);
+  border: 1px solid var(--page-border);
   border-radius: 8px;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   font-size: 0.9rem;
   padding: 0.45em 1.1em;
   margin-bottom: 2.5em;
@@ -256,129 +256,129 @@ body {
   transition: color 0.25s var(--ease-out-quart), border-color 0.25s var(--ease-out-quart), background 0.25s var(--ease-out-quart);
 }
 
-.letter-back:hover {
-  color: var(--letters-accent);
-  border-color: var(--letters-accent);
-  background: var(--letters-glow);
+.entry-back:hover {
+  color: var(--page-accent);
+  border-color: var(--page-accent);
+  background: var(--page-glow);
 }
 
-.letter-back:focus-visible {
-  outline: 2px solid var(--letters-accent);
+.entry-back:focus-visible {
+  outline: 2px solid var(--page-accent);
   outline-offset: 2px;
 }
 
-.letter-card:focus-visible {
-  outline: 2px solid var(--letters-accent);
+.entry-card:focus-visible {
+  outline: 2px solid var(--page-accent);
   outline-offset: 2px;
-  border-color: var(--letters-accent);
+  border-color: var(--page-accent);
 }
 
 a:focus-visible {
-  outline: 2px solid var(--letters-accent);
+  outline: 2px solid var(--page-accent);
   outline-offset: 2px;
 }
 
-#letter-reader-content time {
+#entry-reader-content time {
   display: block;
   font-size: 1.2rem;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   font-family: 'Caveat', cursive;
   margin-bottom: 0.6em;
-  letter-spacing: 0.02em;
+  entry-spacing: 0.02em;
 }
 
-#letter-reader-content h2 {
+#entry-reader-content h2 {
   font-family: 'Caveat', cursive;
   font-size: 2.2rem;
-  color: var(--letters-text);
+  color: var(--page-text);
   margin: 0 0 1.2em;
   line-height: 1.2;
 }
 
-#letter-reader-content p {
+#entry-reader-content p {
   font-size: 1.15rem;
   line-height: 2;
   margin-bottom: 1.5em;
   text-wrap: pretty;
 }
 
-.letter-card time {
+.entry-card time {
   display: block;
   font-size: 1.2rem;
-  color: var(--letters-text-muted);
+  color: var(--page-text-muted);
   font-family: 'Caveat', cursive;
   margin-bottom: 0.6em;
-  letter-spacing: 0.02em;
+  entry-spacing: 0.02em;
 }
 
-.letter-card h2 {
+.entry-card h2 {
   font-family: 'Caveat', cursive;
   font-size: 1.7rem;
-  color: var(--letters-text);
+  color: var(--page-text);
   margin: 0 0 0.8em;
   font-weight: 700;
   line-height: 1.25;
 }
 
-.letter-card p {
+.entry-card p {
   margin: 0 0 1em;
   line-height: 1.9;
 }
 
-.letter-card p:last-child {
+.entry-card p:last-child {
   margin-bottom: 0;
 }
 
-.letter-image {
+.entry-image {
   max-width: 300px;
   width: 100%;
   height: auto;
   display: block;
   margin: 1.5em auto 0;
   border-radius: 12px;
-  box-shadow: 0 4px 20px var(--letters-shadow);
+  box-shadow: 0 4px 20px var(--page-shadow);
   transition: transform 0.3s var(--ease-out-quart);
 }
 
-.letter-image:hover {
+.entry-image:hover {
   transform: scale(1.02);
 }
 
-.letter-images {
+.entry-images {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
   margin: 1.5em 0;
 }
 
-.letter-images img {
+.entry-images img {
   flex: 1;
   min-width: calc((100% - 2em) / 3);
   height: auto;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 4px 20px var(--letters-shadow);
+  box-shadow: 0 4px 20px var(--page-shadow);
   transition: transform 0.3s var(--ease-out-quart);
 }
 
-.letter-images img:hover {
+.entry-images img:hover {
   transform: scale(1.02);
 }
 
-/* ===== Heart Divider ===== */
+/* ===== Rule Divider ===== */
 
-.heart-divider {
+.rule-divider {
   text-align: center;
-  color: var(--letters-accent);
+  color: var(--page-accent);
   font-size: 1rem;
   margin: 2.5em 0 0;
   opacity: 0.5;
-  letter-spacing: 0.6em;
+  entry-spacing: 0.6em;
 }
 
 /* ===== Floating Particles Background ===== */
 
-.letters-page::before {
+.page-page::before {
   content: '';
   position: fixed;
   top: 0;
@@ -388,16 +388,16 @@ a:focus-visible {
   pointer-events: none;
   z-index: -1;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1px 1px at 88% 12%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 35% 72%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1px 1px at 72% 58%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 48% 92%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1px 1px at 22% 45%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 92% 82%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1px 1px at 55% 35%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 8% 65%, var(--letters-accent) 50%, transparent 50%),
-    radial-gradient(1px 1px at 78% 28%, var(--letters-accent) 50%, transparent 50%);
+    radial-gradient(1.5px 1.5px at 12% 18%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 12%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 35% 72%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 72% 58%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 48% 92%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 22% 45%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 92% 82%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 35%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 8% 65%, var(--page-accent) 50%, transparent 50%),
+    radial-gradient(1px 1px at 78% 28%, var(--page-accent) 50%, transparent 50%);
   opacity: 0.06;
   animation: floatParticles 25s ease-in-out infinite alternate;
 }
@@ -409,7 +409,7 @@ a:focus-visible {
 
 /* ===== Decorative Separator ===== */
 
-.letters-page::after {
+.page-page::after {
   content: '';
   position: fixed;
   bottom: 0;
@@ -418,42 +418,42 @@ a:focus-visible {
   height: 120px;
   pointer-events: none;
   z-index: -1;
-  background: linear-gradient(to top, var(--letters-bg), transparent);
+  background: linear-gradient(to top, var(--page-bg), transparent);
 }
 
 /* ===== Responsive ===== */
 
 @media (max-width: 600px) {
-  .letters-page {
+  .page-page {
     padding: 2em 1em 4em;
   }
 
-  .letters-header h1 {
+  .page-header h1 {
     font-size: 2.4rem;
   }
 
-  .letter-card {
+  .entry-card {
     padding: 1.5em 1.4em;
     border-radius: 12px;
   }
 
-  .letter-card h2 {
+  .entry-card h2 {
     font-size: 1.5rem;
   }
 
-  #letter-reader-content h2 {
+  #entry-reader-content h2 {
     font-size: 1.8rem;
   }
 
-  .letter-image {
+  .entry-image {
     max-width: 100%;
   }
 
-  .letter-images img {
+  .entry-images img {
     min-width: calc((100% - 1em) / 2);
   }
 
-  #letter-reader-content {
+  #entry-reader-content {
     border-radius: 12px;
   }
 }
@@ -469,20 +469,20 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 
-  .letter-card:hover {
+  .entry-card:hover {
     transform: none;
   }
 
-  .letter-image:hover,
-  .letter-images img:hover {
+  .entry-image:hover,
+  .entry-images img:hover {
     transform: none;
   }
 
-  .loading-heart {
+  .loading-mark {
     animation: none;
   }
 
-  .letters-page::before {
+  .page-page::before {
     display: none;
   }
 }
