@@ -46,7 +46,7 @@
         sessionStorage.removeItem(KEY);
         sessionStorage.removeItem(TS);
 
-    <script id="payload-iv" type="text/plain">P1cp/bxcE1JOcM2C</script>
+        var iv = document.getElementById('payload-iv').textContent.trim();
 
         if (iv === 'PLACEHOLDER_IV') {
           loading.innerHTML = '<p style="color:var(--page-text-muted)">Content unavailable.</p>';
