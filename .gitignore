@@ -8,3 +8,6 @@ Gemfile.lock
 .impeccable/
 .claude/
 AGENTS.md
+
+# 本地网站、域名与 DNS 配置记录，避免提交到 GitHub
+/local-site-config/
