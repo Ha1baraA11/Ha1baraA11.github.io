@@ -31,7 +31,6 @@
       </nav>
       <h1>Building with Impeccable</h1>
       <div class="post-meta">
-        <span class="view-count" id="view-count"></span>
         <span>·</span>
         <span data-en="8 min read." data-zh="预计阅读 8 分钟">8 min read.</span>
       </div>
@@ -150,84 +149,12 @@
       window.goatcounter.allow_local = true;
     </script>
     <script data-goatcounter="https://zetazero.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <script>
-      // GoatCounter view count display
-      (function() {
-        var SITE_CODE = 'zetazero';
-        var API_KEY = '1qdcznjzflwb61y9zaddcfaclzcsa3gbpzjt6i146s39lk0tliz';
-        var counterEl = document.getElementById('view-count');
-        if (!counterEl || !API_KEY) return;
-
-        function formatCount(n) {
-          if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
-          if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
-          return String(n);
-        }
-
-        var lang = localStorage.getItem('lang') || 'en';
-        var label = lang === 'zh' ? ' 次阅读' : ' views';
-        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        // Show loading placeholder immediately
-        counterEl.innerHTML = '<span class="num">—</span>' + label;
-        counterEl.classList.add('view-count-loading');
-
-        var auth = btoa(':' + API_KEY);
-        var base = 'https://' + SITE_CODE + '.goatcounter.com/api/v0';
-        var path = location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
-
-        fetch(base + '/stats/hits?path_by_name=true&include_paths=' + encodeURIComponent(path), {
-          headers: { 'Authorization': 'Basic ' + auth }
-        })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            var total = 0;
-            if (data.hits) {
-              data.hits.forEach(function(h) { total += h.count || 0; });
-            }
-            counterEl.dataset.count = formatCount(total);
-            counterEl.classList.remove('view-count-loading');
-
-            if (reducedMotion || total < 2) {
-              counterEl.innerHTML = '<span class="num">' + formatCount(total) + '</span>' + label;
-              counterEl.classList.add('view-count-final');
-            } else {
-              // Count up animation
-              var steps = 20;
-              var stepTime = 40;
-              var current = 0;
-              var stepVal = total / steps;
-              var numEl = counterEl.querySelector('.num');
-
-              var timer = setInterval(function() {
-                current += stepVal;
-                if (current >= total) {
-                  clearInterval(timer);
-                  numEl.textContent = formatCount(total);
-                  counterEl.classList.add('view-count-final');
-                } else {
-                  numEl.textContent = formatCount(Math.floor(current));
-                }
-              }, stepTime);
-            }
-          })
-          .catch(function() {
-            counterEl.classList.remove('view-count-loading');
-            counterEl.innerHTML = '<span class="num">—</span>' + label;
-          });
-      })();
-
       // Apply language preference
       function applyLang(lang) {
         document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
         document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
           el.innerHTML = el.getAttribute('data-' + lang);
         });
-        var vc = document.getElementById('view-count');
-        if (vc && vc.dataset.count) {
-          var label = lang === 'zh' ? ' 次阅读' : ' views';
-          vc.innerHTML = '<span class="num">' + vc.dataset.count + '</span>' + label;
-        }
       }
       applyLang(localStorage.getItem('lang') || 'en');
 
