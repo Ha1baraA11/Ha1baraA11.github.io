@@ -229,6 +229,25 @@ article p {
   text-wrap: pretty;
 }
 
+/* Native paragraph justification: keeps HTML semantics intact while letting
+   Chromium distribute CJK character gaps and Latin word spaces per line. */
+article > p:not(:last-child) {
+  text-align: justify;
+  text-justify: inter-character;
+}
+
+/* Optional Pretext/Knuth–Plass line wrappers. Native prose remains the fallback. */
+article[data-optimal-justify] .optimal-justify-line {
+  display: block;
+  text-align: left;
+  text-wrap: wrap;
+  white-space: nowrap;
+}
+
+article[data-optimal-justify] .optimal-justify-active {
+  text-wrap: wrap;
+}
+
 ol, ul {
   margin-top: 0;
 }
@@ -511,7 +530,7 @@ main {
 article {
   max-width: 100%;
   padding: 1.5em;
-  width: 55em;
+  width: min(1111px, 100%);
   margin: 0 auto;
 }
 
