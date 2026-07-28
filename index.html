@@ -19,14 +19,15 @@
     <link rel="alternate" type="application/atom+xml" title="zetazero" href="/feed.xml">
     <script src="/assets/js/theme-init.js"></script>
     <link rel="stylesheet" href="/assets/css/fonts.css?v=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=19">
+    <link rel="stylesheet" href="/assets/css/style.css?v=20">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
   </head>
   <body>
+    <a class="skip-link" href="#main-content" data-en="Skip to content" data-zh="跳到正文">Skip to content</a>
     <header>
       <nav>
         <div id="nav">
-          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <div class="site-title"><a href="/" title="Homepage">zetazero</a></div>
           <div class="nav-controls">
             <a href="/about" data-en="About" data-zh="关于">About</a>
             <a href="https://github.com/Ha1baraA11">GitHub</a>
@@ -41,11 +42,12 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <div id="hero-title-container" tabindex="0" role="button" aria-label="zetazero"></div>
+      <h1 class="visually-hidden" data-en="zetazero's blog" data-zh="zetazero 的博客">zetazero's blog</h1>
+      <div id="hero-title-container" tabindex="0" role="button" aria-label="zetazero" aria-haspopup="dialog" aria-controls="auth-modal"></div>
       <p id="tagline"></p>
     </header>
 
-    <main>
+    <main id="main-content">
       <article>
         <blockquote class="motto fade-in">
           <p>"Give me liberty, or give me death!"</p>
@@ -105,15 +107,14 @@
 
     <footer></footer>
 
-    <div id="auth-modal" class="auth-modal" hidden>
-      <div class="auth-modal-backdrop"></div>
+    <dialog id="auth-modal" class="auth-modal" aria-labelledby="auth-title" aria-describedby="auth-error">
       <div class="auth-modal-content">
-        <p class="auth-hint">Password</p>
+        <label class="auth-hint" id="auth-title" for="auth-password">Password</label>
         <input type="password" id="auth-password" autocomplete="off" spellcheck="false" inputmode="numeric" aria-label="Password">
         <button id="auth-submit" type="button">Enter</button>
-        <p id="auth-error" class="auth-error" hidden></p>
+        <p id="auth-error" class="auth-error" role="status" aria-live="polite" hidden></p>
       </div>
-    </div>
+    </dialog>
 
     <script src="/assets/js/opentype.min.js"></script>
     <script src="/assets/js/vivus.min.js"></script>

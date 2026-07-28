@@ -22,13 +22,16 @@
 }
 
 [data-theme="light"] {
+  color-scheme: light;
   --bg: #fafafa;
   --bg-alt: #f0f0f0;
   --text: #1a1a1a;
   --text-muted: #666;
   --border: #ddd;
+  --primary: #0969a8;
+  --primary-dark: #075985;
   --nav-bg: #64B5F6;
-  --nav-text: #fff;
+  --nav-text: #181818;
   --code-color: #d63384;
   --code-bg: #f0f0f0;
   --kbd-color: #198754;
@@ -46,6 +49,7 @@
 }
 
 html {
+  color-scheme: dark;
   font-family: var(--font-family);
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
@@ -220,6 +224,32 @@ a:focus-visible {
   border-radius: 2px;
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.5em;
+  left: 0.5em;
+  z-index: 1001;
+  padding: 0.6em 0.9em;
+  background: var(--bg);
+  color: var(--text);
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* Paragraphs & Lists */
 ol, p, pre, ul {
   margin-bottom: 1.36rem;
@@ -306,13 +336,19 @@ pre code:not([class]) {
 
 mark {
   background: var(--primary);
+  color: var(--selection-text);
   padding: 0 0.3em;
 }
 
 /* Tables */
-table {
-  display: table;
+.table-scroll {
+  max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll table {
+  display: table;
   width: 100%;
   border-collapse: collapse;
 }
@@ -413,11 +449,12 @@ header nav {
   transition: background 0.3s var(--ease-out-quart);
 }
 
-header nav h1 {
+.site-title {
   font-size: inherit;
   line-height: inherit;
   margin: 0;
   margin-right: auto;
+  font-weight: 700;
 }
 
 header nav a {
@@ -429,6 +466,11 @@ header nav a {
 
 header nav a::after {
   background: var(--nav-text);
+}
+
+header nav a:focus-visible,
+header nav button:focus-visible {
+  outline-color: var(--nav-text);
 }
 
 .nav-controls {
@@ -455,6 +497,14 @@ header nav a::after {
   border-radius: 50%;
   transition: background 0.2s var(--ease-out-quart);
   color: var(--nav-text);
+  position: relative;
+}
+
+.lang-toggle::before,
+#theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
 }
 
 .lang-toggle svg {
@@ -714,7 +764,7 @@ button, input, select, textarea {
 
 button, input[type="reset"], input[type="submit"] {
   background: var(--primary);
-  color: #181818;
+  color: var(--selection-text);
   cursor: pointer;
   display: inline-block;
   padding: 0.75em 1.5em;
@@ -729,7 +779,7 @@ button:focus-visible, input[type="submit"]:focus-visible {
 
 button:hover, input[type="submit"]:hover {
   background: var(--primary-dark);
-  color: #000;
+  color: var(--selection-text);
 }
 
 /* Scrollbar */
@@ -750,6 +800,7 @@ button:hover, input[type="submit"]:hover {
   vertical-align: middle;
   border-radius: 50%;
   transition: background 0.2s var(--ease-out-quart);
+  position: relative;
 }
 
 #theme-toggle:hover {
@@ -796,11 +847,12 @@ button:hover, input[type="submit"]:hover {
   margin-top: 2.5em;
 }
 
-.about-section h3 {
+.about-section h2 {
   font-size: 1.1rem;
   margin-bottom: 1em;
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.3em;
+  font-style: normal;
 }
 
 .about-grid {
@@ -909,38 +961,45 @@ button:hover, input[type="submit"]:hover {
   height: 3px;
 }
 
-/* Fade-in on scroll */
+/* Content remains visible by default. The class only plays an enhancement
+   when IntersectionObserver successfully marks an item as visible. */
 .fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s var(--ease-out-quart), transform 0.6s var(--ease-out-quart);
+  opacity: 1;
+  transform: none;
 }
 
 .fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
+  animation: fade-in-up 0.6s var(--ease-out-quart) both;
 }
 
 /* Staggered list items */
 .fade-in li {
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.4s var(--ease-out-quart), transform 0.4s var(--ease-out-quart);
+  opacity: 1;
+  transform: none;
 }
 
 .fade-in.visible li {
-  opacity: 1;
-  transform: translateY(0);
+  animation: fade-in-item 0.4s var(--ease-out-quart) both;
 }
 
-.fade-in.visible li:nth-child(1) { transition-delay: 0.1s; }
-.fade-in.visible li:nth-child(2) { transition-delay: 0.2s; }
-.fade-in.visible li:nth-child(3) { transition-delay: 0.3s; }
-.fade-in.visible li:nth-child(4) { transition-delay: 0.4s; }
-.fade-in.visible li:nth-child(5) { transition-delay: 0.5s; }
-.fade-in.visible li:nth-child(6) { transition-delay: 0.6s; }
-.fade-in.visible li:nth-child(7) { transition-delay: 0.7s; }
-.fade-in.visible li:nth-child(8) { transition-delay: 0.8s; }
+.fade-in.visible li:nth-child(1) { animation-delay: 0.1s; }
+.fade-in.visible li:nth-child(2) { animation-delay: 0.2s; }
+.fade-in.visible li:nth-child(3) { animation-delay: 0.3s; }
+.fade-in.visible li:nth-child(4) { animation-delay: 0.4s; }
+.fade-in.visible li:nth-child(5) { animation-delay: 0.5s; }
+.fade-in.visible li:nth-child(6) { animation-delay: 0.6s; }
+.fade-in.visible li:nth-child(7) { animation-delay: 0.7s; }
+.fade-in.visible li:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-item {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Post list hover */
 #posts li {
@@ -1048,26 +1107,17 @@ article h2:hover {
 
 .auth-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  width: min(100% - 2em, 420px);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  margin: auto;
+  background: transparent;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.auth-modal[hidden] {
-  display: none;
-}
-
-.auth-modal-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.auth-modal::backdrop {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
 }
@@ -1079,11 +1129,12 @@ article h2:hover {
   border-radius: 10px;
   padding: 2em 2.5em;
   text-align: center;
-  min-width: 280px;
+  width: 100%;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
 }
 
 .auth-hint {
+  display: block;
   color: var(--text-muted);
   font-size: 0.9rem;
   margin: 0 0 1em;
@@ -1112,7 +1163,7 @@ article h2:hover {
   margin-top: 0.8em;
   padding: 0.5em;
   background: var(--primary);
-  color: #181818;
+  color: var(--selection-text);
   border: none;
   border-radius: 6px;
   font-size: 0.95rem;

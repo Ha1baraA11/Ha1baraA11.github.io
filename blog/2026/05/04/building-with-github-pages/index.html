@@ -17,17 +17,19 @@
     <meta name="twitter:card" content="summary">
     <title>Building a Personal Site with GitHub Pages | zetazero's blog</title>
     <link rel="canonical" href="https://zetazero.top/blog/2026/05/04/building-with-github-pages/">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building a Personal Site with GitHub Pages","description":"How I built a personal site with GitHub Pages, a custom domain, semantic HTML, and a restrained reading-first design.","datePublished":"2026-05-04T00:00:00+08:00","author":{"@type":"Person","name":"zetazero"},"mainEntityOfPage":"https://zetazero.top/blog/2026/05/04/building-with-github-pages/","inLanguage":["en","zh-CN"]}</script>
     <link rel="alternate" type="application/atom+xml" title="zetazero" href="/feed.xml">
     <script src="/assets/js/theme-init.js"></script>
     <link rel="stylesheet" href="/assets/css/fonts.css?v=1">
-    <link rel="stylesheet" href="/assets/css/style.css?v=19">
+    <link rel="stylesheet" href="/assets/css/style.css?v=20">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
   </head>
   <body>
+    <a class="skip-link" href="#main-content" data-en="Skip to content" data-zh="跳到正文">Skip to content</a>
     <header>
       <nav>
         <div id="nav">
-          <h1><a href="/" title="Homepage">zetazero</a></h1>
+          <div class="site-title"><a href="/" title="Homepage">zetazero</a></div>
           <div class="nav-controls">
             <a href="/about" data-en="About" data-zh="关于">About</a>
             <a href="https://github.com/Ha1baraA11">GitHub</a>
@@ -42,7 +44,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main-content">
       <article>
         <p data-en="I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way." data-zh="我最近用 GitHub Pages 搭建了我的个人网站。看似简单的任务，结果深入研究了静态站点生成器、DNS 配置、SSL 证书和 Web 性能优化。以下是我学到的东西。">I recently went through the process of setting up my personal website using GitHub Pages. What seemed like a simple task turned into a deep dive into static site generators, DNS configuration, SSL certificates, and web performance optimization. Here's what I learned along the way.</p>
 
@@ -90,7 +92,7 @@
 
         <p data-en="You need to create A records pointing to GitHub's IP addresses:" data-zh="需要创建指向 GitHub IP 地址的 A 记录：">You need to create A records pointing to GitHub's IP addresses:</p>
 
-        <table>
+        <div class="table-scroll" role="region" aria-label="DNS configuration table" tabindex="0"><table>
           <thead>
             <tr>
               <th data-en="Record Type" data-zh="记录类型">Record Type</th>
@@ -105,7 +107,7 @@
             <tr><td>A</td><td>@</td><td>185.199.111.153</td></tr>
             <tr><td>CNAME</td><td>www</td><td>username.github.io</td></tr>
           </tbody>
-        </table>
+        </table></div>
 
         <h4 data-en="CNAME File" data-zh="CNAME 文件">CNAME File</h4>
 
@@ -185,7 +187,7 @@
 
         <p data-en="The font sizes scale across three breakpoints:" data-zh="字体大小在三个断点间缩放：">The font sizes scale across three breakpoints:</p>
 
-        <table>
+        <div class="table-scroll" role="region" aria-label="Responsive typography table" tabindex="0"><table>
           <thead>
             <tr>
               <th>Viewport</th>
@@ -199,7 +201,7 @@
             <tr><td>600px &ndash; 1199px</td><td>1.1rem</td><td>4.398rem</td><td>3.11rem</td></tr>
             <tr><td>&ge; 1200px</td><td>1.2rem</td><td>6.076rem</td><td>4.05rem</td></tr>
           </tbody>
-        </table>
+        </table></div>
 
         <p data-en="This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony." data-zh="这在大屏幕上创造了强烈的视觉层级，同时在移动端保持可读性。标题大小使用基于 <code>1.2</code>（小三度）的模块化比例，创造自然的视觉和谐。">This creates a dramatic visual hierarchy on large screens while remaining readable on mobile. The heading sizes use a modular scale based on <code>1.2</code> (minor third), which creates natural visual harmony.</p>
 
