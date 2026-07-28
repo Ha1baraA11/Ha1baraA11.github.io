@@ -2,15 +2,15 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' blob:; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#0f1219">
     <title>Archive</title>
-    <link rel="stylesheet" href="/assets/css/page.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js" as="script">
+    <link rel="stylesheet" href="/assets/css/fonts.css?v=1">
+    <link rel="stylesheet" href="/assets/css/page.css?v=2">
+    <link rel="preload" href="/assets/js/pako.min.js" as="script">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♥</text></svg>">
   </head>
   <body>
@@ -20,131 +20,9 @@
     </div>
     <div id="page-container"></div>
 
-    <script id="payload-iv" type="text/plain">P1cp/bxcE1JOcM2C</script>
+    <script id="payload-iv" type="text/plain">sa/wlPW/b3NixSLh</script>
 
     <script src="/assets/js/access.js"></script>
-    <script>
-      (function () {
-        'use strict';
-
-        var KEY = 'page_key';
-        var TS = 'page_ts';
-        var TTL_MS = 120000;
-
-        var loading = document.getElementById('loading');
-        var container = document.getElementById('page-container');
-
-        // 1. Read & validate sessionStorage
-        var hexKey = sessionStorage.getItem(KEY);
-        var ts = sessionStorage.getItem(TS);
-        if (!hexKey || !ts || (Date.now() - parseInt(ts, 10)) > TTL_MS) {
-          sessionStorage.removeItem(KEY);
-          sessionStorage.removeItem(TS);
-          location.replace('/');
-          return;
-        }
-        sessionStorage.removeItem(KEY);
-        sessionStorage.removeItem(TS);
-
-        var iv = document.getElementById('payload-iv').textContent.trim();
-
-        if (iv === 'PLACEHOLDER_IV') {
-          loading.innerHTML = '<p style="color:var(--page-text-muted)">Content unavailable.</p>';
-          return;
-        }
-
-        // 2. Fetch data blob from external file
-        fetch('/p/k7x9m2/data.bin')
-          .then(function (resp) {
-            if (!resp.ok) throw new Error('Failed to load data');
-            return resp.text();
-          })
-          .then(function (ciphertext) {
-            if (!ciphertext || ciphertext.length < 10) {
-              loading.innerHTML = '<p style="color:var(--page-text-muted)">Content unavailable.</p>';
-              return;
-            }
-            startProcessing(hexKey, ciphertext, iv);
-          })
-          .catch(function () {
-            loading.innerHTML = '<p style="color:var(--page-text-muted)">Failed to load content.</p>';
-            setTimeout(function () { location.replace('/'); }, 2000);
-          });
-
-        // 3. Create inline Web Worker for data processing + decompression
-        function startProcessing(hexKey, ciphertext, iv) {
-          var workerCode = [
-            'self.onmessage = async function(e) {',
-            '  var hexKey = e.data.hexKey;',
-            '  var ctB64 = e.data.ciphertext;',
-            '  var ivB64 = e.data.iv;',
-            '',
-            '  function hexToBytes(hex) {',
-            '    var bytes = new Uint8Array(hex.length / 2);',
-            '    for (var i = 0; i < bytes.length; i++) {',
-            '      bytes[i] = parseInt(hex.substr(i * 2, 2), 16);',
-            '    }',
-            '    return bytes;',
-            '  }',
-            '',
-            '  function b64ToBytes(b64) {',
-            '    var bin = atob(b64);',
-            '    var bytes = new Uint8Array(bin.length);',
-            '    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);',
-            '    return bytes;',
-            '  }',
-            '',
-            '  try {',
-            '    var rawKey = hexToBytes(hexKey);',
-            '    var aesKey = await crypto.subtle.importKey("raw", rawKey, { name: "AES-GCM" }, false, ["decrypt"]);',
-            '    var plainBuf = await crypto.subtle.decrypt(',
-            '      { name: "AES-GCM", iv: b64ToBytes(ivB64) },',
-            '      aesKey, b64ToBytes(ctB64)',
-            '    );',
-            '    var result = new Uint8Array(plainBuf);',
-            '',
-            '    // Check PK01 magic marker',
-            '    if (result[0] === 0x50 && result[1] === 0x4B &&',
-            '        result[2] === 0x30 && result[3] === 0x31) {',
-            '      importScripts("https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js");',
-            '      result = pako.ungzip(result.slice(4));',
-            '    }',
-            '',
-            '    self.postMessage({ ok: true, html: new TextDecoder().decode(result) });',
-            '  } catch (err) {',
-            '    self.postMessage({ ok: false, error: err.message });',
-            '  }',
-            '};'
-          ].join('\n');
-
-          var blob = new Blob([workerCode], { type: 'application/javascript' });
-          var worker = new Worker(URL.createObjectURL(blob));
-
-          worker.onmessage = function (e) {
-            if (!e.data.ok) {
-              loading.innerHTML = '<p style="color:var(--page-text-muted)">Processing failed.</p>';
-              setTimeout(function () { location.replace('/'); }, 2000);
-              return;
-            }
-            loading.style.display = 'none';
-            container.innerHTML = e.data.html;
-            // Execute script tags from decrypted content
-            var scripts = container.querySelectorAll('script');
-            scripts.forEach(function (oldScript) {
-              var newScript = document.createElement('script');
-              newScript.textContent = oldScript.textContent;
-              oldScript.parentNode.replaceChild(newScript, oldScript);
-            });
-          };
-
-          worker.onerror = function () {
-            loading.innerHTML = '<p style="color:var(--page-text-muted)">Processing failed.</p>';
-            setTimeout(function () { location.replace('/'); }, 2000);
-          };
-
-          worker.postMessage({ hexKey: hexKey, ciphertext: ciphertext, iv: iv });
-        }
-      })();
-    </script>
+    <script src="/assets/js/private-loader.js"></script>
   </body>
 </html>

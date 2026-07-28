@@ -2,14 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://zetazero.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#64B5F6">
-    <title>zetazero's blog</title>
-    <script>var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
-    <link rel="stylesheet" href="/assets/css/style.css?v=13">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="About zetazero: notes on AI systems, full-stack development, and careful technical work.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="About | zetazero">
+    <meta property="og:description" content="About zetazero: notes on AI systems, full-stack development, and careful technical work.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zetazero.top/about">
+    <meta property="og:site_name" content="zetazero">
+    <meta name="twitter:card" content="summary">
+    <title>About | zetazero's blog</title>
+    <link rel="canonical" href="https://zetazero.top/about">
+    <link rel="alternate" type="application/atom+xml" title="zetazero" href="/feed.xml">
+    <script src="/assets/js/theme-init.js"></script>
+    <link rel="stylesheet" href="/assets/css/fonts.css?v=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=19">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>z</text></svg>">
   </head>
   <body>
@@ -72,33 +82,6 @@
 
     <footer></footer>
 
-    <script>
-      // Apply theme preference from homepage
-      (function() {
-        var saved = localStorage.getItem('theme');
-        if (saved) document.documentElement.setAttribute('data-theme', saved);
-      })();
-
-      // Apply language preference from homepage
-      (function() {
-        var lang = localStorage.getItem('lang') || 'en';
-        if (lang === 'zh') {
-          document.documentElement.setAttribute('lang', 'zh-CN');
-          document.querySelectorAll('[data-zh]').forEach(function(el) {
-            el.innerHTML = el.getAttribute('data-zh');
-          });
-        }
-      })();
-
-      const progress = document.getElementById('reading-progress');
-      if (progress) {
-        window.addEventListener('scroll', () => {
-          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          const percent = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
-          progress.style.transform = 'translate(' + (-100 + percent) + 'vw, 0)';
-        }, { passive: true });
-      }
-    </script>
+    <script src="/assets/js/article.js"></script>
   </body>
 </html>
