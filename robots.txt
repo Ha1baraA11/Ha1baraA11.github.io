@@ -1,2 +1,3 @@
 User-agent: *
 Disallow: /p/
+Sitemap: https://zetazero.top/sitemap.xml

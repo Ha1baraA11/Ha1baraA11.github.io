@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>zetazero</title>
+  <subtitle>A personal blog about code, AI, and building things.</subtitle>
+  <id>https://zetazero.top/</id>
+  <link href="https://zetazero.top/"/>
+  <link href="https://zetazero.top/feed.xml" rel="self" type="application/atom+xml"/>
+  <updated>2026-07-12T00:00:00+08:00</updated>
+  <author>
+    <name>zetazero</name>
+  </author>
+  <entry>
+    <title>Making 1Password My Security Home</title>
+    <id>https://zetazero.top/blog/2026/07/12/one-password-as-my-security-home/</id>
+    <link href="https://zetazero.top/blog/2026/07/12/one-password-as-my-security-home/"/>
+    <published>2026-07-12T00:00:00+08:00</published>
+    <updated>2026-07-12T00:00:00+08:00</updated>
+    <summary>A practical approach to consolidating passwords, passkeys, and one-time codes without creating a single point of failure.</summary>
+  </entry>
+  <entry>
+    <title>Building with Impeccable</title>
+    <id>https://zetazero.top/blog/2026/06/01/building-with-impeccable/</id>
+    <link href="https://zetazero.top/blog/2026/06/01/building-with-impeccable/"/>
+    <published>2026-06-01T00:00:00+08:00</published>
+    <updated>2026-06-01T00:00:00+08:00</updated>
+    <summary>How I used Impeccable to take my personal blog from rough to polished, one command at a time.</summary>
+  </entry>
+  <entry>
+    <title>Bridging Things 3 and Obsidian: My Daily Planning Sync Workflow</title>
+    <id>https://zetazero.top/blog/2026/06/01/things-obsidian-sync-workflow/</id>
+    <link href="https://zetazero.top/blog/2026/06/01/things-obsidian-sync-workflow/"/>
+    <published>2026-06-01T00:00:00+08:00</published>
+    <updated>2026-06-01T00:00:00+08:00</updated>
+    <summary>Using Claude Code to sync task management and journaling, so plans only need to be written once.</summary>
+  </entry>
+  <entry>
+    <title>Building a Personal Site with GitHub Pages</title>
+    <id>https://zetazero.top/blog/2026/05/04/building-with-github-pages/</id>
+    <link href="https://zetazero.top/blog/2026/05/04/building-with-github-pages/"/>
+    <published>2026-05-04T00:00:00+08:00</published>
+    <updated>2026-05-04T00:00:00+08:00</updated>
+    <summary>How I built a personal site with GitHub Pages, a custom domain, semantic HTML, and a restrained reading-first design.</summary>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <id>https://zetazero.top/blog/2026/05/04/hello-world/</id>
+    <link href="https://zetazero.top/blog/2026/05/04/hello-world/"/>
+    <published>2026-05-04T00:00:00+08:00</published>
+    <updated>2026-05-04T00:00:00+08:00</updated>
+    <summary>The first post on zetazero.top, built with HTML and CSS and hosted on GitHub Pages.</summary>
+  </entry>
+</feed>
