@@ -20,7 +20,7 @@
     document.querySelectorAll('[data-' + lang + ']').forEach(function (element) {
       element.innerHTML = element.getAttribute('data-' + lang);
     });
-    langToggle.setAttribute('aria-label', lang === 'zh' ? 'Switch to English' : '切换到中文');
+    langToggle.setAttribute('aria-label', lang === 'zh' ? '切换到英文' : 'Switch to Chinese');
 
     tagline.textContent = '';
     var text = taglineTexts[lang];
@@ -53,6 +53,7 @@
       // The active page can still switch even when storage is unavailable.
     }
     applyLanguage(currentLang);
+    updateThemeToggle();
   });
 
   var themeToggle = document.getElementById('theme-toggle');
@@ -60,7 +61,13 @@
 
   function updateThemeToggle() {
     var isLight = root.getAttribute('data-theme') === 'light';
-    themeToggle.setAttribute('aria-label', isLight ? 'Use dark theme' : 'Use light theme');
+    var label;
+    if (currentLang === 'zh') {
+      label = isLight ? '使用深色主题' : '使用浅色主题';
+    } else {
+      label = isLight ? 'Use dark theme' : 'Use light theme';
+    }
+    themeToggle.setAttribute('aria-label', label);
     themeToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
   }
 
@@ -113,7 +120,6 @@
   var modal = document.getElementById('auth-modal');
   var input = document.getElementById('auth-password');
   var submitButton = document.getElementById('auth-submit');
-  var backdrop = modal.querySelector('.auth-modal-backdrop');
   var errorMessage = document.getElementById('auth-error');
   var trigger = document.getElementById('hero-title-container');
   var submitting = false;
@@ -126,20 +132,20 @@
   }
 
   function showAuthModal(message) {
-    if (!modal.hidden) return;
+    if (modal.open) return;
     errorMessage.hidden = true;
     input.value = '';
     input.disabled = false;
     submitButton.disabled = false;
     submitting = false;
-    modal.hidden = false;
-    window.setTimeout(function () { input.focus(); }, 50);
+    modal.showModal();
+    input.focus();
     if (message) showError(message);
   }
 
   function hideAuthModal() {
     if (submitting) return;
-    modal.hidden = true;
+    if (modal.open) modal.close();
     input.value = '';
     errorMessage.hidden = true;
     trigger.focus();
@@ -175,7 +181,16 @@
     if (event.key === 'Escape') hideAuthModal();
   });
   submitButton.addEventListener('click', submitPassword);
-  backdrop.addEventListener('click', hideAuthModal);
+  modal.addEventListener('click', function (event) {
+    if (event.target === modal) hideAuthModal();
+  });
+  modal.addEventListener('cancel', function (event) {
+    if (submitting) {
+      event.preventDefault();
+      return;
+    }
+    hideAuthModal();
+  });
 
   var holdTimer = null;
   function startHold(event) {
@@ -201,10 +216,8 @@
   trigger.addEventListener('keydown', function (event) {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
-    if (!holdTimer) startHold(event);
-  });
-  trigger.addEventListener('keyup', function (event) {
-    if (event.key === 'Enter' || event.key === ' ') cancelHold();
+    cancelHold();
+    showAuthModal();
   });
 
   try {
