@@ -51,7 +51,11 @@
   function executeEmbeddedScripts() {
     var scripts = Array.from(container.querySelectorAll('script'));
     function executeAt(index) {
-      if (index >= scripts.length) return;
+      if (index >= scripts.length) {
+        document.dispatchEvent(new Event('DOMContentLoaded'));
+        bindContentInteractions();
+        return;
+      }
       var oldScript = scripts[index];
       var source = oldScript.textContent || '';
       if (!source.trim()) {
@@ -76,58 +80,61 @@
     executeAt(0);
   }
 
-  function startProcessing(hexKey, ciphertext, ivValue) {
-    var workerSource = [
-      'self.onmessage = async function(event) {',
-      '  function hexToBytes(hex) {',
-      '    var bytes = new Uint8Array(hex.length / 2);',
-      '    for (var i = 0; i < bytes.length; i += 1) bytes[i] = parseInt(hex.substr(i * 2, 2), 16);',
-      '    return bytes;',
-      '  }',
-      '  function base64ToBytes(value) {',
-      '    var binary = atob(value);',
-      '    var bytes = new Uint8Array(binary.length);',
-      '    for (var i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);',
-      '    return bytes;',
-      '  }',
-      '  try {',
-      '    var aesKey = await crypto.subtle.importKey("raw", hexToBytes(event.data.key), { name: "AES-GCM" }, false, ["decrypt"]);',
-      '    var plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64ToBytes(event.data.iv) }, aesKey, base64ToBytes(event.data.ciphertext));',
-      '    var result = new Uint8Array(plain);',
-      '    if (result[0] === 0x50 && result[1] === 0x4b && result[2] === 0x30 && result[3] === 0x31) {',
-      '      importScripts("/assets/js/pako.min.js");',
-      '      result = pako.ungzip(result.slice(4));',
-      '    }',
-      '    self.postMessage({ ok: true, html: new TextDecoder().decode(result) });',
-      '  } catch (error) {',
-      '    self.postMessage({ ok: false });',
-      '  }',
-      '};'
-    ].join('\n');
+  function bindContentInteractions() {
+    container.querySelectorAll('[onclick="openLetter(this)"]').forEach(function (card) {
+      card.removeAttribute('onclick');
+      card.addEventListener('click', function () {
+        if (typeof window.openLetter === 'function') window.openLetter(card);
+      });
+    });
 
-    var workerUrl = URL.createObjectURL(new Blob([workerSource], { type: 'application/javascript' }));
-    var worker = new Worker(workerUrl);
-    URL.revokeObjectURL(workerUrl);
+    container.querySelectorAll('[onclick="closeLetter()"]').forEach(function (trigger) {
+      trigger.removeAttribute('onclick');
+      trigger.addEventListener('click', function () {
+        if (typeof window.closeLetter === 'function') window.closeLetter();
+      });
+    });
+  }
 
-    worker.onmessage = function (event) {
-      worker.terminate();
-      if (!event.data.ok) {
-        setStatus('Processing failed.');
-        returnHome(true);
-        return;
+  function hexToBytes(hex) {
+    var bytes = new Uint8Array(hex.length / 2);
+    for (var i = 0; i < bytes.length; i += 1) bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+    return bytes;
+  }
+
+  function base64ToBytes(value) {
+    var binary = atob(value);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  async function startProcessing(hexKey, ciphertext, ivValue) {
+    var result;
+    try {
+      var aesKey = await crypto.subtle.importKey('raw', hexToBytes(hexKey), { name: 'AES-GCM' }, false, ['decrypt']);
+      var plain = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: base64ToBytes(ivValue) }, aesKey, base64ToBytes(ciphertext)
+      );
+      result = new Uint8Array(plain);
+    } catch (error) {
+      setStatus('Password could not unlock this content.');
+      returnHome(true);
+      return;
+    }
+
+    try {
+      if (result[0] === 0x50 && result[1] === 0x4b && result[2] === 0x30 && result[3] === 0x31) {
+        if (!window.pako) throw new Error('decompressor');
+        result = window.pako.ungzip(result.slice(4));
       }
       loading.hidden = true;
-      container.innerHTML = event.data.html;
+      container.innerHTML = new TextDecoder().decode(result);
       executeEmbeddedScripts();
-    };
-
-    worker.onerror = function () {
-      worker.terminate();
-      setStatus('Processing failed.');
-      returnHome(true);
-    };
-
-    worker.postMessage({ key: hexKey, ciphertext: ciphertext, iv: ivValue });
+    } catch (error) {
+      setStatus('Content unavailable.');
+      returnHome(false);
+    }
   }
 
   fetch('/p/k7x9m2/data.bin', { cache: 'no-store' })

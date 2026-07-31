@@ -161,7 +161,7 @@
       var key = await window.AccessAuth.deriveKeyHex(input.value);
       sessionStorage.setItem('page_key', key);
       sessionStorage.setItem('page_ts', Date.now().toString());
-      window.location.href = '/p/k7x9m2/';
+      window.location.href = '/p/k7x9m2/?v=4';
     } catch (error) {
       showError('Something went wrong');
       window.setTimeout(function () {
