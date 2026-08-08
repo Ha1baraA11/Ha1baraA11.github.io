@@ -6,6 +6,7 @@
   var maxAge = 120000;
   var loading = document.getElementById('loading');
   var container = document.getElementById('page-container');
+  var letterListScrollY = null;
 
   function setStatus(message) {
     loading.replaceChildren();
@@ -84,6 +85,7 @@
     container.querySelectorAll('[onclick="openLetter(this)"]').forEach(function (card) {
       card.removeAttribute('onclick');
       card.addEventListener('click', function () {
+        letterListScrollY = window.scrollY;
         if (typeof window.openLetter === 'function') window.openLetter(card);
       });
     });
@@ -92,6 +94,13 @@
       trigger.removeAttribute('onclick');
       trigger.addEventListener('click', function () {
         if (typeof window.closeLetter === 'function') window.closeLetter();
+        if (letterListScrollY === null) return;
+
+        var scrollY = letterListScrollY;
+        letterListScrollY = null;
+        window.requestAnimationFrame(function () {
+          window.scrollTo(0, scrollY);
+        });
       });
     });
   }
