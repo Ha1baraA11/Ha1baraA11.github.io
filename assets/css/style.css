@@ -1238,3 +1238,6 @@ article h2:hover {
     filter: none;
   }
 }
+html.frame-blocked {
+  display: none !important;
+}
