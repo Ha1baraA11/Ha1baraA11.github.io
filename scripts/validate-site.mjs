@@ -142,12 +142,12 @@ requireMatch(access, /PBKDF2_ITERATIONS\s*=\s*600000/, 'access.js: expected hard
 requireMatch(access, /SALT_HEX\s*=\s*'[0-9a-f]{32}'/, 'access.js: expected a 128-bit hexadecimal salt');
 if (/VERIFIER|100000/.test(access)) errors.push('access.js: obsolete public verifier or KDF settings remain');
 requireMatch(index, /<script src="\/assets\/js\/access\.js\?v=\d+"><\/script>/, 'index.html: access script must be versioned to avoid stale KDF settings');
-requireMatch(index, /<script src="\/assets\/js\/home\.js\?v=3"><\/script>/, 'index.html: home behavior must be versioned to avoid stale navigation');
+requireMatch(index, /<script src="\/assets\/js\/home\.js\?v=4"><\/script>/, 'index.html: home behavior must be versioned to avoid stale navigation');
 requireMatch(privateShell, /id="payload-iv"/, 'private shell: missing payload IV');
 requireMatch(privateShell, /\/assets\/js\/pako\.min\.js/, 'private shell: compressed payload runtime is not local');
 requireMatch(privateShell, /<script src="\/assets\/js\/pako\.min\.js\?v=1"><\/script>/, 'private shell: missing decompressor runtime');
 requireMatch(privateShell, /<script src="\/assets\/js\/access\.js\?v=\d+"><\/script>/, 'private shell: access script must be versioned to avoid stale KDF settings');
-requireMatch(privateShell, /<script src="\/assets\/js\/private-loader\.js\?v=4"><\/script>/, 'private shell: missing current external loader');
+requireMatch(privateShell, /<script src="\/assets\/js\/private-loader\.js\?v=5"><\/script>/, 'private shell: missing current external loader');
 const iv = privateShell.match(/id="payload-iv" type="text\/plain">([^<]+)</)?.[1] || '';
 if (Buffer.from(iv, 'base64').byteLength !== 12) errors.push('private shell: expected a 96-bit AES-GCM IV');
 if (!/^[A-Za-z0-9+/]+={0,2}$/.test(ciphertext) || Buffer.from(ciphertext, 'base64').byteLength < 17) {
