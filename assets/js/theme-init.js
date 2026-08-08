@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  if (window.top !== window.self) {
+    document.documentElement.classList.add('frame-blocked');
+    try {
+      window.top.location.replace(window.self.location.href);
+    } catch (error) {
+      // Sandboxed cross-origin frames remain blank.
+    }
+    return;
+  }
+
   document.documentElement.classList.add('js');
   try {
     var theme = localStorage.getItem('theme');

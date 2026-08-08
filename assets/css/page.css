@@ -490,3 +490,6 @@ a:focus-visible {
     display: none;
   }
 }
+html.frame-blocked {
+  display: none !important;
+}

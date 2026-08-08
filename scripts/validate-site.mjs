@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, relative, resolve, sep } from 'node:path';
 
 const root = process.cwd();
@@ -43,7 +44,9 @@ const compareSets = (actual, expected, label) => {
 
 const index = read('index.html');
 const styleVersion = index.match(/assets\/css\/style\.css\?v=(\d+)/)?.[1];
+const themeVersion = index.match(/assets\/js\/theme-init\.js\?v=(\d+)/)?.[1];
 if (!styleVersion) errors.push('index.html: missing versioned shared stylesheet');
+if (!themeVersion) errors.push('index.html: missing versioned early page behavior');
 
 for (const [file, canonical] of publicPages) {
   const html = read(file);
@@ -54,6 +57,7 @@ for (const [file, canonical] of publicPages) {
   requireMatch(html, new RegExp(`<link rel="canonical" href="${canonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`), `${file}: incorrect canonical URL`);
   requireMatch(html, /rel="alternate" type="application\/atom\+xml"/, `${file}: missing feed discovery`);
   requireMatch(html, new RegExp(`assets/css/style\\.css\\?v=${styleVersion}`), `${file}: stale stylesheet version`);
+  requireMatch(html, new RegExp(`assets/js/theme-init\\.js\\?v=${themeVersion}`), `${file}: stale early page behavior`);
   requireMatch(html, /class="skip-link" href="#main-content"/, `${file}: missing skip link`);
   requireMatch(html, /<main id="main-content"/, `${file}: missing main-content target`);
   requireMatch(html, /class="site-title"/, `${file}: missing semantic site title`);
@@ -62,6 +66,9 @@ for (const [file, canonical] of publicPages) {
 
   if (/(fonts\.googleapis|fonts\.gstatic)/i.test(html)) {
     errors.push(`${file}: contains a remote font dependency`);
+  }
+  if ((file === 'index.html' || file === 'about.html') && /(gc\.zgo\.at|goatcounter\.com)/i.test(html)) {
+    errors.push(`${file}: grants an unused analytics origin`);
   }
 
   const hasControls = /id="theme-toggle"|class="lang-toggle"/.test(html);
@@ -96,6 +103,7 @@ for (const [file, canonical] of publicPages) {
 
 const notFoundPage = read('404.html');
 requireMatch(notFoundPage, new RegExp(`assets/css/style\\.css\\?v=${styleVersion}`), '404.html: stale stylesheet version');
+requireMatch(notFoundPage, new RegExp(`assets/js/theme-init\\.js\\?v=${themeVersion}`), '404.html: stale early page behavior');
 requireMatch(notFoundPage, /class="skip-link" href="#main-content"/, '404.html: missing skip link');
 requireMatch(notFoundPage, /<main id="main-content"/, '404.html: missing main-content target');
 
@@ -136,6 +144,10 @@ compareSets(sitemapUrls, expectedPublicUrls, 'sitemap.xml URLs');
 if (/\/p\//.test(feed) || /\/p\//.test(sitemap)) errors.push('feed or sitemap exposes the protected route');
 
 const access = read('assets/js/access.js');
+const loader = read('assets/js/private-loader.js');
+const themeInit = read('assets/js/theme-init.js');
+const sharedStyle = read('assets/css/style.css');
+const privateStyle = read('assets/css/page.css');
 const privateShell = read('p/k7x9m2/index.html');
 const ciphertext = read('p/k7x9m2/data.bin').trim();
 requireMatch(access, /PBKDF2_ITERATIONS\s*=\s*600000/, 'access.js: expected hardened PBKDF2 iteration count');
@@ -144,14 +156,62 @@ if (/VERIFIER|100000/.test(access)) errors.push('access.js: obsolete public veri
 requireMatch(index, /<script src="\/assets\/js\/access\.js\?v=\d+"><\/script>/, 'index.html: access script must be versioned to avoid stale KDF settings');
 requireMatch(index, /<script src="\/assets\/js\/home\.js\?v=4"><\/script>/, 'index.html: home behavior must be versioned to avoid stale navigation');
 requireMatch(privateShell, /id="payload-iv"/, 'private shell: missing payload IV');
+requireMatch(privateShell, /<meta name="referrer" content="no-referrer">/, 'private shell: expected no-referrer policy');
+requireMatch(privateShell, /<meta name="robots" content="noindex, nofollow">/, 'private shell: expected noindex policy');
+requireMatch(privateShell, /form-action 'none'/, 'private shell: forms must be disabled');
 requireMatch(privateShell, /\/assets\/js\/pako\.min\.js/, 'private shell: compressed payload runtime is not local');
 requireMatch(privateShell, /<script src="\/assets\/js\/pako\.min\.js\?v=1"><\/script>/, 'private shell: missing decompressor runtime');
 requireMatch(privateShell, /<script src="\/assets\/js\/access\.js\?v=\d+"><\/script>/, 'private shell: access script must be versioned to avoid stale KDF settings');
-requireMatch(privateShell, /<script src="\/assets\/js\/private-loader\.js\?v=5"><\/script>/, 'private shell: missing current external loader');
+requireMatch(privateShell, /<link rel="stylesheet" href="\/assets\/css\/page\.css\?v=4">/, 'private shell: missing current stylesheet');
+requireMatch(privateShell, /<script src="\/assets\/js\/private-loader\.js\?v=6"><\/script>/, 'private shell: missing current external loader');
+requireMatch(loader, /Number\.isFinite\(parsedTimestamp\)/, 'loader: timestamp must be finite');
+requireMatch(loader, /keyAge < 0 \|\| keyAge > maxAge/, 'loader: timestamp must reject future and expired values');
+requireMatch(loader, /\^\[0-9a-f\]\{64\}\$\/i/, 'loader: derived key must have an exact format');
+requireMatch(loader, /addEventListener\('pagehide', clearSensitiveState\)/, 'loader: decrypted content must clear on page exit');
+requireMatch(loader, /event\.persisted/, 'loader: cached page restoration must be rejected');
+requireMatch(loader, /keyBytes\.fill\(0\)/, 'loader: temporary key bytes must be cleared');
+requireMatch(loader, /result\.fill\(0\)/, 'loader: temporary plaintext bytes must be cleared');
+requireMatch(themeInit, /window\.top !== window\.self/, 'shared startup: missing frame guard');
+requireMatch(loader, /window\.top !== window\.self/, 'loader: missing frame guard');
+requireMatch(sharedStyle, /html\.frame-blocked\s*\{[^}]*display:\s*none\s*!important/s, 'shared stylesheet: framed pages must remain hidden');
+requireMatch(privateStyle, /html\.frame-blocked\s*\{[^}]*display:\s*none\s*!important/s, 'private stylesheet: framed pages must remain hidden');
 const iv = privateShell.match(/id="payload-iv" type="text\/plain">([^<]+)</)?.[1] || '';
 if (Buffer.from(iv, 'base64').byteLength !== 12) errors.push('private shell: expected a 96-bit AES-GCM IV');
 if (!/^[A-Za-z0-9+/]+={0,2}$/.test(ciphertext) || Buffer.from(ciphertext, 'base64').byteLength < 17) {
   errors.push('data.bin: invalid encrypted payload');
+}
+
+const textSources = [
+  ...publicPages.map(([file]) => file),
+  '404.html',
+  'p/k7x9m2/index.html',
+  'assets/js/access.js',
+  'assets/js/home.js',
+  'assets/js/private-loader.js',
+  'assets/js/theme-init.js'
+];
+for (const file of textSources) {
+  if (/API_KEY\s*=\s*["'][^"']{20,}["']/.test(read(file))) {
+    errors.push(`${file}: contains a long-lived browser credential`);
+  }
+}
+
+if (existsSync(resolve(root, '.git'))) {
+  try {
+    const historicalObjects = execFileSync('git', ['rev-list', '--objects', '--all'], { cwd: root, encoding: 'utf8' });
+    if (/(?:^|\n)[0-9a-f]+ p\/k7x9m2\/letter-content\.html(?:\n|$)/.test(historicalObjects)) {
+      errors.push('repository history: obsolete plaintext asset remains reachable');
+    }
+
+    const credentialCommits = execFileSync(
+      'git',
+      ['log', '--all', '--format=%H', '-GAPI_KEY[[:space:]]*=[[:space:]]*["\'][^"\']{20,}', '--', '*.html', '*.js'],
+      { cwd: root, encoding: 'utf8' }
+    ).trim();
+    if (credentialCommits) errors.push('repository history: browser credential remains reachable');
+  } catch {
+    errors.push('repository history: unable to complete privacy checks');
+  }
 }
 
 if (errors.length) {
